@@ -1,57 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Suspense } from 'react';
+import { lazy } from '@loadable/component';
+import pMinDelay from 'p-min-delay';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { pink, yellow } from '@material-ui/core/colors';
+import Loading from './components/Loading';
+import Layout from './components/Layout';
+
+const Signup = lazy(() => pMinDelay(import('./features/User/Signup'), 1000));
+const Login = lazy(() => pMinDelay(import('./features/User/Login'), 1000));
+const Home = lazy(() => pMinDelay(import('./components/Home'), 1000));
+
+// overide default themes
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: pink[400],
+      app: '#2dc08d',
+      header: '#e2e4ea',
+    },
+    secondary: {
+      main: yellow[900],
+    },
+  },
+
+  typography: {
+    fontFamily: 'Quicksand',
+    fontWeightLight: 400,
+    fontWeightMedium: 600,
+    fontWeightRegular: 500,
+    fontWeightBold: 700,
+  },
+});
 
 function App() {
+  console.log(process.env.REACT_APP_API_URL);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Suspense fallback={<Loading />}>
+        <Router>
+          <Layout>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+            </Switch>
+          </Layout>
+        </Router>
+      </Suspense>
+    </ThemeProvider>
   );
 }
 
