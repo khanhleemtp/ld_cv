@@ -11,6 +11,30 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import { useHistory } from 'react-router';
+
+const listLink = [
+  {
+    title: 'Home',
+    path: '/',
+    sub: 'Go home',
+  },
+  {
+    title: 'Test',
+    path: '/test',
+    sub: 'Go test',
+  },
+  {
+    title: 'Register',
+    path: '/register',
+    sub: 'Go Register',
+  },
+  {
+    title: 'Signup',
+    path: '/',
+    sub: 'Go signup',
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -28,7 +52,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function FullScreenDialog({ handleClose, openDialog: open }) {
   const classes = useStyles();
-
+  const history = useHistory();
   return (
     <div>
       <Dialog
@@ -53,13 +77,20 @@ export default function FullScreenDialog({ handleClose, openDialog: open }) {
           </Toolbar>
         </AppBar>
         <List>
-          <ListItem button>
-            <ListItemText primary="Home" secondary="Go home" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText primary="Profile" secondary="LD" />
-          </ListItem>
+          {listLink.map((link) => (
+            <div
+              key={link.title}
+              onClick={() => {
+                history.push(link.title);
+                handleClose();
+              }}
+            >
+              <ListItem button>
+                <ListItemText primary={link.title} secondary={link.sub} />
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
         </List>
       </Dialog>
     </div>

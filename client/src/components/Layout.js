@@ -16,8 +16,16 @@ import CopyRight from './CopyRight';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
     overflow: 'hidden',
   },
+
+  page: {
+    width: '100%',
+    background: '#f9f9f9',
+  },
+  toolbar: theme.mixins.toolbar,
+
   nav: {
     background: '#fff',
     color: '#000',
@@ -51,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     marginLeft: 24,
     userSelect: 'none',
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
   },
   btn: {
     justifySelf: 'end',
@@ -98,8 +109,8 @@ const menuItem = [
     ],
   },
   {
-    text: 'Login',
-    path: '/login',
+    text: 'Test',
+    path: '/test',
     icon: <ExpandMoreOutlinedIcon color="secondary" />,
   },
   {
@@ -118,6 +129,8 @@ const Layout = ({ children }) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
+
+  console.log(location.pathname);
 
   const [openDialog, setOpenDialog] = useState(false);
   const [changeNav, setChangeNav] = useState(false);
@@ -144,16 +157,22 @@ const Layout = ({ children }) => {
 
       <AppBar
         position="fixed"
-        className={changeNav ? classes.nav : classes.navNotActive}
+        className={
+          changeNav || location.pathname !== '/'
+            ? classes.nav
+            : classes.navNotActive
+        }
       >
         <Toolbar>
           <Box className={classes.boxGrow}>
             <Typography
               variant="h6"
               className={classes.title}
-              onClick={() => history.push('/')}
+              onClick={() => {
+                history.push('/');
+              }}
             >
-              LD CV 🥶
+              LD 🥶
             </Typography>
 
             <List className={classes.list}>
@@ -167,7 +186,14 @@ const Layout = ({ children }) => {
                     className={classes.listItem}
                   />
                 ) : (
-                  <ListItem key={item.text} className={classes.listItem}>
+                  <ListItem
+                    key={item.text}
+                    className={classes.listItem}
+                    onClick={() => {
+                      console.log('Click');
+                      history.push(item.path);
+                    }}
+                  >
                     <ListItemText primary={item.text} />
                     <ListItemIcon>{item.icon}</ListItemIcon>
                   </ListItem>
@@ -197,16 +223,17 @@ const Layout = ({ children }) => {
         </Toolbar>
       </AppBar>
 
-      {/*  */}
-
       <FullScreenDialog
         handleClickOpen={handleClickOpenDialog}
         handleClose={handleCloseDialog}
         openDialog={openDialog}
       />
+      <div className={classes.page}>
+        <div className={classes.toolbar}></div>
 
-      {children}
-      <CopyRight />
+        {children}
+        <CopyRight />
+      </div>
     </Box>
   );
 };

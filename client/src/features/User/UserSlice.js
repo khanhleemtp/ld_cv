@@ -115,7 +115,7 @@ export const userSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
-
+      state.errorMessage = '';
       return state;
     },
   },

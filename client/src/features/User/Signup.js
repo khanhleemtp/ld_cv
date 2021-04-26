@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+/* TODO Import */
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -6,23 +7,25 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// redux
+/* TODO Redux */
 import { useSelector, useDispatch } from 'react-redux';
 import { signupUser, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 
+/* TODO Style */
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(12),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: theme.spacing(2),
   },
   avatar: {
     margin: theme.spacing(1),
@@ -35,34 +38,43 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  inputField: {
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.header,
+    },
+    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.header,
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.app,
+    },
+    '& .Mui-focused': {
+      color: '#111',
+    },
+    '& .MuiFormLabel-root.Mui-error': {
+      color: '#827d83',
+    },
+  },
 }));
 
 export default function SignUp() {
-  const classes = useStyles();
+  /* TODO Define state */
+  const [values, setValues] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
+  /* TODO Hook */
   const dispatch = useDispatch();
   const history = useHistory();
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
+  const classes = useStyles(isFetching);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(
-      signupUser({
-        name,
-        email,
-        password,
-        confirmPassword,
-      })
-    );
-  };
-
+  /* TODO Effect */
   useEffect(() => {
     return () => {
       dispatch(clearState());
@@ -74,7 +86,7 @@ export default function SignUp() {
       console.log('run success');
       toast.success('Register success');
       dispatch(clearState());
-      //   history.push('/');
+      history.push('/');
     }
 
     if (isError) {
@@ -85,20 +97,42 @@ export default function SignUp() {
     }
   }, [isSuccess, isError, history, errorMessage, dispatch]);
 
+  /* TODO Function */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(signupUser(values));
+  };
+
+  const handleChange = (name) => (e) => {
+    setValues({ ...values, [name]: e.target.value });
+  };
+
+  /* TODO UI */
   return (
-    <Container component="main" maxWidth="xs">
-      <Toaster />
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{ display: 'flex', alignItems: 'center' }}
+    >
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>🙆‍♂️</Avatar>
 
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form
+          noValidate
+          className={classes.form}
+          onSubmit={handleSubmit}
+          autoComplete="off"
+          style={{
+            width: '80%',
+          }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
-                autoComplete="name"
+                autoComplete="off"
                 name="name"
                 variant="outlined"
                 required
@@ -106,8 +140,18 @@ export default function SignUp() {
                 id="name"
                 label="Name"
                 autoFocus
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={values.name}
+                onChange={handleChange('name')}
+                error={values.name === '' ? true : false}
+                helperText={values.name !== '' ? '' : 'Required'}
+                InputProps={{
+                  classes: {
+                    root: classes.notchedOutline,
+                    focused: classes.notchedOutline,
+                    notchedOutline: classes.notchedOutline,
+                  },
+                }}
+                className={classes.inputField}
               />
             </Grid>
             <Grid item xs={12}>
@@ -118,9 +162,12 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
+                value={values.email}
+                onChange={handleChange('email')}
+                error={values.email === '' ? true : false}
+                helperText={values.email !== '' ? '' : 'Required!'}
+                className={classes.inputField}
               />
             </Grid>
             <Grid item xs={12}>
@@ -132,9 +179,12 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="new-password"
+                value={values.password}
+                onChange={handleChange('password')}
+                error={values.password === '' ? true : false}
+                helperText={values.password !== '' ? '' : 'Required!'}
+                className={classes.inputField}
               />
             </Grid>
             <Grid item xs={12}>
@@ -146,15 +196,30 @@ export default function SignUp() {
                 label="Confirm Password"
                 type="password"
                 id="confirmPassword"
-                autoComplete="current-password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                autoComplete="new-password"
+                value={values.confirmPassword}
+                onChange={handleChange('confirmPassword')}
+                error={
+                  values.password === '' ||
+                  values.password !== values.confirmPassword
+                    ? true
+                    : false
+                }
+                helperText={
+                  values.confirmPassword !== '' &&
+                  values.confirmPassword === values.password
+                    ? ''
+                    : values.confirmPassword !== values.password
+                    ? 'Password must be same confirm password'
+                    : 'Required'
+                }
+                className={classes.inputField}
               />
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="I agree to Terms of Serviceand Privacy policy"
               />
             </Grid>
           </Grid>

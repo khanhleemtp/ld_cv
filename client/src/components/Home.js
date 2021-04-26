@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Link as ScrollLink,
   animateScroll as scroll,
-  scroller,
   Element,
 } from 'react-scroll';
 
@@ -207,12 +206,32 @@ const Home = () => {
         ))}
       </Element>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={12} className={classes.gridService}>
+        <Grid item xs={12} sm={12} className={classes.gridService}>
           {[1, 2, 3, 4, 5, 6, 7].map((item) => (
             <CardItem key={item} />
           ))}
         </Grid>
       </Grid>
+
+      <Container
+        maxWidth="sm"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginTop: '32px',
+          marginBottom: '32px',
+        }}
+      >
+        <Typography variant="h4">Try use all service</Typography>
+        <Button
+          className={classes.btn}
+          variant="outlined"
+          onClick={() => scroll.scrollToTop()}
+        >
+          Go to LD CV
+        </Button>
+      </Container>
 
       <Container
         maxWidth="md"
