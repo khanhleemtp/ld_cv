@@ -3,7 +3,7 @@ import { Link, Typography, Box } from '@material-ui/core';
 
 const CopyRight = () => {
   return (
-    <Box marginY={4}>
+    <Box marginY={2}>
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit" href="https://material-ui.com/">

@@ -21,12 +21,15 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
   try {
     const response = await window.fetch(endpoint, config);
     data = await response.json();
-    if (response.ok) {
+    console.log('data From server', data);
+    if (data.status === 'success') {
       return data;
     }
-    throw new Error(response.statusText);
-  } catch (err) {
-    return Promise.reject(err.message ? err.message : data);
+    if (data.status === 'fail') {
+      return Promise.reject(data);
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 

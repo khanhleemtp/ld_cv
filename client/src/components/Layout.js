@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,6 +13,9 @@ import { useHistory, useLocation } from 'react-router';
 import MenuLink from './MenuLink';
 import FullScreenDialog from './FullScreenDialog';
 import CopyRight from './CopyRight';
+import { TokenService } from '../services/TokenService';
+import { useDispatch } from 'react-redux';
+import { clearState } from '../features/User/UserSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
       color: theme.palette.primary.main,
     },
   },
+  isHidden: {
+    display: 'none',
+  },
   btn: {
     justifySelf: 'end',
     [theme.breakpoints.down('sm')]: {
@@ -74,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       background: theme.palette.primary.dark,
     },
+    marginRight: theme.spacing(1),
   },
   menuButton: {
     marginLeft: theme.spacing(2),
@@ -109,23 +116,40 @@ const menuItem = [
     ],
   },
   {
-    text: 'Test',
-    path: '/test',
+    text: 'Dashboard',
+    path: '/dashboard',
     icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    isLoggin: true,
+  },
+  {
+    text: 'Resume',
+    path: '/resume',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    isLoggin: true,
   },
   {
     text: 'Signup',
     icon: <ExpandMoreOutlinedIcon color="secondary" />,
     path: '/signup',
+    isLoggin: false,
   },
   {
-    text: 'Me',
+    text: 'Signin',
     icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/me',
+    path: '/signin',
+    isLoggin: false,
+  },
+  {
+    text: 'Logout',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    path: '/',
+    isLoggin: true,
   },
 ];
 
 const Layout = ({ children }) => {
+  const token = TokenService.getToken();
+
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -143,13 +167,20 @@ const Layout = ({ children }) => {
     setOpenDialog(false);
   };
 
-  const handleChangeBgNav = () => {
+  const handleChangeBgNav = useCallback(() => {
     if (window.scrollY >= 56) {
       setChangeNav(true);
     } else setChangeNav(false);
-  };
+  }, []);
 
-  window.addEventListener('scroll', handleChangeBgNav);
+  useEffect(() => {
+    window.addEventListener('scroll', handleChangeBgNav);
+    return () => {
+      window.removeEventListener('scroll', handleChangeBgNav);
+    };
+  }, [handleChangeBgNav]);
+
+  const dispatch = useDispatch();
 
   return (
     <Box className={classes.root}>
@@ -176,19 +207,45 @@ const Layout = ({ children }) => {
             </Typography>
 
             <List className={classes.list}>
-              {menuItem.map((item) =>
-                item?.list ? (
-                  <MenuLink
-                    key={item.text}
-                    text={item.text}
-                    listItems={item.list}
-                    icon={item.icon}
-                    className={classes.listItem}
-                  />
-                ) : (
+              {menuItem.map((item) => {
+                if (item?.list) {
+                  return (
+                    <MenuLink
+                      key={item.text}
+                      text={item.text}
+                      listItems={item.list}
+                      icon={item.icon}
+                      className={classes.listItem}
+                    />
+                  );
+                }
+                if (token) {
+                  return (
+                    <ListItem
+                      key={item.text}
+                      className={
+                        item.isLoggin ? classes.listItem : classes.isHidden
+                      }
+                      onClick={() => {
+                        console.log('Click');
+                        if (item.text === 'Logout') {
+                          TokenService.removeToken();
+                          dispatch(clearState());
+                        }
+                        history.push(item.path);
+                      }}
+                    >
+                      <ListItemText primary={item.text} />
+                      <ListItemIcon>{item.icon}</ListItemIcon>
+                    </ListItem>
+                  );
+                }
+                return (
                   <ListItem
                     key={item.text}
-                    className={classes.listItem}
+                    className={
+                      !item.isLoggin ? classes.listItem : classes.isHidden
+                    }
                     onClick={() => {
                       console.log('Click');
                       history.push(item.path);
@@ -197,29 +254,41 @@ const Layout = ({ children }) => {
                     <ListItemText primary={item.text} />
                     <ListItemIcon>{item.icon}</ListItemIcon>
                   </ListItem>
-                )
-              )}
+                );
+              })}
             </List>
           </Box>
 
-          <Button
-            className={classes.btn}
-            variant="contained"
-            color="inherit"
-            onClick={() => history.push('/signup')}
-          >
-            Sign up
-          </Button>
-
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={handleClickOpenDialog}
-          >
-            <MenuIcon />
-          </IconButton>
+          {token ? (
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={handleClickOpenDialog}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <>
+              <Button
+                className={classes.btn}
+                variant="contained"
+                color="inherit"
+                onClick={() => history.push('/signup')}
+              >
+                Sign up
+              </Button>
+              <Button
+                className={classes.btn}
+                variant="contained"
+                color="inherit"
+                onClick={() => history.push('/signin')}
+              >
+                Sign in
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -228,6 +297,7 @@ const Layout = ({ children }) => {
         handleClose={handleCloseDialog}
         openDialog={openDialog}
       />
+
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
 

@@ -1,5 +1,10 @@
 /* TODO  import */
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from 'react-router-dom';
 import { Suspense } from 'react';
 import { lazy } from '@loadable/component';
 import pMinDelay from 'p-min-delay';
@@ -8,13 +13,18 @@ import { blue, pink } from '@material-ui/core/colors';
 import Loading from './components/Loading';
 import Layout from './components/Layout';
 import { ToastContainer } from 'react-toastify';
-import Employees from './pages/Employee./Employees';
-import Register from './features/User/Register';
+import Employees from './pages/Employee/Employees';
+import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from './hoc/PrivateRoute';
+import Dashboard from './features/User/Dashboard';
+import { TokenService } from './services/TokenService';
+import Resume from './features/resume/Resume';
+import PublicRoute from './helpers/PublicRoute';
 
 /* TODO Lazy */
-const Signup = lazy(() => pMinDelay(import('./features/User/Signup'), 1000));
-const Login = lazy(() => pMinDelay(import('./features/User/Login'), 0));
-const Home = lazy(() => pMinDelay(import('./components/Home'), 1000));
+const Home = lazy(() => pMinDelay(import('./components/Home'), 500));
+const Signin = lazy(() => pMinDelay(import('./features/User/Signin'), 500));
+const Register = lazy(() => pMinDelay(import('./features/User/Register'), 500));
 
 /* TODO  Styles  */
 const theme = createMuiTheme({
@@ -58,6 +68,8 @@ const theme = createMuiTheme({
   },
 });
 
+// TODO
+
 function App() {
   console.log(process.env.REACT_APP_API_URL);
 
@@ -79,21 +91,22 @@ function App() {
         <Router>
           <Layout>
             <Switch>
-              <Route exact path="/">
-                <Home />
+              <Route exact path="/" children={<Home />} />
+              <Route path="/test" children={<Employees />} />
+              <Route path="/resume">
+                <Resume />
               </Route>
-              <Route path="/signup">
-                <Signup />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/test">
-                <Employees />
-              </Route>
-              <Route path="/register">
-                <Register />
-              </Route>
+              <PublicRoute
+                component={<Register />}
+                path="/signup"
+                redirect="/dashboard"
+              />
+              <PublicRoute
+                component={Signin}
+                path="/signin"
+                redirect="/dashboard"
+              />
+              <PrivateRoute component={Dashboard} path="/dashboard" />
             </Switch>
           </Layout>
         </Router>

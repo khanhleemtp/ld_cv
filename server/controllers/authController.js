@@ -39,9 +39,7 @@ const createSendToken = (user, statusCode, res) => {
   res.status(statusCode).json({
     status: 'success',
     token,
-    data: {
-      user,
-    },
+    user,
   });
 };
 
@@ -52,6 +50,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   //   password: req.body.password,
   //   passwordConfirm: req.body.passwordConfirm,
   // });
+  console.log(req.body);
 
   const newUser = await User.create({
     name: req.body.name,

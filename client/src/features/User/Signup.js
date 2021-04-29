@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 /* TODO Import */
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -7,16 +7,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Typography from '@material-ui/core/Typography';
 
 /* TODO Redux */
-import { useSelector, useDispatch } from 'react-redux';
-import { signupUser, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
 
 /* TODO Style */
@@ -67,40 +62,15 @@ export default function SignUp() {
   });
 
   /* TODO Hook */
-  const dispatch = useDispatch();
   const history = useHistory();
-  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
-    userSelector
-  );
-  const classes = useStyles(isFetching);
+
+  const classes = useStyles();
 
   /* TODO Effect */
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      console.log('run success');
-      toast.success('Register success');
-      dispatch(clearState());
-      history.push('/');
-    }
-
-    if (isError) {
-      console.log('run err');
-      console.log(toast);
-      toast.error(errorMessage);
-      dispatch(clearState());
-    }
-  }, [isSuccess, isError, history, errorMessage, dispatch]);
 
   /* TODO Function */
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(signupUser(values));
   };
 
   const handleChange = (name) => (e) => {

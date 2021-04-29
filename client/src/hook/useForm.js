@@ -14,7 +14,6 @@ const useForm = (initialValues, validateOnChange = false, validate) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, ': ', value);
     setValues({ ...values, [name]: value });
     if (validateOnChange) validate({ [name]: value });
   };
@@ -37,7 +36,7 @@ export function Form({ children, ...rest }) {
   const classes = useStyles();
 
   return (
-    <form className={classes.root} {...rest} autoComplete="off" noValidate>
+    <form className={classes.root} {...rest} autoComplete="on" noValidate>
       {children}
     </form>
   );
