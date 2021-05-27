@@ -1,0 +1,21 @@
+{
+  "header": {
+    "record": "Header",
+    "name": "LD KHANH",
+    "title": "15 years of performance-driven IT management in global manufacturing companies. 15 years of performance-driven IT management in global manufacturing companies. ",
+    "email": "khanhleemtp@gmail",
+    "location": "Ha Noi",
+    "phone": "+1-779-116-5544",
+    "link": "angel.co/__NAME__",
+    "height": 211,
+    "showTitle": true,
+    "showPhone": true,
+    "showLink": true,
+    "showEmail": true,
+    "showLocation": true,
+    "uppercaseName": true,
+    "showPhoto": true,
+    "photoStyle": "round",
+    "photo": "https://enhancv.s3.amazonaws.com/avatars/f98cf36c9d793936cbfc5d6f63aac9cbf71c89f9975e2678794c23e1020ac1db.jpg"
+  }
+}

@@ -1,8 +1,8 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import CenteredTabs from '../../components/ListTab';
 import { fetchUserBytoken, userSelector, clearState } from './UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import CenteredTabs from '../../components/DashboardPage/ListTab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,7 +56,7 @@ const Dashboard = () => {
                 <Typography color="error">{errorMessage}</Typography>
               )}
               <Typography variant="h4">
-                Welcome to {user ? user.name : 'User'}
+                Welcome to {user?.name ? user.name : 'User'}
               </Typography>
             </Grid>
             <Grid item>

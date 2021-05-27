@@ -1,42 +1,36 @@
-import React from 'react';
-import CenteredTabs from '../../components/ListTab';
-import { Paper, Box, Container, makeStyles } from '@material-ui/core';
-import Header from '../../components/resume/temp1/Header';
+import React, { useState, useCallback } from 'react';
+import { ReactHeight } from 'react-height';
+import { Paper, Box, Container, makeStyles, Grid } from '@material-ui/core';
+import Header from '../../components/resume/it/Header';
+import Achievements from '../../components/resume/it/Achievements';
+import Project from '../../components/resume/it/Project';
+import { useForm } from 'react-hook-form';
 
-const listItems = [
-  {
-    label: '😄',
-    path: '/#resumes',
+const defaultValues = {
+  header: {
+    email: 'name@gmail.com',
+    height: 142,
+    link: 'angel.co/__NAME__',
+    location: 'Seattle, WA',
+    name: 'IAN PETERSEN',
+    phone: '+1-779-116-5544',
+    photo: 'https://thisresumedoesnotexist.com/avatars/6.jpg',
+    photoStyle: 'round',
+    record: 'Header',
+    showEmail: true,
+    showLink: true,
+    showLocation: true,
+    showPhone: false,
+    showPhoto: false,
+    showTitle: true,
+    title:
+      '15 years of performance-driven IT management in global manufacturing companies.',
+    uppercaseName: true,
   },
-  {
-    label: ' 😆',
-    path: '/#findsjob',
+  project: {
+    title: 'LD',
   },
-  {
-    label: ' 🙃',
-    path: '/d',
-  },
-  {
-    label: ' 😆',
-    path: '/e',
-  },
-  {
-    label: ' 😆',
-    path: '/f',
-  },
-  {
-    label: '😁',
-    path: '/abc',
-  },
-  {
-    label: ' 😋',
-    path: 'f',
-  },
-  {
-    label: ' 😛',
-    path: 'g',
-  },
-];
+};
 
 const useStyles = makeStyles((theme) => ({
   cvRoot: {
@@ -48,26 +42,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Resume = () => {
+const PageResume = () => {
   const classes = useStyles();
+  const { control, getValues, setValue } = useForm({ defaultValues });
   return (
-    <>
-      <CenteredTabs list={listItems} />
-      Resume page
-      <Box display="flex" alignItems="center" justifyContent="center">
-        <Paper
-          style={{
-            maxWidth: '940px',
-            background: `url('bg.png')`,
-            backgroundSize: 'cover',
-          }}
-        >
-          <Container className={classes.cvRoot}>
-            <Header />
-          </Container>
-        </Paper>
-      </Box>
-    </>
+    <Box display="flex" alignItems="center" justifyContent="center">
+      <Paper
+        style={{
+          maxWidth: '940px',
+          background: `url('bg.png')`,
+          backgroundSize: 'cover',
+          marginBottom: 36,
+        }}
+      >
+        <Container className={classes.cvRoot}>
+          <Header
+            control={control}
+            watch={watch}
+            getValues={getValues}
+            setValue={setValue}
+          />
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Achievements control={control} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Project control={control} project={getValues('project')} />
+            </Grid>
+          </Grid>
+        </Container>
+      </Paper>
+    </Box>
+  );
+};
+
+const Resume = () => {
+  return (
+    <ReactHeight
+      onHeightReady={(height) => {
+        console.log('height', height);
+      }}
+    >
+      <PageResume />
+    </ReactHeight>
   );
 };
 

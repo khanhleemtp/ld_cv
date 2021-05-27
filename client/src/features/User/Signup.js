@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
 /* TODO Import */
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Grid, makeStyles } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-
-/* TODO Redux */
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearState, signupUser, userSelector } from './UserSlice';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import {
+  TextField,
+  Checkbox,
+  Button,
+  FormControl,
+  FormHelperText,
+  FormControlLabel,
+} from '@material-ui/core';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import FormLayout from '../../components/UI/FormLayout';
+/* TODO Init state */
 
 /* TODO Style */
 const useStyles = makeStyles((theme) => ({
@@ -20,20 +26,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: theme.spacing(2),
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: '#edf',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-  inputField: {
+  textField: {
     '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
       borderColor: theme.palette.primary.header,
     },
@@ -44,179 +38,194 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.primary.app,
     },
     '& .Mui-focused': {
-      color: '#111',
+      color: theme.palette.grey.A700,
     },
-    '& .MuiFormLabel-root.Mui-error': {
-      color: '#827d83',
+    '& .Mui-error': {
+      color: theme.palette.error.main,
     },
+  },
+  btn: {
+    marginTop: 12,
+    marginBottom: 12,
   },
 }));
 
-export default function SignUp() {
-  /* TODO Define state */
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+const Register = () => {
+  const onSubmit = (data) => {
+    dispatch(signupUser(data));
+  };
+
+  const loginSchema = yup.object().shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(6).required(),
+    passwordConfirm: yup
+      .string()
+      .oneOf([yup.ref('password'), null], 'Passwords must match')
+      .required(),
+    isAccept: yup.bool().oneOf([true], 'You should accept all privacy'),
   });
 
   /* TODO Hook */
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { isFetching, isSuccess, isError, errorMessage } =
+    useSelector(userSelector);
+  const { handleSubmit, control } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
+
+  /* TODO Side effect */
+  useEffect(() => {
+    dispatch(clearState());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Register successfully 🚀');
+      history.push('/');
+      dispatch(clearState());
+    }
+    if (isError) {
+      toast.error('💩' + errorMessage);
+      dispatch(clearState());
+    }
+  }, [isSuccess, isError, errorMessage, history, dispatch]);
 
   const classes = useStyles();
 
-  /* TODO Effect */
-
-  /* TODO Function */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  const handleChange = (name) => (e) => {
-    setValues({ ...values, [name]: e.target.value });
-  };
-
-  /* TODO UI */
+  /* TODO UI*/
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      style={{ display: 'flex', alignItems: 'center' }}
-    >
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>🙆‍♂️</Avatar>
-
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form
-          noValidate
-          className={classes.form}
-          onSubmit={handleSubmit}
-          autoComplete="off"
-          style={{
-            width: '80%',
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                autoComplete="off"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                autoFocus
-                value={values.name}
-                onChange={handleChange('name')}
-                error={values.name === '' ? true : false}
-                helperText={values.name !== '' ? '' : 'Required'}
-                InputProps={{
-                  classes: {
-                    root: classes.notchedOutline,
-                    focused: classes.notchedOutline,
-                    notchedOutline: classes.notchedOutline,
-                  },
-                }}
-                className={classes.inputField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="off"
-                value={values.email}
-                onChange={handleChange('email')}
-                error={values.email === '' ? true : false}
-                helperText={values.email !== '' ? '' : 'Required!'}
-                className={classes.inputField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                value={values.password}
-                onChange={handleChange('password')}
-                error={values.password === '' ? true : false}
-                helperText={values.password !== '' ? '' : 'Required!'}
-                className={classes.inputField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                autoComplete="new-password"
-                value={values.confirmPassword}
-                onChange={handleChange('confirmPassword')}
-                error={
-                  values.password === '' ||
-                  values.password !== values.confirmPassword
-                    ? true
-                    : false
-                }
-                helperText={
-                  values.confirmPassword !== '' &&
-                  values.confirmPassword === values.password
-                    ? ''
-                    : values.confirmPassword !== values.password
-                    ? 'Password must be same confirm password'
-                    : 'Required'
-                }
-                className={classes.inputField}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to Terms of Serviceand Privacy policy"
-              />
-            </Grid>
+    <FormLayout title="Sign up" avatar="🙆‍♂️">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
+        <Grid container>
+          <Grid item xs={12}>
+            <Controller
+              name="name"
+              control={control}
+              defaultValue=""
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  className={classes.textField}
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                  autoFocus
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  margin="normal"
+                />
+              )}
+            />
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  className={classes.textField}
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  margin="normal"
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  className={classes.textField}
+                  label="Password"
+                  variant="outlined"
+                  fullWidth
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  type="password"
+                  margin="normal"
+                />
+              )}
+            />
+            <Controller
+              name="passwordConfirm"
+              control={control}
+              defaultValue=""
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  {...field}
+                  className={classes.textField}
+                  label="PasswordConfirm"
+                  variant="outlined"
+                  fullWidth
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  type="password"
+                  margin="normal"
+                />
+              )}
+            />
+            <Controller
+              name="isAccept"
+              control={control}
+              defaultValue={false}
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <FormControl>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        onChange={(e) => onChange(e.target.checked)}
+                        checked={value}
+                      />
+                    }
+                    label="Please accept all privacy*"
+                  />
+                  {error && (
+                    <FormHelperText error>
+                      {JSON.stringify(error.message)}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              )}
+            />
           </Grid>
+
           <Button
-            type="submit"
-            fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            fullWidth
+            disabled={isFetching ? true : false}
+            type="submit"
+            className={classes.btn}
           >
-            Sign Up
+            {isFetching ? 'Sending...' : 'Signup'}
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link
-                component="button"
-                variant="body2"
-                onClick={() => {
-                  history.push('/login');
-                }}
-              >
-                Already have an account? Log in
-              </Link>
-            </Grid>
+        </Grid>
+        <Grid container justify="flex-end">
+          <Grid item>
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                history.push('/signin');
+              }}
+            >
+              Already have an account? Log in
+            </Link>
           </Grid>
-        </form>
-      </div>
-    </Container>
+        </Grid>
+      </form>
+    </FormLayout>
   );
-}
+};
+
+export default Register;

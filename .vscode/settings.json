@@ -1,0 +1,4 @@
+{
+    "less.lint.vendorPrefix": "ignore",
+    "scss.lint.vendorPrefix": "ignore"
+}

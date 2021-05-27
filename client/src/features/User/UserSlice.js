@@ -1,19 +1,17 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { client } from '../../api/client';
-import api from '../../api/api';
+import api from '../../api/xhr/api';
 import { TokenService } from '../../services/TokenService';
-const baseUrl = process.env.REACT_APP_API_URL;
 
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async (values, thunkAPI) => {
     try {
-      let data = await client.post(`${baseUrl}/users/signup`, values);
+      let data = await api.post(`/users/signup`, values);
       TokenService.setToken(data.token);
       return data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -22,13 +20,14 @@ export const signinUser = createAsyncThunk(
   'users/login',
   async (values, thunkAPI) => {
     try {
-      let data = await client.post(`${baseUrl}/users/login`, values);
-      if (values.isAccept) {
-        TokenService.setToken(data.token);
-      }
+      let data = await api.post(`/users/login`, values);
+      // if (values.isAccept) {
+      //   TokenService.setToken(data.token);
+      // }
+      TokenService.setToken(data.token);
       return data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -44,86 +43,13 @@ export const fetchUserBytoken = createAsyncThunk(
     });
 
     try {
-      const data = await api({
-        url: '/users/me',
-        cancelToken: source.token,
-        method: 'GET',
-      });
+      const data = await api.get('/users/me', { cancelToken: source.token });
       return data;
     } catch (error) {
       return rejectWithValue(error);
     }
-
-    // try {
-    //   const { data } = await axios.get(`${baseUrl}/users/me`, {
-    //     cancelToken: source.token,
-    //     headers: {
-    //       authorization: 'Bearer ' + token,
-    //     },
-    //   });
-    //   return data;
-    // } catch (error) {
-    //   if (error.response) {
-    //     return rejectWithValue(error.response.data);
-    //   } else if (error.request) {
-    //     console.log(error.request);
-    //   } else {
-    //     console.log(error.message);
-    //   }
-    // }
-    // if (data.status === 'fail') {
-    //   rejectWithValue(data);
-    // }
   }
-
-  //   try {
-  //     thunkAPI.signal.addEventListener('abort', () => {
-  //       console.log('Abort.....');
-  //     });
-  //     let data = await client.get(`${baseUrl}/users/me`, {
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-
-  //       signal: thunkAPI.signal,
-  //     });
-  //     console.log(data);
-  //     return data;
-  //   } catch (e) {
-  //     return thunkAPI.rejectWithValue(e);
-  //   }
-  // }
 );
-
-// export const fetchUserBytoken = createAsyncThunk(
-//   'users/fetchUserByToken',
-//   async ({ token }, thunkAPI) => {
-//     try {
-//       const response = await fetch(
-//         'https://mock-user-auth-server.herokuapp.com/api/v1/users',
-//         {
-//           method: 'GET',
-//           headers: {
-//             Accept: 'application/json',
-//             Authorization: token,
-//             'Content-Type': 'application/json',
-//           },
-//         }
-//       );
-//       let data = await response.json();
-//       console.log('data', data, response.status);
-
-//       if (response.status === 200) {
-//         return { ...data };
-//       } else {
-//         return thunkAPI.rejectWithValue(data);
-//       }
-//     } catch (e) {
-//       console.log('Error', e.response.data);
-//       return thunkAPI.rejectWithValue(e.response.data);
-//     }
-//   }
-// );
 
 export const userSlice = createSlice({
   name: 'user',
@@ -155,10 +81,13 @@ export const userSlice = createSlice({
     [signupUser.pending]: (state) => {
       state.isFetching = true;
     },
-    [signupUser.rejected]: (state, { payload }) => {
+    [signupUser.rejected]: (state, { payload, error }) => {
+      console.log(payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload?.data?.message
+        ? payload?.data.message
+        : error.message;
     },
     [signinUser.fulfilled]: (state, { payload }) => {
       console.log('payload', payload);
@@ -168,11 +97,13 @@ export const userSlice = createSlice({
       state.token = payload.token;
       return state;
     },
-    [signinUser.rejected]: (state, { payload }) => {
+    [signinUser.rejected]: (state, { payload, error }) => {
       console.log('payload', payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload?.data?.message
+        ? payload?.data.message
+        : error.message;
     },
     [signinUser.pending]: (state) => {
       state.isFetching = true;
@@ -181,7 +112,7 @@ export const userSlice = createSlice({
       state.isFetching = true;
     },
     [fetchUserBytoken.fulfilled]: (state, { payload }) => {
-      // console.log(payload);
+      console.log(payload);
       state.isFetching = false;
       state.isSuccess = true;
       state.isFetching = false;

@@ -44,9 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 
 // Development logging
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+app.use(morgan('dev'));
 
 // Limit requests from same API
 const limiter = rateLimit({

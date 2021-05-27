@@ -1,30 +1,25 @@
 /* TODO  import */
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Suspense } from 'react';
 import { lazy } from '@loadable/component';
 import pMinDelay from 'p-min-delay';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { blue, pink } from '@material-ui/core/colors';
-import Loading from './components/Loading';
-import Layout from './components/Layout';
 import { ToastContainer } from 'react-toastify';
-import Employees from './pages/Employee/Employees';
 import 'react-toastify/dist/ReactToastify.css';
-import PrivateRoute from './hoc/PrivateRoute';
+import PrivateRoute from './helpers/PrivateRoute';
+import ProtectedRoute from './helpers/ProtectedRoute';
 import Dashboard from './features/User/Dashboard';
-import { TokenService } from './services/TokenService';
-import Resume from './features/resume/Resume';
-import PublicRoute from './helpers/PublicRoute';
+import DragPage from './pages/DragPage/DragPage';
+import LayoutPage from './components/UI/Layout/LayoutPage';
+import Loading from './components/UI/Loading';
 
 /* TODO Lazy */
-const Home = lazy(() => pMinDelay(import('./components/Home'), 500));
+const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
+const ResumePage = lazy(() => pMinDelay(import('./pages/ResumePage'), 100));
+
 const Signin = lazy(() => pMinDelay(import('./features/User/Signin'), 500));
-const Register = lazy(() => pMinDelay(import('./features/User/Register'), 500));
+const Signup = lazy(() => pMinDelay(import('./features/User/Signup'), 500));
 
 /* TODO  Styles  */
 const theme = createMuiTheme({
@@ -53,6 +48,7 @@ const theme = createMuiTheme({
       app: blue[200],
       header: '#e2e4ea',
       avatar: '#edf',
+      title: '#008CFF',
     },
     secondary: {
       main: pink[600],
@@ -71,8 +67,6 @@ const theme = createMuiTheme({
 // TODO
 
 function App() {
-  console.log(process.env.REACT_APP_API_URL);
-
   /* TODO  UI */
   return (
     <ThemeProvider theme={theme}>
@@ -89,26 +83,16 @@ function App() {
       />
       <Suspense fallback={<Loading />}>
         <Router>
-          <Layout>
+          <LayoutPage>
             <Switch>
-              <Route exact path="/" children={<Home />} />
-              <Route path="/test" children={<Employees />} />
-              <Route path="/resume">
-                <Resume />
-              </Route>
-              <PublicRoute
-                component={<Register />}
-                path="/signup"
-                redirect="/dashboard"
-              />
-              <PublicRoute
-                component={Signin}
-                path="/signin"
-                redirect="/dashboard"
-              />
+              <Route exact path="/" children={<HomePage />} />
+              <Route path="/drag" children={<DragPage />} />
+              <Route path="/resume" children={<ResumePage />} />
+              <ProtectedRoute component={Signup} path="/signup" />
+              <Route path="/signin" component={Signin} />
               <PrivateRoute component={Dashboard} path="/dashboard" />
             </Switch>
-          </Layout>
+          </LayoutPage>
         </Router>
       </Suspense>
     </ThemeProvider>
