@@ -34,23 +34,6 @@ const breakpointColumnsObj = {
   500: 1,
 };
 
-const pxToMm = (px) => {
-  return Math.floor(px / document.getElementById('resume-print').offsetHeight);
-};
-
-const mmToPx = (mm) => {
-  return document.getElementById('resume-print').offsetHeight * mm;
-};
-
-const range = (start, end) => {
-  return Array(end - start)
-    .join(0)
-    .split(0)
-    .map(function (val, id) {
-      return id + start;
-    });
-};
-
 const PageResume = () => {
   const classes = useStyles();
   const { handleSubmit, fields } = useResume();
@@ -58,29 +41,51 @@ const PageResume = () => {
   const printDocument = () => {
     const input = document.getElementById('resume-print');
 
-    htmlToImage.toPng(input, { quality: 1 }).then(function (dataUrl) {
+    htmlToImage.toCanvas(input, { quality: 1 }).then(function (canvas) {
       const pdf = new jsPDF({
         orientation: 'portrait', // landscape or portrait
         unit: 'mm',
         format: 'a4',
       });
-      const imgProps = pdf.getImageProperties(dataUrl);
-      const margin = 0;
+      // const imgProps = pdf.getImageProperties(dataUrl);
+      // const margin = 0;
 
-      const pdfWidth = pdf.internal.pageSize.width * (1 - margin);
-      const pdfHeight = pdf.internal.pageSize.height * (1 - margin);
+      // const pdfWidth = pdf.internal.pageSize.width * (1 - margin);
+      // const pdfHeight = pdf.internal.pageSize.height * (1 - margin);
 
-      const x = pdf.internal.pageSize.width * (margin / 2);
-      const y = pdf.internal.pageSize.height * (margin / 2);
+      // const x = pdf.internal.pageSize.width * (margin / 2);
+      // const y = pdf.internal.pageSize.height * (margin / 2);
 
-      const widthRatio = pdfWidth / imgProps.width;
-      const heightRatio = pdfHeight / imgProps.height;
-      const ratio = Math.min(widthRatio, heightRatio);
+      // const widthRatio = pdfWidth / imgProps.width;
+      // const heightRatio = pdfHeight / imgProps.height;
+      // const ratio = Math.min(widthRatio, heightRatio);
 
-      const w = imgProps.width * ratio;
-      const h = imgProps.height * ratio;
+      // const w = imgProps.width * ratio;
+      // const h = imgProps.height * ratio;
 
-      pdf.addImage(dataUrl, 'JPEG', x, y, w, h);
+      // pdf.addImage(dataUrl, 'JPEG', x, y, w, h);
+
+      // const imgProps = pdf.getImageProperties(dataUrl);
+
+      const dataUrl = canvas.toDataURL('image/png', 1.0);
+
+      const imgWidth = pdf.internal.pageSize.width;
+      const pageHeight = 295;
+
+      let imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
       pdf.save('download.pdf');
     });
   };
