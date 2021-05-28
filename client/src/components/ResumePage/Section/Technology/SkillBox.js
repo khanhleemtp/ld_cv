@@ -4,7 +4,7 @@ import MuiTextField from '../../Mui/MuiTextField';
 
 const SkillBox = ({ nameField, addBullet, removeBullet }) => {
   return (
-    <Box display="flex">
+    <Box display="flex" marginBottom={1}>
       <MuiTextField
         typeText="subtitle1"
         record="section"

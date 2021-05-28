@@ -3,10 +3,10 @@ import React, {
   useEffect,
   createContext,
   useCallback,
+  useMemo,
 } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { dataFromServer } from '../pages/ResumePage/data';
-// import { DevTool } from '@hookform/devtools';
 
 const ResumeContext = createContext();
 export const useResume = () => {
@@ -28,14 +28,16 @@ export const ResumeProvider = ({ children }) => {
     defaultValues: {},
   });
 
-  const { fields, append, remove, swap } = useFieldArray({
+  const { fields, append, remove, swap, move } = useFieldArray({
     control,
     name: 'sections',
   });
 
+  const getDatas = useMemo(() => () => dataFromServer, []);
+
   useEffect(() => {
-    reset(dataFromServer);
-  }, [reset]);
+    reset(getDatas());
+  }, [reset, getDatas]);
 
   const handleDownSection = (fieldIndex) => {
     return () => {
@@ -58,6 +60,12 @@ export const ResumeProvider = ({ children }) => {
     [remove]
   );
 
+  const handleDrag = ({ source, destination }) => {
+    if (destination) {
+      move(source.index, destination.index);
+    }
+  };
+
   const value = {
     control,
     handleSubmit,
@@ -73,6 +81,7 @@ export const ResumeProvider = ({ children }) => {
     setFocus,
     handleUpSection,
     handleDownSection,
+    handleDrag,
   };
 
   return (
