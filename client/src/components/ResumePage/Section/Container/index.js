@@ -29,7 +29,7 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Description',
+          label: 'Mô tả',
           nameField: 'showDescription',
         },
       ],
@@ -38,7 +38,7 @@ const ResumeRecordContainer = ({ index, record }) => {
       data: { title: '', tags: [{ name: '' }], showTitle: true },
       controlLists: [
         {
-          label: 'Show Title',
+          label: 'Tiêu đề',
           nameField: `showTitle`,
         },
       ],
@@ -62,19 +62,19 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Gpa',
+          label: 'Gpa',
           nameField: 'showGpa',
         },
         {
-          label: 'Show Date',
+          label: 'Thời gian',
           nameField: 'showDateRange',
         },
         {
-          label: 'Show Location',
+          label: 'Địa điểm',
           nameField: 'showLocation',
         },
         {
-          label: 'Show Bullets',
+          label: 'Chi tiết',
           nameField: 'showBullets',
         },
       ],
@@ -98,27 +98,27 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Description',
+          label: 'Mô tả',
           nameField: 'showDescription',
         },
         {
-          label: 'Show Title',
+          label: 'Vị trí',
           nameField: 'showTitle',
         },
         {
-          label: 'Show Company',
+          label: 'Tổ chức',
           nameField: 'showCompany',
         },
         {
-          label: 'Show Date',
+          label: 'Thời gian',
           nameField: 'showDateRange',
         },
         {
-          label: 'Show Location',
+          label: 'Địa điểm',
           nameField: 'showLocation',
         },
         {
-          label: 'Show Bullets',
+          label: 'Chi tiết',
           nameField: 'showBullets',
         },
       ],
@@ -131,7 +131,7 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Description',
+          label: 'Chi tiết',
           nameField: 'showDescription',
         },
       ],
@@ -152,19 +152,19 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show DateRange',
+          label: 'Thời gian',
           nameField: `showDateRange`,
         },
         {
-          label: 'Show Location',
+          label: 'Địa điểm',
           nameField: `showLocation`,
         },
         {
-          label: 'Show Description',
+          label: 'Mô tả',
           nameField: `showDescription`,
         },
         {
-          label: 'Show Bullets',
+          label: 'Chi tiết',
           nameField: `showBullets`,
         },
       ],
@@ -173,7 +173,7 @@ const ResumeRecordContainer = ({ index, record }) => {
       data: { text: '' },
       controlLists: [
         {
-          label: 'Show Description',
+          label: 'Mô tả',
           nameField: `showText`,
         },
       ],
@@ -185,7 +185,7 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Slider',
+          label: 'Slider',
           nameField: 'showSlider',
         },
       ],
@@ -209,27 +209,27 @@ const ResumeRecordContainer = ({ index, record }) => {
       },
       controlLists: [
         {
-          label: 'Show Title',
+          label: 'Tiêu đề',
           nameField: `showTitle`,
         },
         {
-          label: 'Show Company',
+          label: 'Công ty',
           nameField: `showCompany`,
         },
         {
-          label: 'Show DateRange',
+          label: 'Thời gian',
           nameField: `showDateRange`,
         },
         {
-          label: 'Show Location',
+          label: 'Địa điểm',
           nameField: `showLocation`,
         },
         {
-          label: 'Show Description',
+          label: 'Mô tả',
           nameField: `showDescription`,
         },
         {
-          label: 'Show Bullets',
+          label: 'Chi tiết',
           nameField: `showBullets`,
         },
       ],
@@ -251,7 +251,7 @@ const ResumeRecordContainer = ({ index, record }) => {
           typeText="h5"
           title
           record="section"
-          placeholder="Title"
+          placeholder="Tiêu đề"
           nameField={`sections[${index}].name`}
         />
       }

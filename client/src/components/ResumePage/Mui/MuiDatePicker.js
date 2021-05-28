@@ -24,12 +24,12 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
     },
     '& .MuiInputBase-root': {
-      width: '120px',
+      width: theme.spacing(12),
       display: 'flex',
       flexDirection: 'row-reverse',
     },
     '& .MuiInputAdornment-positionEnd': {
-      marginLeft: -theme.spacing(1.5),
+      marginLeft: -theme.spacing(1),
     },
     '& .MuiInputBase-input': {
       fontSize: '12px',
@@ -53,7 +53,7 @@ const MuiDatePicker = ({ label, nameField, title }) => {
             <div className={classes.title}>{title}</div>
             <KeyboardDatePicker
               className={classes.root}
-              placeholder="Chọn ngày"
+              placeholder="---"
               InputProps={{
                 disableUnderline: true,
               }}

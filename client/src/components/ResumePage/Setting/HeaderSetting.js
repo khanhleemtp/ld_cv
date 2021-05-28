@@ -23,30 +23,32 @@ const HeaderSetting = () => {
   return (
     <>
       <TriggerMenu
-        component={<SettingsOutlinedIcon className={classes.icon} />}
+        component={
+          <SettingsOutlinedIcon className={classes.icon} title="Hiển thị" />
+        }
         listItem={[
           {
-            label: 'Show Email',
+            label: 'Email',
             nameField: 'header.showEmail',
           },
           {
-            label: 'Show Link',
+            label: 'Mạng xã hội',
             nameField: 'header.showLink',
           },
           {
-            label: 'Show Location',
+            label: 'Nơi ở',
             nameField: 'header.showLocation',
           },
           {
-            label: 'Show Phone',
+            label: 'Điện thoại',
             nameField: 'header.showPhone',
           },
           {
-            label: 'Show Title',
+            label: 'Vị trí',
             nameField: 'header.showTitle',
           },
           {
-            label: 'Show Photo',
+            label: 'Ảnh',
             nameField: 'header.showPhoto',
           },
         ]}
@@ -57,6 +59,7 @@ const HeaderSetting = () => {
         onClick={() => {
           setOpen(true);
         }}
+        title="Ảnh"
       >
         <CameraAltOutlinedIcon className={classes.icon} />
       </Box>

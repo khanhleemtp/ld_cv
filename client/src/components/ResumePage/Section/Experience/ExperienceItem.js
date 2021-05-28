@@ -41,8 +41,8 @@ const ExperienceItem = ({ nameField, watchObj }) => {
       )}
       {showDateRange && (
         <Box display="flex" alignItems="center">
-          <MuiDatePicker nameField={`${nameField}.from`} title="Từ" />
-          <MuiDatePicker nameField={`${nameField}.to`} title="Đến" />
+          <MuiDatePicker nameField={`${nameField}.from`} />
+          <MuiDatePicker nameField={`${nameField}.to`} />
         </Box>
       )}
       {showLocation && (
@@ -52,7 +52,7 @@ const ExperienceItem = ({ nameField, watchObj }) => {
           description
           record="section"
           nameField={`${nameField}.location`}
-          placeholder="Vị trí"
+          placeholder="Địa điểm"
           icon={<RoomOutlinedIcon />}
         />
       )}

@@ -8,7 +8,7 @@ const SummaryItem = ({ nameField }) => {
       description
       record="section"
       nameField={`${nameField}.text`}
-      placeholder="Summary"
+      placeholder="Hãy nói điều gì đó về bản thân"
     />
   );
 };

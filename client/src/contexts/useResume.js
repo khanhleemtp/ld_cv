@@ -53,12 +53,9 @@ export const ResumeProvider = ({ children }) => {
     };
   };
 
-  const removeSection = useCallback(
-    (sectionIndex) => {
-      return () => remove(sectionIndex);
-    },
-    [remove]
-  );
+  const removeSection = (sectionIndex) => {
+    return async () => remove(sectionIndex);
+  };
 
   const handleDrag = ({ source, destination }) => {
     if (destination) {

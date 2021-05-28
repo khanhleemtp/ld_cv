@@ -11,7 +11,7 @@ function CourceItem({ nameField, watchObj }) {
         name
         record="section"
         nameField={`${nameField}.title`}
-        placeholder="Title"
+        placeholder="Tên chứng chỉ"
         blueTitle
       />
       {showDescription && (
@@ -21,7 +21,7 @@ function CourceItem({ nameField, watchObj }) {
           description
           record="section"
           nameField={`${nameField}.description`}
-          placeholder="Title"
+          placeholder="Chi tiết"
         />
       )}
     </>

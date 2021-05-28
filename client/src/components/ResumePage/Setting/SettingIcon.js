@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SettingIcon = ({ icon, text }) => {
+const SettingIcon = ({ icon, text, title }) => {
   const classes = useStyles({ text });
 
   return (
@@ -36,6 +36,7 @@ const SettingIcon = ({ icon, text }) => {
       display="flex"
       alignItems="center"
       justifyContent="space-around"
+      title={title}
       className={clsx(classes.root, { [classes.iconText]: text })}
       paddingX={1}
     >

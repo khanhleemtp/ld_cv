@@ -28,29 +28,35 @@ const ResumeTitleSetting = ({
   const listSettings = [
     {
       component: (
-        <SettingIcon
-          icon={<AddCircleOutlineOutlinedIcon />}
-          text="Add entity"
-        />
+        <SettingIcon icon={<AddCircleOutlineOutlinedIcon />} text="Thêm mới" />
       ),
       onClick: handleAddField,
     },
     {
-      component: <SettingIcon icon={<DeleteOutlineOutlinedIcon />} />,
+      component: (
+        <SettingIcon
+          icon={<DeleteOutlineOutlinedIcon />}
+          title="Xóa thành phần"
+        />
+      ),
       onClick: removeSection,
     },
     {
-      component: <SettingIcon icon={<TableChartOutlinedIcon />} />,
+      component: (
+        <SettingIcon icon={<TableChartOutlinedIcon />} title="Điều khiển" />
+      ),
       onClick: () => {
         console.log('abc');
       },
     },
     {
-      component: <SettingIcon icon={<ExpandLessOutlinedIcon />} />,
+      component: <SettingIcon icon={<ExpandLessOutlinedIcon />} title="Lên" />,
       onClick: handleUpSection,
     },
     {
-      component: <SettingIcon icon={<ExpandMoreOutlinedIcon />} />,
+      component: (
+        <SettingIcon icon={<ExpandMoreOutlinedIcon />} title="Xuống" />
+      ),
       onClick: handleDownSection,
     },
   ];

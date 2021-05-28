@@ -30,8 +30,8 @@ const EducationItem = ({ nameField, watchObj }) => {
 
       {showDateRange && (
         <Box display="flex" alignItems="center">
-          <MuiDatePicker nameField={`${nameField}.from`} title="Từ" />
-          <MuiDatePicker nameField={`${nameField}.to`} title="Đến" />
+          <MuiDatePicker nameField={`${nameField}.from`} />
+          <MuiDatePicker nameField={`${nameField}.to`} />
         </Box>
       )}
       <Box display="flex">
@@ -42,7 +42,7 @@ const EducationItem = ({ nameField, watchObj }) => {
             description
             record="section"
             nameField={`${nameField}.location`}
-            placeholder="Vị trí"
+            placeholder="Địa điểm"
             icon={<RoomOutlinedIcon />}
           />
         )}
@@ -62,11 +62,7 @@ const EducationItem = ({ nameField, watchObj }) => {
               placeholder="Gpa Text"
               textCenter
             />
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-around"
-            >
+            <Box display="flex" alignItems="center" marginLeft={2}>
               <MuiTextField
                 typeText="subtitle1"
                 disableUnderline
@@ -76,7 +72,7 @@ const EducationItem = ({ nameField, watchObj }) => {
                 textCenter
                 gpa
               />
-              <Box textAlign="center">/</Box>
+              /
               <MuiTextField
                 typeText="subtitle1"
                 disableUnderline

@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { useResume } from '../../../contexts/useResume';
 
@@ -38,7 +37,7 @@ export const useResumeSetting = (sectionIndex) => {
     };
   };
 
-  const handleAddField = useCallback((data) => () => append(data), [append]);
+  const handleAddField = (data) => async () => append(data);
 
   const isHiddenUp = (fieldIndex) => {
     return fieldIndex === 0;

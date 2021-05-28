@@ -63,20 +63,20 @@ const ResumeSectionHeader = () => {
             typeText="h4"
             record="header"
             name
-            control={control}
             nameField="header.name"
             disableUnderline
+            placeholder="Họ và tên"
           />
 
           {showTitle && (
             <MuiTextField
               typeText="h6"
               record="header"
-              control={control}
               nameField="header.title"
               title
               blueTitle
               disableUnderline
+              placeholder="Vị trí"
             />
           )}
 
@@ -86,26 +86,30 @@ const ResumeSectionHeader = () => {
                 nameField: 'header.phone',
                 watchField: showPhone,
                 icon: <PhoneIcon className={classes.icon} />,
+                placeholder: 'Số điện thoại',
               },
               {
                 nameField: 'header.email',
                 watchField: showEmail,
                 icon: <AlternateEmailIcon className={classes.icon} />,
+                placeholder: 'Email',
               },
               {
                 nameField: 'header.location',
                 watchField: showLocation,
                 icon: <LocationOnIcon className={classes.icon} />,
+                placeholder: 'Địa chỉ',
               },
               {
                 nameField: 'header.link',
                 watchField: showLink,
                 icon: <LinkIcon className={classes.icon} />,
+                placeholder: 'Mạng xã hội',
               },
             ].map(
               (item, index) =>
                 item.watchField && (
-                  <Grid item xs={12} md={6} key={index}>
+                  <Grid item xs={12} sm={6} md={6} key={index}>
                     <MuiTextField
                       control={control}
                       icon={item.icon}
@@ -114,6 +118,7 @@ const ResumeSectionHeader = () => {
                       record="header"
                       description
                       disableUnderline
+                      placeholder={item.placeholder}
                     />
                   </Grid>
                 )

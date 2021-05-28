@@ -35,33 +35,34 @@ const ResumeSectionSetting = ({
   const listSettings = [
     {
       component: (
-        <SettingIcon
-          icon={<AddCircleOutlineOutlinedIcon />}
-          text="Add entity"
-        />
+        <SettingIcon icon={<AddCircleOutlineOutlinedIcon />} text="Thêm mới" />
       ),
       onClick: handleAddField,
     },
     {
       component: !isHiddenUp && (
-        <SettingIcon icon={<ExpandLessOutlinedIcon />} />
+        <SettingIcon icon={<ExpandLessOutlinedIcon />} title="Lên" />
       ),
       onClick: handleUpField,
     },
     {
       component: !isHiddenDown && (
-        <SettingIcon icon={<ExpandMoreOutlinedIcon />} />
+        <SettingIcon icon={<ExpandMoreOutlinedIcon />} title="Xuống" />
       ),
       onClick: handleDownField,
     },
     {
-      component: <SettingIcon icon={<DeleteOutlineOutlinedIcon />} />,
+      component: (
+        <SettingIcon icon={<DeleteOutlineOutlinedIcon />} title="Xóa mục" />
+      ),
       onClick: handleRemoveField,
     },
     {
       component: (
         <TriggerMenu
-          component={<SettingIcon icon={<SettingsOutlinedIcon />} />}
+          component={
+            <SettingIcon icon={<SettingsOutlinedIcon />} title="Hiển thị" />
+          }
           listItem={listTriggerMenu}
         />
       ),

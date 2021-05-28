@@ -23,9 +23,11 @@ const ActivityItem = ({ nameField, watchObj }) => {
           disableUnderline
           name
           record="section"
-          nameField={`${nameField}.position`}
-          placeholder="Vị trí"
+          nameField={`${nameField}.title`}
+          placeholder="Vị trí tham gia :"
+          label="Vị trí tham gia"
           fontWeightRegular
+          blueTitle
         />
       )}
       {showCompany && (
@@ -35,15 +37,15 @@ const ActivityItem = ({ nameField, watchObj }) => {
           disableUnderline
           name
           record="section"
-          nameField={`${nameField}.workplace`}
-          placeholder="Công ty"
+          nameField={`${nameField}.location`}
+          placeholder="Địa điểm"
           fontWeightRegular
         />
       )}
       {showDateRange && (
         <Box display="flex" alignItems="center">
-          <MuiDatePicker nameField={`${nameField}.from`} title="Từ" />
-          <MuiDatePicker nameField={`${nameField}.to`} title="Đến" />
+          <MuiDatePicker nameField={`${nameField}.from`} />
+          <MuiDatePicker nameField={`${nameField}.to`} />
         </Box>
       )}
       {showLocation && (
@@ -53,7 +55,7 @@ const ActivityItem = ({ nameField, watchObj }) => {
           description
           record="section"
           nameField={`${nameField}.location`}
-          placeholder="Vị trí"
+          placeholder="Địa điểm"
           icon={<RoomOutlinedIcon />}
         />
       )}

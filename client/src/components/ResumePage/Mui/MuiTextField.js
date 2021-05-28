@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     fontWeight: ({ record, name, title }) => {
       if (record === 'header') {
-        return theme.typography.fontWeightBold;
+        return theme.typography.fontWeightMedium;
       }
       if (record === 'section') {
         if (name || title) return theme.typography.fontWeightBold;
@@ -82,6 +82,7 @@ const MuiTextField = ({
   blueTitle,
   textCenter,
   gpa,
+  label,
 }) => {
   const classes = useStyles({
     typeText,
@@ -112,6 +113,7 @@ const MuiTextField = ({
         render={({ field }) => (
           <TextField
             {...field}
+            label={label}
             multiline={section === 'skills' || gpa ? false : true}
             fullWidth
             placeholder={placeholder}

@@ -11,7 +11,7 @@ function AchievementItem({ nameField, watchObj }) {
         name
         record="section"
         nameField={`${nameField}.title`}
-        placeholder="Title"
+        placeholder="Tên thành tích"
         blueTitle
       />
       {showDescription && (
@@ -21,7 +21,7 @@ function AchievementItem({ nameField, watchObj }) {
           description
           record="section"
           nameField={`${nameField}.description`}
-          placeholder="Title"
+          placeholder="Mô tả"
         />
       )}
     </>

@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ResumeDrag = () => {
-  const { fields, handleDrag, removeSection } = useResume();
+  const { fields, handleDrag } = useResume();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,7 +28,7 @@ const ResumeDrag = () => {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Control Section
+        Điều khiển
       </Button>
       <Dialog
         open={open}
@@ -40,7 +40,7 @@ const ResumeDrag = () => {
         fullWidth
         maxWidth="xs"
       >
-        <DialogTitle id="alert-dialog-slide-title">LD Drag Content</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">LD Cv Kéo thả</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Kéo thả để di chuyển các phần
@@ -71,8 +71,8 @@ const ResumeDrag = () => {
                               }}
                               {...provided.dragHandleProps}
                             >
-                              <Typography variant="h6">
-                                {item.record}
+                              <Typography variant="h6" align="center">
+                                {item.name}
                               </Typography>
                             </Box>
                           </Box>
@@ -89,7 +89,7 @@ const ResumeDrag = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Ok
+            Xong
           </Button>
         </DialogActions>
       </Dialog>
