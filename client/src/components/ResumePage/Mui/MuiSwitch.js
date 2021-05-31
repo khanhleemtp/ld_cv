@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller } from 'react-hook-form';
-import { Switch } from '@material-ui/core';
+import Switch from '@material-ui/core/Switch';
 import { useResume } from '../../../contexts/useResume';
 
 const MuiSwitch = ({ nameField, label }) => {

@@ -3,7 +3,7 @@ import MuiDatePicker from '../../Mui/MuiDatePicker';
 import MuiTextField from '../../Mui/MuiTextField';
 import ResumeBulletSection from '../Bullets';
 import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 const ExperienceItem = ({ nameField, watchObj }) => {
   const {

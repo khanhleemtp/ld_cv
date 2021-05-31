@@ -1,6 +1,6 @@
 import MuiTextField from '../../Mui/MuiTextField';
 import ResumeBulletSection from '../Bullets';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 const TechnologyItem = ({ nameField, watchObj }) => {
   const { showTitle } = watchObj;
   return (

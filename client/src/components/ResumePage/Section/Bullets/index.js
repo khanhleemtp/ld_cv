@@ -1,6 +1,5 @@
-import { Box } from '@material-ui/core';
 import React from 'react';
-
+import Box from '@material-ui/core/Box';
 import MuiTextField from '../../Mui/MuiTextField';
 import SkillBox from '../Technology/SkillBox';
 import { useResumeBullet } from './useResumeBullets';

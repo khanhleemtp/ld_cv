@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useWatch } from 'react-hook-form';
 import { useResume } from '../../../../contexts/useResume';
 import ResumeSectionSetting from '../../Setting/ResumeSectionSetting';
@@ -33,7 +33,7 @@ const ResumeContainerItem = ({
     name: nameField,
   });
 
-  const itemData = {
+  const handleDataItem = (watchObj, nameField, parentField) => ({
     AchievementSection: {
       component: <AchievementItem watchObj={watchObj} nameField={nameField} />,
     },
@@ -63,7 +63,12 @@ const ResumeContainerItem = ({
     SummarySection: {
       component: <SummaryItem nameField={nameField} />,
     },
-  };
+  });
+
+  const itemData = useMemo(
+    () => handleDataItem(watchObj, nameField, parentField),
+    [watchObj, nameField, parentField]
+  );
 
   return (
     <ResumeSectionLayout

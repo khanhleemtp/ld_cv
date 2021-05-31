@@ -1,5 +1,6 @@
 import React from 'react';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import SettingIcon from './SettingIcon';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';

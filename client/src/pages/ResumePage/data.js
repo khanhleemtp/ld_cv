@@ -50,7 +50,6 @@ export const dataFromServer = {
           description: 'Huy chương vàng',
           showDescription: true,
         },
-
         {
           icon: '139-free-diamond-01',
           id: 'kp055lmi',
@@ -232,7 +231,6 @@ export const dataFromServer = {
       items: [
         { id: 'ipfpaw489a', record: 'SummaryItem', text: '', height: 53 },
       ],
-      showTitle: true,
     },
     {
       showSlider: true,

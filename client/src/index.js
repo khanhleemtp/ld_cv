@@ -7,13 +7,17 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { ResumeProvider } from './contexts/useResume';
+import { ThemeProvider } from '@material-ui/styles';
+import { theme } from './theme';
 
 ReactDOM.render(
   <Provider store={store}>
-    <ResumeProvider>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
-    </ResumeProvider>
+      <ResumeProvider>
+        <App />
+      </ResumeProvider>
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root')
 );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Paper, Box, makeStyles, Button, Typography } from '@material-ui/core';
 import { useResume } from '../../contexts/useResume';
 import Masonry from 'react-masonry-css';

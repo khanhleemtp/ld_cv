@@ -11,9 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../../../features/User/UserSlice';
-import { Avatar, Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

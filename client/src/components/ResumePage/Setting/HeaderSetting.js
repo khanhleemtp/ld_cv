@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import TriggerMenu from '../Section/TriggerMenu';

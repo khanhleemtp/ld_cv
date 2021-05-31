@@ -4,22 +4,9 @@ import MuiTextField from '../../Mui/MuiTextField';
 import { useResumeSetting } from '../../Setting/useResumeSetting';
 import ResumeTitleSetting from '../../Setting/ResumeTitleSetting';
 import ResumeContainerItem from './ResumeContainerItem';
-import { Box } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 const ResumeRecordContainer = ({ index, record }) => {
-  const {
-    removeSection,
-    handleDownSection,
-    handleUpSection,
-    fields,
-    isHiddenUp,
-    isHiddenDown,
-    handleAddField,
-    handleDownField,
-    handleUpField,
-    handleRemoveField,
-  } = useResumeSetting(index);
-
   const dataRecord = {
     AchievementSection: {
       data: {
@@ -235,6 +222,19 @@ const ResumeRecordContainer = ({ index, record }) => {
       ],
     },
   };
+
+  const {
+    removeSection,
+    handleDownSection,
+    handleUpSection,
+    fields,
+    isHiddenUp,
+    isHiddenDown,
+    handleAddField,
+    handleDownField,
+    handleUpField,
+    handleRemoveField,
+  } = useResumeSetting(index);
 
   return (
     <ResumeRecordLayout

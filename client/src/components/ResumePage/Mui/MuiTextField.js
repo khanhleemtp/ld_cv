@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, TextField, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import Box from '@material-ui/core/Box';
 import { Controller } from 'react-hook-form';
 import clsx from 'clsx';
 import { useResume } from '../../../contexts/useResume';
@@ -158,7 +160,7 @@ const MuiTextField = ({
                   }
                 : null
             }
-            autoFocus={true}
+            // autoFocus={true}
           />
         )}
       />

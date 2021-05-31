@@ -1,6 +1,9 @@
 import React from 'react';
 import ResumeSectionLayout from '../Layout/ResumeSectionLayout';
-import { Box, Grid, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+
 import PhoneIcon from '@material-ui/icons/Phone';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import LinkIcon from '@material-ui/icons/Link';

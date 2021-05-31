@@ -1,11 +1,13 @@
+import moment from 'moment';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { Controller } from 'react-hook-form';
-import { Box, makeStyles } from '@material-ui/core';
-import moment from 'moment';
+import { makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+
 import { useResume } from '../../../contexts/useResume';
 
 moment.suppressDeprecationWarnings = true;

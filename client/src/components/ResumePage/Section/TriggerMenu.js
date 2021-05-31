@@ -1,12 +1,11 @@
-import * as React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import MuiSwitch from '../Mui/MuiSwitch';
 import {
   usePopupState,
   bindTrigger,
   bindMenu,
 } from 'material-ui-popup-state/hooks';
-import MuiSwitch from '../Mui/MuiSwitch';
 import { useResume } from '../../../contexts/useResume';
 
 const TriggerMenu = ({ component, listItem }) => {

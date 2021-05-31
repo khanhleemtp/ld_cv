@@ -1,6 +1,5 @@
-import React from 'react';
 import { Controller } from 'react-hook-form';
-import { Slider } from '@material-ui/core';
+import Slider from '@material-ui/core/Slider/Slider.js';
 import { useResume } from '../../../contexts/useResume';
 
 const MuiSlider = ({ nameField }) => {

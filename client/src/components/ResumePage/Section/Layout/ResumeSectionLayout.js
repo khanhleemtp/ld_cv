@@ -1,5 +1,8 @@
-import { ClickAwayListener, Fade, makeStyles, Box } from '@material-ui/core';
-import React from 'react';
+import { makeStyles } from '@material-ui/core';
+import Fade from '@material-ui/core/Fade';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+
+import Box from '@material-ui/core/Box';
 import useResumeLayoutSection from './useResumeLayoutSection';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,8 +69,13 @@ const ResumeSectionLayout = ({
   const handleClose = isSectionTitle ? handleCloseRecord : handleCloseSection;
   const handleOpen = isSectionTitle ? handleOpenRecord : handleOpenSection;
   const classes = useStyles({ open, record, isSectionTitle });
+
   return (
-    <ClickAwayListener onClickAway={handleClose}>
+    <ClickAwayListener
+      onClickAway={handleClose}
+      mouseEvent="onMouseDown"
+      touchEvent="onTouchStart"
+    >
       <Box
         padding={1}
         paddingBottom={0}

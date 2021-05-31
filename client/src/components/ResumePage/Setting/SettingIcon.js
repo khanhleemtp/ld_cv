@@ -1,6 +1,8 @@
 import React from 'react';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',

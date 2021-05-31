@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  createContext,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useContext, useEffect, createContext, useMemo } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { dataFromServer } from '../pages/ResumePage/data';
 
@@ -26,6 +20,7 @@ export const ResumeProvider = ({ children }) => {
     setFocus,
   } = useForm({
     defaultValues: {},
+    mode: 'onChange',
   });
 
   const { fields, append, remove, swap, move } = useFieldArray({
