@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
+const { sectionsArray } = require('../ResumeModel');
 
 const courceSchema = new mongoose.Schema({
-  record: {
-    type: String,
-    default: 'CourceSection',
-  },
-  enabled: Boolean,
-  name: String,
   items: [
     {
       title: String,
@@ -16,4 +11,9 @@ const courceSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = courceSchema;
+const CourceSection = sectionsArray.discriminator(
+  'CourceSection',
+  courceSchema
+);
+
+module.exports = CourceSection;

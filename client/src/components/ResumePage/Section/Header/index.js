@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResumeSectionHeader = () => {
-  const { control } = useResume();
+  const { control, register } = useResume();
+  register('header.showPhoto');
 
   const watchObj = useWatch({
     control,

@@ -39,8 +39,6 @@ export const dataFromServer = {
       enabled: true,
       showIcons: false,
       name: 'Thành tích',
-      column: 0,
-      height: 46,
       items: [
         {
           icon: '139-free-diamond-01',
@@ -64,8 +62,6 @@ export const dataFromServer = {
       record: 'CourseSection',
       enabled: false,
       name: 'Chứng chỉ',
-      column: 0,
-      height: 46,
       items: [
         {
           id: '73d7t15tft',
@@ -81,7 +77,6 @@ export const dataFromServer = {
           record: 'CourseItem',
           title: 'Next Js',
           description: 'SSR dùng trong Reacjs',
-          height: 55,
           showDescription: true,
         },
         {
@@ -89,7 +84,6 @@ export const dataFromServer = {
           record: 'CourseItem',
           title: 'MongoDB',
           description: 'Hiểu về ứng dụng mongoDB xây dựng website',
-          height: 56,
           showDescription: true,
         },
       ],
@@ -98,9 +92,7 @@ export const dataFromServer = {
       record: 'TechnologySection',
       enabled: true,
       name: 'Kỹ năng chính',
-      column: 0,
       surroundingBorder: false,
-      height: 51,
       items: [
         {
           tags: ['C++', 'Javascript', 'Python'],
@@ -108,7 +100,6 @@ export const dataFromServer = {
           record: 'TechnologyItem',
           title: 'Ngôn ngữ lập trình',
           description: '',
-          height: 62,
           showTitle: true,
         },
         {
@@ -117,7 +108,6 @@ export const dataFromServer = {
           record: 'TechnologyItem',
           title: 'Framework',
           description: '',
-          height: 62,
           showTitle: true,
         },
       ],
@@ -150,9 +140,12 @@ export const dataFromServer = {
       record: 'ExperienceSection',
       enabled: true,
       name: 'Kinh nghiệm',
+      //
       items: [
+        ///
         {
           bullets: ['Xây dựng module IPFM', 'Deploy website'],
+          ///
           id: 'd2ip7toaao',
           record: 'ExperienceItem',
           position: 'Thực tập sinh',
@@ -162,7 +155,6 @@ export const dataFromServer = {
           from: '2018/7',
           to: '2020/12',
           link: '',
-          height: 251,
           showTitle: true,
           showCompany: true,
           showDescription: true,
@@ -188,7 +180,6 @@ export const dataFromServer = {
           to: '2019/7',
           link: '',
           description: 'Hội thảo IDE',
-          height: 116,
           showDescription: true,
           showBullets: true,
           showTitle: true,
@@ -202,8 +193,6 @@ export const dataFromServer = {
       record: 'VolunteerSection',
       enabled: true,
       name: 'Hoạt động từ thiện',
-      column: 0,
-      height: 51,
       items: [
         {
           bullets: ['Dạy học', 'Xây nhà tình thương'],
@@ -226,8 +215,6 @@ export const dataFromServer = {
       record: 'SummarySection',
       enabled: true,
       name: 'Thông tin thêm',
-      column: 0,
-      height: 51,
       items: [
         { id: 'ipfpaw489a', record: 'SummaryItem', text: '', height: 53 },
       ],
@@ -237,9 +224,7 @@ export const dataFromServer = {
       record: 'SkillSection',
       enabled: true,
       name: 'Kỹ năng khác',
-      column: 1,
       indicatorType: 'lolly',
-      height: 79,
       items: [
         {
           icon: '21-free-star',
