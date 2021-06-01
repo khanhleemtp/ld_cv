@@ -39,8 +39,6 @@ const PageResume = () => {
   const inputRef = useRef(null);
 
   const printDocument = () => {
-    // const input = document.getElementById('resume-print');
-
     htmlToImage
       .toCanvas(inputRef.current, { quality: 1 })
       .then(function (canvas) {
@@ -70,6 +68,28 @@ const PageResume = () => {
         pdf.save('ld.pdf');
       });
   };
+
+  // const [listSection, setListSection] = useState(null);
+
+  // const showAvaiableSections = () => {
+  //   const liSections = [];
+  //   fields.forEach((item, index) => {
+  //     liSections.push(
+  //       <ResumeRecordContainer
+  //         index={index}
+  //         key={item.id}
+  //         record={item.record}
+  //       />
+  //     );
+  //     setListSection(liSections);
+  //   });
+  // };
+
+  // console.log(listSection);
+  // if (!listSection && fields.length) {
+  //   showAvaiableSections();
+  // }
+
   return (
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       <Box display="flex" alignItems="center" padding={2}>
@@ -104,6 +124,7 @@ const PageResume = () => {
                   />
                 );
               })}
+              {/* {listSection} */}
             </Masonry>
             <Box display="flex" justifyContent="flex-end">
               <Typography variant="subtitle1" color="primary" component="h4">

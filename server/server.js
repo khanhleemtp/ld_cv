@@ -1,7 +1,15 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const SummarySection = require('./models/ResumeSectionSchema/SummaryModel');
 const { Resume } = require('./models/ResumeModel');
+const SummarySection = require('./models/ResumeSectionSchema/SummaryModel');
+const TechnologySection = require('./models/ResumeSectionSchema/TechnologyModel');
+const ActivitySection = require('./models/ResumeSectionSchema/ActivityModel');
+const AchievementSection = require('./models/ResumeSectionSchema/AchievementModel');
+const CourceSection = require('./models/ResumeSectionSchema/CourceModel');
+const EducationSection = require('./models/ResumeSectionSchema/EducationModel');
+const ExperienceSection = require('./models/ResumeSectionSchema/ExperienceModel');
+const SkillSection = require('./models/ResumeSectionSchema/SkillModel');
+const VolunteerSection = require('./models/ResumeSectionSchema/VolunteerModel');
 
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -11,7 +19,6 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
-const TechnologySection = require('./models/ResumeSectionSchema/TechnologyModel');
 
 const DB = process.env.DATABASE.replace(
   '<password>',

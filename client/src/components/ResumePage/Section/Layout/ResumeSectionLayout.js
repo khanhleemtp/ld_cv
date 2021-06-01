@@ -69,7 +69,6 @@ const ResumeSectionLayout = ({
   const handleClose = isSectionTitle ? handleCloseRecord : handleCloseSection;
   const handleOpen = isSectionTitle ? handleOpenRecord : handleOpenSection;
   const classes = useStyles({ open, record, isSectionTitle });
-
   return (
     <ClickAwayListener
       onClickAway={handleClose}

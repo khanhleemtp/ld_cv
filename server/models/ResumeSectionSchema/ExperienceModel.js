@@ -4,13 +4,13 @@ const { sectionsArray } = require('../ResumeModel');
 const experienceSchema = new mongoose.Schema({
   items: [
     {
+      bullets: [String],
       position: String,
       workplace: String,
-      location: String,
       description: String,
+      location: String,
       from: Date,
       to: Date,
-      bullets: [String],
       showTitle: Boolean,
       showCompany: Boolean,
       showDescription: Boolean,

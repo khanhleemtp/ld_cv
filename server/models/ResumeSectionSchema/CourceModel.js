@@ -12,7 +12,7 @@ const courceSchema = new mongoose.Schema({
 });
 
 const CourceSection = sectionsArray.discriminator(
-  'CourceSection',
+  'CourseSection',
   courceSchema
 );
 

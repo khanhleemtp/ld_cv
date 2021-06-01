@@ -2,6 +2,7 @@ const express = require('express');
 
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const resumeRouter = require('./resumeRoutes');
 
 const router = express.Router();
 
@@ -14,6 +15,9 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect);
 
 router.patch('/updateMyPassword', authController.updatePassword);
+
+// merge route
+router.use('/:userId/resumes', resumeRouter);
 
 router.get(
   '/me',

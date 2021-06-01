@@ -1,40 +1,35 @@
 const express = require('express');
+const resumeController = require('../controllers/resumeController');
+const authController = require('../controllers/authController');
+const router = express.Router({ mergeParams: true });
 
-const userController = require('../controllers/userController');
-
-const router = express.Router();
-
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
-
-// protect all routes afer middleware  ✈
-router.use(authController.protect);
-
-router.patch('/updateMyPassword', authController.updatePassword);
-
-router.get(
-  '/me',
-  authController.protect,
-  userController.getMe,
-  userController.getUser
-);
-router.patch('/updateMe', userController.updateMe);
-router.delete('/deleteMe', userController.deleteMe);
-
-// only admin to access
-router.use(authController.restrictTo('admin'));
-
+// POST /users/234fad4/resumes/
+// GET /users/234fad4/resumes/
+// GET /users/1234/resumes
+// GET /users/234fad4/resumes/123dc
+// is match users/:userId/resumes
 router
   .route('/')
-  .get(userController.getAllUsers)
-  .post(userController.createUser);
+  .get(resumeController.getAllResumes)
+  .post(
+    authController.protect,
+    authController.restrictTo('user', 'admin', 'company'),
+    resumeController.setUserIds,
+    resumeController.createResume
+  );
 
 router
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(resumeController.getResume)
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'user'),
+    resumeController.deleteResume
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'user'),
+    resumeController.updateResume
+  );
 
 module.exports = router;

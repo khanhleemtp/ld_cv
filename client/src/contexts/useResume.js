@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  createContext,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, createContext, useMemo } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { dataFromServer } from '../pages/ResumePage/data';
 
