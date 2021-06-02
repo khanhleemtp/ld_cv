@@ -14,9 +14,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ResumeProvider>
-        <App />
-      </ResumeProvider>
+      <App />
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')

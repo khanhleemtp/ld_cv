@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
-
 const achievementSchema = new mongoose.Schema({
   items: [
     {
@@ -10,10 +8,4 @@ const achievementSchema = new mongoose.Schema({
     },
   ],
 });
-
-const AchievementSection = sectionsArray.discriminator(
-  'AchievementSection',
-  achievementSchema
-);
-
-module.exports = AchievementSection;
+module.exports = achievementSchema;

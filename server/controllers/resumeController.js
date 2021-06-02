@@ -1,6 +1,5 @@
-const { Resume } = require('../models/ResumeModel');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
+const Resume = require('../models/ResumeModel');
+
 const factory = require('./handleFactory');
 
 exports.setUserIds = (req, res, next) => {

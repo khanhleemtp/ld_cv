@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
 
 const summarySchema = new mongoose.Schema({
   items: [
@@ -9,9 +8,4 @@ const summarySchema = new mongoose.Schema({
   ],
 });
 
-const SummarySection = sectionsArray.discriminator(
-  'SummarySection',
-  summarySchema
-);
-
-module.exports = SummarySection;
+module.exports = summarySchema;

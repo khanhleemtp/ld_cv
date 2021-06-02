@@ -1,6 +1,7 @@
 const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
+const _ = require('lodash');
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -15,9 +16,11 @@ exports.deleteOne = (Model) =>
     });
   });
 
-exports.updateOne = (Model) =>
+exports.updateOne = (Model, pickArr) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    const pickData = pickArr ? _.pick(req.body, pickArr) : req.body;
+
+    const doc = await Model.findByIdAndUpdate(req.params.id, pickData, {
       new: true,
       // return newDocument
       runValidators: true,
@@ -34,12 +37,12 @@ exports.updateOne = (Model) =>
     });
   });
 
-exports.createOne = (Model) =>
+exports.createOne = (Model, pickArr) =>
   catchAsync(async (req, res) => {
     // const newTour = new Tour({});
     // newTour.save()
-
-    const doc = await Model.create(req.body);
+    const pickData = pickArr ? _.pick(req.body, pickArr) : req.body;
+    const doc = await Model.create(pickData);
 
     // Tour.findOne({ _id: req.params.id })
 

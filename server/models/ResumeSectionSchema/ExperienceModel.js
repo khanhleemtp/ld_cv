@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
 
 const experienceSchema = new mongoose.Schema({
   items: [
@@ -22,9 +21,4 @@ const experienceSchema = new mongoose.Schema({
   ],
 });
 
-const ExperienceSection = sectionsArray.discriminator(
-  'ExperienceSection',
-  experienceSchema
-);
-
-module.exports = ExperienceSection;
+module.exports = experienceSchema;

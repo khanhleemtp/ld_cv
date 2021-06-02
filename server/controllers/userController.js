@@ -1,5 +1,4 @@
 const User = require('../models/UserModel');
-const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handleFactory');

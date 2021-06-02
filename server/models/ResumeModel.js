@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
-const { baseSchema } = require('./ResumeSectionSchema/BaseSectionModel');
+const baseSchema = require('./ResumeSectionSchema/BaseSectionModel');
+const achievementSchema = require('./ResumeSectionSchema/AchievementModel');
+const activitySchema = require('./ResumeSectionSchema/ActivityModel');
+const courceSchema = require('./ResumeSectionSchema/CourceModel');
+const educationSchema = require('./ResumeSectionSchema/EducationModel');
+const experienceSchema = require('./ResumeSectionSchema/ExperienceModel');
+const skillSchema = require('./ResumeSectionSchema/SkillModel');
+const summarySchema = require('./ResumeSectionSchema/SummaryModel');
+const technologySchema = require('./ResumeSectionSchema/TechnologyModel');
+const volunteerSchema = require('./ResumeSectionSchema/VolunteerModel');
+const headerSchema = require('./ResumeSectionSchema/HeaderModel');
+
 const resumeSchema = new mongoose.Schema(
   {
     style: {
@@ -15,27 +26,7 @@ const resumeSchema = new mongoose.Schema(
         enum: [1, 2, 3, 4],
       },
     },
-    header: {
-      record: {
-        type: String,
-        default: 'Header',
-      },
-      name: String,
-      title: String,
-      email: String,
-      location: String,
-      phone: String,
-      link: String,
-      showTitle: Boolean,
-      showPhone: Boolean,
-      showLink: Boolean,
-      showEmail: Boolean,
-      showLocation: Boolean,
-      uppercaseName: Boolean,
-      showPhoto: Boolean,
-      photoStyle: String,
-      photo: String,
-    },
+    header: baseSchema,
     sections: [baseSchema],
     title: String,
     createdAt: { type: Date },
@@ -52,9 +43,22 @@ const resumeSchema = new mongoose.Schema(
   }
 );
 
-const sectionsArray = resumeSchema.path('sections');
+// header
+const headerPath = resumeSchema.path('header');
+headerPath.discriminator('Header', headerSchema);
 
-module.exports = {
-  Resume: mongoose.model('Resume', resumeSchema),
-  sectionsArray,
-};
+const sectionsArray = resumeSchema.path('sections');
+// inheritance
+sectionsArray.discriminator('AchievementSection', achievementSchema);
+sectionsArray.discriminator('ActivitySection', activitySchema);
+sectionsArray.discriminator('CourseSection', courceSchema);
+sectionsArray.discriminator('EducationSection', educationSchema);
+sectionsArray.discriminator('ExperienceSection', experienceSchema);
+sectionsArray.discriminator('SkillSection', skillSchema);
+sectionsArray.discriminator('SummarySection', summarySchema);
+sectionsArray.discriminator('TechnologySection', technologySchema);
+sectionsArray.discriminator('VolunteerSection', volunteerSchema);
+
+const Resume = mongoose.model('Resume', resumeSchema);
+
+module.exports = Resume;

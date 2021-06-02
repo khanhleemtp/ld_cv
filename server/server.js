@@ -1,15 +1,5 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const { Resume } = require('./models/ResumeModel');
-const SummarySection = require('./models/ResumeSectionSchema/SummaryModel');
-const TechnologySection = require('./models/ResumeSectionSchema/TechnologyModel');
-const ActivitySection = require('./models/ResumeSectionSchema/ActivityModel');
-const AchievementSection = require('./models/ResumeSectionSchema/AchievementModel');
-const CourceSection = require('./models/ResumeSectionSchema/CourceModel');
-const EducationSection = require('./models/ResumeSectionSchema/EducationModel');
-const ExperienceSection = require('./models/ResumeSectionSchema/ExperienceModel');
-const SkillSection = require('./models/ResumeSectionSchema/SkillModel');
-const VolunteerSection = require('./models/ResumeSectionSchema/VolunteerModel');
 
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
@@ -32,6 +22,8 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
+    autoIndex: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log('DB connection successful!'));

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
 
 const activitySchema = new mongoose.Schema({
   items: [
@@ -21,9 +20,4 @@ const activitySchema = new mongoose.Schema({
   ],
 });
 
-const ActivitySection = sectionsArray.discriminator(
-  'ActivitySection',
-  activitySchema
-);
-
-module.exports = ActivitySection;
+module.exports = activitySchema;

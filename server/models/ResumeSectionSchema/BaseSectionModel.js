@@ -8,4 +8,4 @@ const baseSchema = new mongoose.Schema(
   { discriminatorKey: 'record', _id: false }
 );
 
-module.exports = { baseSchema };
+module.exports = baseSchema;

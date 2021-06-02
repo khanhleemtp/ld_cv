@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
 
 const technologySchema = new mongoose.Schema({
   items: [
@@ -12,9 +11,4 @@ const technologySchema = new mongoose.Schema({
   ],
 });
 
-const TechnologySection = sectionsArray.discriminator(
-  'TechnologySection',
-  technologySchema
-);
-
-module.exports = TechnologySection;
+module.exports = technologySchema;

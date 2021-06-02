@@ -1,13 +1,30 @@
-import React, { useContext, useEffect, createContext, useMemo } from 'react';
+import React, { useContext, useEffect, createContext, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { dataFromServer } from '../pages/ResumePage/data';
+import { getResumeData } from '../pages/ResumePage/data';
 
 const ResumeContext = createContext();
 export const useResume = () => {
   return useContext(ResumeContext);
 };
 
-export const ResumeProvider = ({ children }) => {
+export const ResumeWrapper = ({ children }) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setData(await getResumeData());
+    };
+    fetchData();
+  }, []);
+
+  return data ? (
+    <ResumeProvider data={data}>{children}</ResumeProvider>
+  ) : (
+    <div>Loading...</div>
+  );
+};
+
+export const ResumeProvider = ({ children, data }) => {
   const {
     control,
     handleSubmit,
@@ -19,7 +36,7 @@ export const ResumeProvider = ({ children }) => {
     unregister,
     setFocus,
   } = useForm({
-    defaultValues: {},
+    defaultValues: data,
     mode: 'onChange',
   });
 
@@ -28,11 +45,11 @@ export const ResumeProvider = ({ children }) => {
     name: 'sections',
   });
 
-  const getDatas = useMemo(() => () => dataFromServer, []);
+  // const getDatas = useMemo(() => () => dataFromServer, []);
 
-  useEffect(() => {
-    reset(getDatas());
-  }, [reset, getDatas]);
+  // useEffect(() => {
+  //   reset(getDatas());
+  // }, [reset, getDatas]);
 
   const handleDownSection = (fieldIndex) => {
     return () => {

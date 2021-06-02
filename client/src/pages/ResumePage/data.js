@@ -253,3 +253,22 @@ export const dataFromServer = {
   __v: 57,
   id: '60a6b006e52510004a5ef940',
 };
+
+export const getResumeData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(dataFromServer), 100);
+  });
+};
+
+// export const ResumeWrapper = () => {
+//   const [data, setData] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       setData(await getResumeData());
+//     };
+//     fetchData();
+//   }, []);
+
+//   return data ? <ResumeProvider data={data} /> : <div>Loading...</div>;
+// };

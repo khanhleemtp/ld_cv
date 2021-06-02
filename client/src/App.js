@@ -11,6 +11,7 @@ import Dashboard from './features/User/Dashboard';
 import DragPage from './pages/DragPage/DragPage';
 import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
+import { ResumeWrapper } from './contexts/useResume';
 
 /* TODO Lazy */
 const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
@@ -40,7 +41,14 @@ function App() {
             <Switch>
               <Route exact path="/" children={<HomePage />} />
               <Route path="/drag" children={<DragPage />} />
-              <Route path="/resume" children={<ResumePage />} />
+              <Route
+                path="/resume"
+                children={
+                  <ResumeWrapper>
+                    <ResumePage />
+                  </ResumeWrapper>
+                }
+              />
               <ProtectedRoute component={Signup} path="/signup" />
               <Route path="/signin" component={Signin} />
               <PrivateRoute component={Dashboard} path="/dashboard" />

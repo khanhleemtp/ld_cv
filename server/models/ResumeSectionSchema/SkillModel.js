@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { sectionsArray } = require('../ResumeModel');
 
 const skillSchema = new mongoose.Schema({
   showSlider: Boolean,
@@ -15,6 +14,4 @@ const skillSchema = new mongoose.Schema({
   ],
 });
 
-const SkillSection = sectionsArray.discriminator('SkillSection', skillSchema);
-
-module.exports = SkillSection;
+module.exports = skillSchema;

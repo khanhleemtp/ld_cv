@@ -1,0 +1,35 @@
+const express = require('express');
+const companyController = require('../controllers/companyController');
+const authController = require('../controllers/authController');
+const router = express.Router({ mergeParams: true });
+
+router
+  .route('/')
+  .get(companyController.getAllCompanies)
+  .post(
+    authController.protect,
+    authController.restrictTo('user', 'admin'),
+    companyController.setUserIds,
+    companyController.createCompany
+  );
+
+router
+  .route('/:id')
+  .get(companyController.getCompany)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    companyController.acceptCompany
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'company'),
+    companyController.deleteCompany
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'company'),
+    companyController.updateCompany
+  );
+
+module.exports = router;

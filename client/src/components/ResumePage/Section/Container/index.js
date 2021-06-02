@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ResumeRecordLayout from '../Layout/ResumeRecordLayout';
 import MuiTextField from '../../Mui/MuiTextField';
 import { useResumeSetting } from '../../Setting/useResumeSetting';
@@ -6,7 +6,7 @@ import ResumeTitleSetting from '../../Setting/ResumeTitleSetting';
 import ResumeContainerItem from './ResumeContainerItem';
 import Box from '@material-ui/core/Box';
 
-const ResumeRecordContainer = ({ index, record }) => {
+const ResumeRecordContainer = memo(({ index, record }) => {
   const dataRecord = {
     AchievementSection: {
       data: {
@@ -281,6 +281,6 @@ const ResumeRecordContainer = ({ index, record }) => {
       </Box>
     </ResumeRecordLayout>
   );
-};
+});
 
 export default ResumeRecordContainer;

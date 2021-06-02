@@ -96,6 +96,9 @@ app.use((req, res, next) => {
 // app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
+app.use('/api/v1/companies', require('./routes/companyRoutes'));
+app.use('/api/v1/job', require('./routes/jobRoutes'));
+app.use('/api/v1/applies', require('./routes/applyRoutes'));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
