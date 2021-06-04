@@ -50,15 +50,20 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   list: {
+    // width: '100%',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
     display: 'flex',
+    flex: '1 1 0',
   },
   listItem: {
     cursor: 'pointer',
     padding: 0,
     marginLeft: 24,
+    maxWidth: 160,
+
+    // width: '100%',
     userSelect: 'none',
     '&:hover': {
       color: theme.palette.primary.main,
@@ -119,7 +124,7 @@ const Navbar = () => {
             className={classes.title}
             onClick={goToPage('/')}
           >
-            LD 🥶
+            LD ☕
           </Typography>
 
           <List className={classes.list}>

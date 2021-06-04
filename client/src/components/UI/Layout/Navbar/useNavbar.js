@@ -7,9 +7,33 @@ import { TokenService } from '../../../../services/TokenService';
 
 const menuItem = [
   {
-    text: 'Home',
+    text: 'Thông tin',
+    path: '/dashboard',
     icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/',
+    isLoggin: true,
+  },
+  {
+    text: 'Quản lý CV',
+    path: '/resume',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    isLoggin: true,
+  },
+  {
+    text: 'Signup',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    path: '/signup',
+    isLoggin: false,
+  },
+  {
+    text: 'Signin',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    path: '/signin',
+    isLoggin: false,
+  },
+  {
+    text: 'CV',
+    icon: <ExpandMoreOutlinedIcon color="secondary" />,
+    path: '/dashboard',
     list: [
       {
         text: 'Home',
@@ -28,36 +52,6 @@ const menuItem = [
         path: '/home',
       },
     ],
-  },
-  {
-    text: 'Dashboard',
-    path: '/dashboard',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    isLoggin: true,
-  },
-  {
-    text: 'DragPage',
-    path: '/drag',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    isLoggin: true,
-  },
-  {
-    text: 'Resume',
-    path: '/resume',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    isLoggin: true,
-  },
-  {
-    text: 'Signup',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/signup',
-    isLoggin: false,
-  },
-  {
-    text: 'Signin',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/signin',
-    isLoggin: false,
   },
   {
     text: 'Logout',

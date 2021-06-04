@@ -5,7 +5,10 @@ import {
   animateScroll as scroll,
   Element,
 } from 'react-scroll';
-
+import InstagramIcon from '@material-ui/icons/Instagram';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import YouTubeIcon from '@material-ui/icons/YouTube';
+import TwitterIcon from '@material-ui/icons/Twitter';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -21,33 +24,33 @@ import SectionHome from '../../components/HomePage/SectionService/SectionHome';
 
 const arrFooterList = [
   {
-    title: 'Get Started',
+    title: 'Ứng viên',
     list: [
-      'Create Resume',
-      'Pricing',
-      'Terms of Service',
-      'Privacy Policy',
-      'HTML Sitemap',
+      'Tìm việc làm',
+      'Quản lý SV',
+      'Gợi ý tìm việc',
+      'Đánh giá công ty',
+      'Tư vấn sửa CV',
     ],
   },
   {
-    title: 'Goodies',
+    title: 'Đối tác',
     list: [
-      'Create Resume',
-      'Pricing',
-      'Terms of Service',
-      'Privacy Policy',
-      'HTML Sitemap',
+      'Doanh nghiệp',
+      'Trường Đại học',
+      'Itviec.com',
+      'Topcv.vn',
+      'Viecngay.vn',
     ],
   },
   {
-    title: 'About us',
+    title: 'Kết nối',
     list: [
-      'Create Resume',
-      'Pricing',
-      'Terms of Service',
-      'Privacy Policy',
-      'HTML Sitemap',
+      <InstagramIcon />,
+      <FacebookIcon />,
+      <YouTubeIcon />,
+      <TwitterIcon />,
+      '🇻🇳',
     ],
   },
 ];
@@ -62,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(60),
   },
   container: {
-    // backgroundImage: `url(${process.env.PUBLIC_URL + '/top3.svg'})`,
     width: '100%',
     height: '100%',
     transition: 'all 0.2s ease',
@@ -101,10 +103,10 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     justifySelf: 'end',
-    [theme.breakpoints.down('sm')]: {
-      width: 120,
-    },
-    width: 140,
+    // [theme.breakpoints.down('sm')]: {
+    //   width: 160,
+    // },
+    width: 160,
     margin: 12,
     color: theme.palette.primary.contrastText,
     backgroundColor: theme.palette.primary.main,
@@ -143,10 +145,10 @@ const HomePage = () => {
         <Container className={classes.boxContainer}>
           <Container className={classes.box} maxWidth="md">
             <Typography variant="body2" className={classes.subTitle}>
-              Online Find Job
+              Tìm việc nhanh chóng
             </Typography>
             <Typography variant="h4" className={classes.title} component="h2">
-              Our resumes get people hired at top companies
+              Đồng hành cùng bạn đến những công việc tốt nhất
             </Typography>
 
             <List
@@ -177,8 +179,8 @@ const HomePage = () => {
                 smooth={true}
                 duration={500}
               >
-                <Button className={classes.btn} variant="contained">
-                  Go home
+                <Button className={classes.btn} variant="contained" fullWidth>
+                  Tạo CV ngay
                 </Button>
               </ScrollLink>
               <Typography
@@ -186,7 +188,7 @@ const HomePage = () => {
                 component="h6"
                 className={classes.lastText}
               >
-                Our resumes get people hired at top companies
+                CV của chúng tôi đưa bạn đến với những công ty hàng đầu
               </Typography>
             </Box>
           </Container>
@@ -199,18 +201,30 @@ const HomePage = () => {
           />
         </Container>
       </div>
-      <Element name="test1">
+      {/* <Element name="test1">
         {[1, 2].map((item) => (
           <SectionHome key={item} id={item} />
         ))}
-      </Element>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} className={classes.gridService}>
-          {[1, 2, 3, 4, 5, 6, 7].map((item) => (
-            <CardItem key={item} />
+      </Element> */}
+      <Container maxWidth="lg">
+        <Box marginY={4}>
+          <Typography variant="h4">Nhà tuyển dụng hàng đầu</Typography>
+        </Box>
+        <Grid container spacing={2}>
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((item) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={3}
+              className={classes.gridService}
+              key={item}
+            >
+              <CardItem key={item} />
+            </Grid>
           ))}
         </Grid>
-      </Grid>
+      </Container>
 
       <Container
         maxWidth="sm"
@@ -222,13 +236,15 @@ const HomePage = () => {
           marginBottom: '32px',
         }}
       >
-        <Typography variant="h4">Try use all service</Typography>
+        <Typography variant="h5">
+          Hãy trải nghiệm dịch vụ của chúng tôi
+        </Typography>
         <Button
           className={classes.btn}
           variant="outlined"
           onClick={() => scroll.scrollToTop()}
         >
-          Go to LD CV
+          LD CV
         </Button>
       </Container>
 
@@ -245,9 +261,9 @@ const HomePage = () => {
               <Typography variant="h6" align="center">
                 {item.title}
               </Typography>
-              {item.list.map((i) => (
+              {item.list.map((i, k) => (
                 <Link
-                  key={i}
+                  key={k}
                   style={{
                     cursor: 'pointer',
                   }}
