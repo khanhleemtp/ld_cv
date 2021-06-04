@@ -76,9 +76,17 @@ app.use(
       'maxGroupSize',
       'difficulty',
       'price',
+      'tags',
+      'or',
+      'all',
+      'in',
+      'and',
+      // 'elemMatch',
     ],
   })
 );
+
+// HPP Helpfull
 
 app.use(compression());
 
@@ -99,6 +107,7 @@ app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
 app.use('/api/v1/companies', require('./routes/companyRoutes'));
 app.use('/api/v1/job', require('./routes/jobRoutes'));
 app.use('/api/v1/applies', require('./routes/applyRoutes'));
+app.use('/api/v1/reviews', require('./routes/reviewRoutes'));
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

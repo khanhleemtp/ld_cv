@@ -25,6 +25,12 @@ const companySchema = new mongoose.Schema({
   },
 });
 
+companySchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'company',
+  localField: '_id',
+});
+
 const Company = mongoose.model('Company', companySchema);
 
 module.exports = Company;

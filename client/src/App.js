@@ -12,7 +12,7 @@ import DragPage from './pages/DragPage/DragPage';
 import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
 import { ResumeWrapper } from './contexts/useResume';
-
+import slugify from 'slugify';
 /* TODO Lazy */
 const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
 const ResumePage = lazy(() => pMinDelay(import('./pages/ResumePage'), 100));
@@ -22,6 +22,13 @@ const Signup = lazy(() => pMinDelay(import('./features/User/Signup'), 500));
 
 function App() {
   /* TODO  UI */
+  console.log(
+    slugify('Project Manager', {
+      lower: true,
+      locale: 'vi',
+    })
+  );
+
   return (
     <>
       <ToastContainer

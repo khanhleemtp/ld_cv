@@ -5,6 +5,7 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
+  .get(applyController.getAllApplys)
   .post(
     authController.protect,
     authController.restrictTo('user', 'admin'),

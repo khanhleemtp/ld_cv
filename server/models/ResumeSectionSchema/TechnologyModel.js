@@ -6,7 +6,12 @@ const technologySchema = new mongoose.Schema({
       title: String,
       showTitle: Boolean,
       description: String,
-      tags: [String],
+      tags: [
+        {
+          type: String,
+          default: '',
+        },
+      ],
     },
   ],
 });

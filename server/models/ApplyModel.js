@@ -8,6 +8,10 @@ const applySchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'User',
   },
+  status: {
+    type: String,
+    enum: ['pending', 'accept', 'reject'],
+  },
 });
 
 const Apply = mongoose.model('Apply', applySchema);

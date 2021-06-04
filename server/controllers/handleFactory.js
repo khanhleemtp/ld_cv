@@ -71,7 +71,7 @@ exports.getAll = (Model) =>
     // To allow for nested GET resumes on users (hack)
     let filter = {};
     if (req.params.userId) filter = { user: req.params.userId };
-
+    // console.log(req.query);
     // TODO QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
