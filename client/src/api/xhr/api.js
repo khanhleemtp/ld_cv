@@ -62,7 +62,7 @@ client.interceptors.request.use(onSetup, onErrorRequest);
  * Request Wrapper with default success/error actions
  */
 const onSuccess = function (response) {
-  console.debug('Request Successful!', response);
+  // console.debug('Request Successful!', response);
   return response.data;
 };
 

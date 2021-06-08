@@ -13,6 +13,10 @@ import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
 import { ResumeWrapper } from './contexts/useResume';
 import slugify from 'slugify';
+import FindJobPage from './pages/FindJobPage';
+import CompanyPage from './pages/CompanyPage';
+import RegisterCompany from './pages/RegisterCompany';
+import CompanyManagerPage from './pages/CompanyManagerPage';
 /* TODO Lazy */
 const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
 const ResumePage = lazy(() => pMinDelay(import('./pages/ResumePage'), 100));
@@ -49,6 +53,12 @@ function App() {
               <Route exact path="/" children={<HomePage />} />
               <Route path="/drag" children={<DragPage />} />
               <Route
+                path="/manager-company/:service"
+                children={<CompanyManagerPage />}
+              />
+              <Route path="/company" children={<CompanyPage />} />
+              <Route path="/register-company" children={<RegisterCompany />} />
+              <Route
                 path="/resume"
                 children={
                   <ResumeWrapper>
@@ -56,6 +66,8 @@ function App() {
                   </ResumeWrapper>
                 }
               />
+              <Route path="/find" children={<FindJobPage />} />
+
               <ProtectedRoute component={Signup} path="/signup" />
               <Route path="/signin" component={Signin} />
               <PrivateRoute component={Dashboard} path="/dashboard" />

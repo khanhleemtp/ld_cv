@@ -1,69 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { useDispatch } from 'react-redux';
-import ExpandMoreOutlinedIcon from '@material-ui/icons/ExpandMoreOutlined';
-import { clearState } from '../../../../features/User/UserSlice';
+import { logOut } from '../../../../features/User/UserSlice';
 import { TokenService } from '../../../../services/TokenService';
-
-const menuItem = [
-  {
-    text: 'Thông tin',
-    path: '/dashboard',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    isLoggin: true,
-  },
-  {
-    text: 'Quản lý CV',
-    path: '/resume',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    isLoggin: true,
-  },
-  {
-    text: 'Signup',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/signup',
-    isLoggin: false,
-  },
-  {
-    text: 'Signin',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/signin',
-    isLoggin: false,
-  },
-  {
-    text: 'CV',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/dashboard',
-    list: [
-      {
-        text: 'Home',
-        path: '/home',
-      },
-      {
-        text: 'Home 1',
-        path: '/home',
-      },
-      {
-        text: 'Home 2',
-        path: '/home 3',
-      },
-      {
-        text: 'Home 4',
-        path: '/home',
-      },
-    ],
-  },
-  {
-    text: 'Logout',
-    icon: <ExpandMoreOutlinedIcon color="secondary" />,
-    path: '/',
-    isLoggin: true,
-  },
-];
+import { getNavbarData } from './data';
 
 const listLink = [
   {
-    text: 'Home',
+    text: 'Việc làm IT',
     path: '/',
     sub: 'Go home',
   },
@@ -90,6 +34,61 @@ const useNavbar = () => {
   const location = useLocation();
   const [openDialog, setOpenDialog] = useState(false);
   const [changeNav, setChangeNav] = useState(false);
+  const [navData, setNavData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setNavData(await getNavbarData());
+    };
+    fetchData();
+  }, []);
+
+  const menuItem = [
+    {
+      text: 'Việc làm IT',
+      path: '/',
+      subMenu: [
+        {
+          text: 'Việc làm IT theo kỹ năng',
+          path: '/',
+          menus: navData?.tech || [],
+        },
+        {
+          text: 'Việc làm IT theo công ty',
+          path: '/',
+          menus: navData?.company || [],
+        },
+        {
+          text: 'Việc làm IT theo cấp bậc',
+          path: '/',
+          menus: navData?.position || [],
+        },
+        {
+          text: 'Việc làm IT theo thành phố',
+          path: '/',
+          menus: ['Hà Nội', 'Hồ Chí Minh', 'Đà Nẵng', 'Khác'],
+        },
+      ],
+    },
+    {
+      text: 'Công ty IT hàng đầu',
+      path: '/',
+      subMenu: [
+        {
+          text: 'Công ty tốt nhất',
+          path: '/',
+        },
+        {
+          text: 'Đánh giá công ty',
+          path: '/reviews',
+        },
+      ],
+    },
+    {
+      text: 'Quản lý cv',
+      path: '/resumes',
+    },
+  ];
 
   const handleClickOpenDialog = () => {
     setOpenDialog(true);
@@ -124,7 +123,7 @@ const useNavbar = () => {
     return () => {
       if (item.text === 'Logout') {
         TokenService.removeToken();
-        dispatch(clearState());
+        dispatch(logOut());
       }
       handleClickCloseDialog();
       history.push(item.path);

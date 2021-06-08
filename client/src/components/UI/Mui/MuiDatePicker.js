@@ -8,8 +8,6 @@ import { Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 
-import { useResume } from '../../../contexts/useResume';
-
 moment.suppressDeprecationWarnings = true;
 
 const useStyles = makeStyles((theme) => ({
@@ -26,29 +24,35 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: 0,
     },
     '& .MuiInputBase-root': {
-      width: theme.spacing(12),
+      //   width: theme.spacing(12),
       display: 'flex',
       flexDirection: 'row-reverse',
     },
     '& .MuiInputAdornment-positionEnd': {
       marginLeft: -theme.spacing(1),
     },
-    '& .MuiInputBase-input': {
-      fontSize: '12px',
-    },
+    // '& .MuiInputBase-input': {
+    //   fontSize: '12px',
+    // },
   },
 }));
 
-const MuiDatePicker = ({ label, nameField, title }) => {
+const MuiDatePicker = ({
+  label,
+  nameField,
+  title,
+  getValues,
+  register,
+  control,
+}) => {
   const classes = useStyles();
-  const { getValues, register, control } = useResume();
   register(nameField);
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <Controller
         name={nameField}
         control={control}
-        defaultValue={getValues(nameField) || null}
+        defaultValue={getValues(nameField)}
         initialFocusedDate={null}
         render={({ field: { ref, onChange, ...rest } }) => (
           <Box>
@@ -66,12 +70,12 @@ const MuiDatePicker = ({ label, nameField, title }) => {
               }}
               openTo="month"
               margin="normal"
-              format="MM/YYYY"
+              format="DD/MM/YYYY"
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
-              onChange={(d) => onChange(moment(d, 'MM/YYYY').format())}
-              views={['month', 'year']}
+              onChange={(d) => onChange(moment(d, 'DD/MM/YYYY').format())}
+              //   views={['month', 'year']}
               invalidDateMessage=""
               {...rest}
             />

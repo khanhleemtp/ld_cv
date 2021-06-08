@@ -13,6 +13,7 @@ const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const { cloudinary } = require('./utils/cloudinary');
 // const tourRouter = require('./routes/tourRoutes');
 // const userRouter = require('./routes/userRoutes');
 // const reviewRouter = require('./routes/reviewRoutes');
@@ -56,8 +57,8 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
-app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
@@ -100,6 +101,20 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/api/v1/upload', async (req, res) => {
+  try {
+    let fileStr = req.body.data;
+    console.log(fileStr);
+    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: 'company',
+    });
+    // console.log(uploadResponse);
+    res.json({ status: 'success', url: uploadResponse.url });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 'fail', msg: 'Uploading fail' });
+  }
+});
 // 3) ROUTES
 // app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', require('./routes/userRoutes'));

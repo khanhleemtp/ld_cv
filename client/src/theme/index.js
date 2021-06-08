@@ -30,6 +30,7 @@ export const theme = createMuiTheme({
       header: '#e2e4ea',
       avatar: '#edf',
       title: '#008CFF',
+      orange: '#b72f2fde;',
     },
     secondary: {
       main: pink[600],

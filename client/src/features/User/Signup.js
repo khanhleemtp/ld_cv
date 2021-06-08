@@ -69,7 +69,7 @@ const Register = () => {
   /* TODO Hook */
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isFetching, isSuccess, isError, errorMessage } =
+  const { isFetching, isSuccess, isError, errorMessage, token } =
     useSelector(userSelector);
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(loginSchema),
@@ -82,15 +82,15 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Register successfully 🚀');
+      toast.success('Đăng ký thành công 🚀');
       history.push('/');
       dispatch(clearState());
     }
-    if (isError) {
+    if (isError & errorMessage) {
       toast.error('💩' + errorMessage);
       dispatch(clearState());
     }
-  }, [isSuccess, isError, errorMessage, history, dispatch]);
+  }, [isSuccess, isError, errorMessage, history, dispatch, token]);
 
   const classes = useStyles();
 

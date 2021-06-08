@@ -1,0 +1,61 @@
+const dataFromServer = {
+  tech: [
+    'Java',
+    'My SQL',
+    'C++',
+    'C#',
+    'English',
+    'Project Manager',
+    'MVC',
+    'Reactjs',
+    'NodeJS',
+    'Ios',
+    'Designer',
+    'Linux',
+    'OOP',
+    'PHP',
+    '.NET',
+    'Tester',
+    'Javascript',
+    'HTML5',
+    'Ruby',
+    'Python',
+  ],
+  company: [
+    'FFT',
+    'Samsung',
+    'AXON',
+    'Nakivo',
+    'BKAV',
+    'Viettel Group',
+    'POP',
+    'Techcombank',
+    'Savis',
+    'Sun*',
+    'LD Tech',
+    'LD Wear',
+    'LD School',
+    'LD Moto',
+    'LD Mart',
+  ],
+  position: [
+    'Lập trình viên Java',
+    'Lập trình viên NodeJs',
+    'Lập trình viên OOP',
+    'Lập trình viên .NET',
+    'Nhà thiết kế',
+    'Lập trình viên IOT',
+    'Lập trình viên mobile',
+    'Quản trị dự án ',
+    'Thực tập sinh',
+    'Lập trình viên SQL',
+    'Phân tích hệ thống ',
+    'Lập trình viên Python',
+  ],
+};
+
+export const getNavbarData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(dataFromServer), 1000);
+  });
+};

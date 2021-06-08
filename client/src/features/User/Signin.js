@@ -58,16 +58,16 @@ const Signin = () => {
     dispatch(signinUser(data));
   };
 
-  const { isFetching, isSuccess, isError, errorMessage } =
+  const { isFetching, isSuccess, isError, errorMessage, token } =
     useSelector(userSelector);
+
   useEffect(() => {
     dispatch(clearState());
   }, [dispatch]);
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success('Login successfully 🚀 ');
-      console.log('history: ', history);
+    if (isSuccess && token) {
+      toast.success('Đăng nhập thành công 🚀 ');
       history.push('/dashboard');
       dispatch(clearState());
     }
@@ -75,7 +75,7 @@ const Signin = () => {
       toast.error('💩' + errorMessage);
       dispatch(clearState());
     }
-  }, [isSuccess, isError, errorMessage, history, dispatch]);
+  }, [isSuccess, isError, errorMessage, history, dispatch, token]);
   const classes = useStyles();
   return (
     <FormLayout title="Sign in" avatar="🙆‍">

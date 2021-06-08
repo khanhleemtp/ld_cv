@@ -68,6 +68,14 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.errorMessage = '';
     },
+    logOut: (state) => {
+      state.user = {};
+      state.token = null;
+      state.isFetching = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.errorMessage = '';
+    },
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
@@ -129,6 +137,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearState } = userSlice.actions;
+export const { clearState, logOut } = userSlice.actions;
 
 export const userSelector = (state) => state.user;
