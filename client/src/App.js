@@ -17,6 +17,7 @@ import CompanyPage from './pages/CompanyPage';
 import RegisterCompany from './pages/RegisterCompany';
 import CompanyManagerPage from './pages/CompanyManagerPage';
 import DashboardPage from './pages/DashboardPage';
+import AdminPage from './pages/AdminPage';
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
 
@@ -68,6 +69,7 @@ function App() {
                   </ResumeWrapper>
                 }
               />
+              <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
               <Route path="/dashboard" children={<DashboardPage />} />
               <Route children={<Signup />} path="/signup" />

@@ -97,7 +97,7 @@ const navOptions = [
   { title: 'Dash', path: '/dashboard' },
   { title: 'Update Company', path: '/manager-company/update-info' },
   { title: 'Tạo việc', path: '/manager-company/create-job' },
-  { title: 'Cv', path: '/resume' },
+  { title: 'Admin', path: '/admin' },
   { title: 'Đăng ký công ty', path: '/register-company' },
   { title: 'Công ty', path: '/company' },
   { title: 'Tìm việc', path: '/find' },

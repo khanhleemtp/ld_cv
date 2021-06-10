@@ -6,10 +6,11 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import MuiSelect from '../../components/UI/Mui/MuiSelect';
 import MuiTextField from '../../components/UI/Mui/MuiTextField';
+import { useDispatch } from 'react-redux';
+import { registerCompany } from '../../features/Company/CompanySlice';
 
 const defaultValues = {
   name: '',
@@ -26,10 +27,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RegisterCompany = () => {
+  const dispatch = useDispatch();
+
   const { handleSubmit, getValues, control } = useForm({
     defaultValues,
   });
-  const [data, setData] = useState(null);
+
+  const handleRegisterCompany = handleSubmit((data) =>
+    dispatch(registerCompany(data))
+  );
+
   const classes = useStyles();
   return (
     <Container maxWidth="sm">
@@ -44,13 +51,7 @@ const RegisterCompany = () => {
             🦹‍♂️ Hãy đăng ký trở thành nhà tuyển dụng 💌
           </Typography>
         </Box>
-        <form
-          onSubmit={handleSubmit((data) => {
-            setData(data);
-            console.log(data);
-          })}
-          className="form"
-        >
+        <form onSubmit={handleRegisterCompany} className="form">
           <MuiTextField
             control={control}
             getValues={getValues}

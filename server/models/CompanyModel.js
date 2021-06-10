@@ -6,15 +6,17 @@ const companySchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
   },
+  phone: String,
   image: String,
   location: String,
   position: String,
   type: String,
   photo: String,
   numEmployees: Number,
-  isActive: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    enum: ['pending', 'accept', 'reject'],
+    default: 'pending',
   },
   intro: String,
   env: [String],
@@ -32,6 +34,14 @@ companySchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'company',
   localField: '_id',
+});
+
+companySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name email',
+  });
+  next();
 });
 
 const Company = mongoose.model('Company', companySchema);

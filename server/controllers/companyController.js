@@ -11,43 +11,39 @@ exports.setUserIds = (req, res, next) => {
 
 exports.createCompany = factory.createOne(Company, [
   'company',
-  'image',
   'location',
   'position',
-  'type',
-  'numEmployees',
   'from',
   'to',
-  'overTime',
   'country',
   'user',
+  'phone',
+  'website',
 ]);
 
 exports.acceptCompany = catchAsync(async (req, res, next) => {
-  const company = await Company.findByIdAndUpdate(req.params.id, {
-    isActive: true,
-  });
-
-  const updatedUser = await User.findByIdAndUpdate(
-    company.user,
-    { role: 'company' },
-    {
-      new: true,
-    }
-  );
+  const company = await Company.findByIdAndUpdate(req.params.id, req.body);
+  req.body.status === 'accept'
+    ? await User.findByIdAndUpdate(
+        company.user,
+        { role: 'company' },
+        {
+          new: true,
+        }
+      )
+    : await Company.findByIdAndDelete(req.params.id);
   res.status(200).json({
     status: 'success',
-    data: company,
-    user: updatedUser,
+    // data: company,
   });
 });
 
 exports.deleteCompany = catchAsync(async (req, res, next) => {
   const company = await Company.findByIdAndUpdate(req.params.id, {
-    isActive: false,
+    status: 'reject',
   });
 
-  const updatedUser = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     company.user,
     { role: 'user' },
     {
@@ -57,7 +53,6 @@ exports.deleteCompany = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: company,
-    user: updatedUser,
   });
 });
 
@@ -74,6 +69,7 @@ exports.updateCompany = factory.updateOne(Company, [
   'overTime',
   'country',
   'user',
+  'phone',
 ]);
 
 exports.getAllCompanies = factory.getAll(Company);
