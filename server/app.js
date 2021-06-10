@@ -104,11 +104,9 @@ app.use((req, res, next) => {
 app.use('/api/v1/upload', async (req, res) => {
   try {
     let fileStr = req.body.data;
-    console.log(fileStr);
     const uploadResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: 'company',
     });
-    // console.log(uploadResponse);
     res.json({ status: 'success', url: uploadResponse.url });
   } catch (error) {
     console.log(error);

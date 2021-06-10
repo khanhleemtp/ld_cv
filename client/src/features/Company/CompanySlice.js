@@ -8,6 +8,7 @@ export const registerCompany = createAsyncThunk(
   async (values, thunkAPI) => {
     try {
       await api.post(`/companies`, values);
+      return;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -31,8 +32,11 @@ export const getAllCompany = createAsyncThunk(
 export const updateCompany = createAsyncThunk(
   'company/updateCompany',
   async (values, thunkAPI) => {
+    const { company } = thunkAPI.getState();
+    const id = company.companies[0]._id;
     try {
-      const { data } = await api.patch(`/companies`);
+      const { data } = await api.patch(`/companies/${id}`, values);
+      toast.success('Cập nhật thành công');
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -60,6 +64,7 @@ export const companySlice = createSlice({
   name: 'company',
   initialState: {
     companies: [],
+    company: {},
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -108,6 +113,11 @@ export const companySlice = createSlice({
         ? payload?.data.message
         : error.message;
       toast.error(`${state.errorMessage}😥`);
+    },
+    [updateCompany.fulfilled]: (state, { payload }) => {
+      state.companies = [payload];
+      state.isFetching = false;
+      state.isSuccess = true;
     },
   },
 });

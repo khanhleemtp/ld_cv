@@ -8,10 +8,15 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
-import MuiDatePicker from '../../components/UI/Mui/MuiDatePicker';
-import MuiSelect from '../../components/UI/Mui/MuiSelect';
 import MuiTextField from '../../components/UI/Mui/MuiTextField';
 import UploadImage from '../../components/UI/UploadImage/UploadImage';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  companySelector,
+  getAllCompany,
+  updateCompany,
+} from '../../features/Company/CompanySlice';
+import { userSelector } from '../../features/User/UserSlice';
 
 const defaultValues = {
   company: 'LD Food',
@@ -33,6 +38,7 @@ const defaultValues = {
     'Phối hợp hiệu quả cùng nhóm thiết kế, lập trình để cho ra sản phẩm tốt nhất',
   ],
 };
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
@@ -41,10 +47,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CompanyUpdateInfo = () => {
-  const { handleSubmit, getValues, control, reset, register, setValue, watch } =
-    useForm({
-      defaultValues,
-    });
+  const { user } = useSelector(userSelector);
+  const { companies } = useSelector(companySelector);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCompany({ query: `?user=${user._id}` }));
+  }, [user._id, dispatch]);
+
+  const { handleSubmit, getValues, control, reset, register, setValue } =
+    useForm();
 
   const {
     fields: envFields,
@@ -54,7 +65,6 @@ const CompanyUpdateInfo = () => {
     control,
     name: 'env',
   });
-
   const {
     fields: opportunityFields,
     append: opportunityAppend,
@@ -63,20 +73,21 @@ const CompanyUpdateInfo = () => {
     control,
     name: 'opportunity',
   });
-
   useEffect(() => {
-    reset(defaultValues);
-  }, [reset]);
+    reset(companies[0]);
+  }, [reset, companies]);
+
   const [open, setOpen] = useState(false);
   const classes = useStyles();
   const photo = useWatch({
     control,
     name: 'photo',
+    defaultValue: '/mario.jpg',
   });
-
   return (
     <Container maxWidth="sm">
       <Paper className={classes.root}>
+        <Button variant="outlined">Company Page</Button>
         <Box
           display="flex"
           alignItems="center"
@@ -87,7 +98,8 @@ const CompanyUpdateInfo = () => {
         </Box>
         <form
           onSubmit={handleSubmit((data) => {
-            console.log(data);
+            // console.log('data to server', data);
+            dispatch(updateCompany(data));
           })}
           className="form"
         >
@@ -131,7 +143,7 @@ const CompanyUpdateInfo = () => {
           <MuiTextField
             control={control}
             getValues={getValues}
-            nameField="company"
+            nameField="name"
             label="Tên công ty"
           />
           <MuiTextField
@@ -145,7 +157,6 @@ const CompanyUpdateInfo = () => {
             getValues={getValues}
             nameField="location"
             label="Vị trí"
-            register={register}
           />
           <MuiTextField
             control={control}
@@ -225,7 +236,7 @@ const CompanyUpdateInfo = () => {
                 control={control}
                 getValues={getValues}
                 register={register}
-                nameField={`env[${index}]`}
+                nameField={`env.${index}`}
               />
               <Button
                 variant="contained"
@@ -260,7 +271,7 @@ const CompanyUpdateInfo = () => {
                 control={control}
                 getValues={getValues}
                 register={register}
-                nameField={`opportunity[${index}]`}
+                nameField={`opportunity.${index}`}
               />
               <Button
                 variant="contained"

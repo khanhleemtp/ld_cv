@@ -10,8 +10,10 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import AdminCompanyItem from './AdminCompanyItem';
+import { AdminAction } from './AdminAction';
 
-const CompanyItem = ({ company, id }) => {
+export const CompanyItem = ({ company }) => {
   const dispatch = useDispatch();
   const handleResponeCompany = (status) => {
     return () => dispatch(responseCompany(status));
@@ -31,7 +33,7 @@ const CompanyItem = ({ company, id }) => {
       <Box>
         <Box></Box>
         <Typography variant="h6" color="primary">
-          Công ty: {company?.company}
+          Công ty: {company?.name}
         </Typography>
         <Typography variant="body1">User: {company?.user?.name}</Typography>
         <Typography variant="body1">Email: {company?.user?.email}</Typography>
@@ -43,7 +45,10 @@ const CompanyItem = ({ company, id }) => {
             variant="outlined"
             size="medium"
             style={{ marginRight: 16 }}
-            onClick={handleResponeCompany({ status: 'accept', id })}
+            onClick={handleResponeCompany({
+              status: 'accept',
+              id: company._id,
+            })}
           >
             Chấp nhận
           </Button>
@@ -51,7 +56,10 @@ const CompanyItem = ({ company, id }) => {
             variant="outlined"
             color="secondary"
             size="large"
-            onClick={handleResponeCompany({ status: 'reject', id })}
+            onClick={handleResponeCompany({
+              status: 'reject',
+              id: company._id,
+            })}
           >
             Từ chối
           </Button>
@@ -75,8 +83,11 @@ const AdminCompanyList = () => {
   return (
     <Grid container>
       {companies?.map((company) => (
-        <Grid key={company._id} item>
-          <CompanyItem company={company} id={company._id} />
+        <Grid key={company.name} item>
+          <AdminCompanyItem
+            company={company}
+            btnAction={<AdminAction company={company} />}
+          />
         </Grid>
       ))}
     </Grid>

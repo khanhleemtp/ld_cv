@@ -16,6 +16,7 @@ import FindJobPage from './pages/FindJobPage';
 import CompanyPage from './pages/CompanyPage';
 import RegisterCompany from './pages/RegisterCompany';
 import CompanyManagerPage from './pages/CompanyManagerPage';
+
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 // import SigninPage from './pages/SigninPage';
@@ -55,11 +56,7 @@ function App() {
           <Switch>
             <LayoutPage>
               <Route exact path="/" children={<HomePage />} />
-              <Route
-                path="/manager-company/:service"
-                children={<CompanyManagerPage />}
-              />
-              <Route path="/company" children={<CompanyPage />} />
+              <Route path="/company/:id" children={<CompanyPage />} />
               <Route path="/register-company" children={<RegisterCompany />} />
               <Route
                 path="/resumes/:id"
@@ -69,6 +66,7 @@ function App() {
                   </ResumeWrapper>
                 }
               />
+              <Route path="/manager" children={<CompanyManagerPage />} />
               <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
               <Route path="/dashboard" children={<DashboardPage />} />

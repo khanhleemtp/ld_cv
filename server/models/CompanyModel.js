@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 const companySchema = new mongoose.Schema({
-  company: {
+  name: {
     type: String,
     require: true,
     unique: true,
     lowercase: true,
   },
   phone: String,
-  image: String,
   location: String,
   position: String,
   type: String,
-  photo: String,
+  photo: {
+    type: String,
+    default: '/mario.jpg',
+  },
   numEmployees: Number,
   status: {
     type: String,
@@ -19,7 +21,11 @@ const companySchema = new mongoose.Schema({
     default: 'pending',
   },
   intro: String,
-  env: [String],
+  env: [
+    {
+      type: String,
+    },
+  ],
   opportunity: [String],
   workTime: String,
   ot: String,

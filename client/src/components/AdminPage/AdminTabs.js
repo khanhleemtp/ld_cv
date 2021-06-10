@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import TabComponent from '../UI/TabComponent';
 import AdminCompanyList from './AdminCompanyList';
+import AdminCompanyAccept from './AdminCompanyAccept';
 const AdminTabs = () => {
   const tabList = [
     {
@@ -10,9 +11,9 @@ const AdminTabs = () => {
       component: <AdminCompanyList />,
     },
     {
-      label: 'Cài đặt',
+      label: 'Công ty',
       index: 1,
-      component: <div>Quan tâm</div>,
+      component: <AdminCompanyAccept />,
     },
     {
       label: '😶Thống kê',

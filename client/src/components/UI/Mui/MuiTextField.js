@@ -37,7 +37,6 @@ const MuiTextField = ({
             multiline={true}
             fullWidth={fullWidth || true}
             placeholder={placeholder}
-            autoFocus={register ? true : false}
           />
         )}
       />

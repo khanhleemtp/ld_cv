@@ -33,6 +33,7 @@ const defaultValues = {
   from: '',
   to: '',
 };
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),

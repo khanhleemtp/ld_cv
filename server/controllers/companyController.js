@@ -10,12 +10,9 @@ exports.setUserIds = (req, res, next) => {
 };
 
 exports.createCompany = factory.createOne(Company, [
-  'company',
+  'name',
   'location',
   'position',
-  'from',
-  'to',
-  'country',
   'user',
   'phone',
   'website',
@@ -59,7 +56,6 @@ exports.deleteCompany = catchAsync(async (req, res, next) => {
 exports.getCompany = factory.getOne(Company);
 
 exports.updateCompany = factory.updateOne(Company, [
-  'image',
   'location',
   'position',
   'type',
@@ -70,6 +66,13 @@ exports.updateCompany = factory.updateOne(Company, [
   'country',
   'user',
   'phone',
+  'env',
+  'photo',
+  'ot',
+  'opportunity',
+  'workTime',
+  'country',
+  'intro',
 ]);
 
 exports.getAllCompanies = factory.getAll(Company);
