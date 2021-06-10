@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import React, { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -42,8 +41,21 @@ const useStyles = makeStyles((theme) => ({
   inputLabel: {
     color: theme.palette.grey[800],
     '&.focused': {
-      color: theme.palette.primary.orange,
       fontWeight: 600,
+    },
+  },
+  textField: {
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.header,
+    },
+    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.header,
+    },
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: theme.palette.primary.app,
+    },
+    '& .Mui-focused': {
+      color: theme.palette.grey.A700,
     },
   },
 }));
@@ -58,15 +70,15 @@ const options = [
 ];
 
 const defaultOption = [
-  { value: '1111', label: 'bananas' },
-  { value: '2222', label: 'apples' },
+  { value: '1111', label: 'c++' },
+  { value: '2222', label: 'c#' },
 ];
 
 const defaultValues = {
   Select: 'ho-chi-minh',
 };
 
-export default function SeachJob() {
+const SeachJob = () => {
   const classes = useStyles();
   const { handleSubmit, control, setValue } = useForm({
     defaultValues,
@@ -111,6 +123,7 @@ export default function SeachJob() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    className={classes.textField}
                     label="Tìm việc theo vị trí và công nghệ"
                     name="food"
                     placeholder="Tech/Position"
@@ -122,6 +135,7 @@ export default function SeachJob() {
                         focused: 'focused',
                       },
                     }}
+                    SelectProps={{}}
                   />
                 )}
               />
@@ -147,4 +161,5 @@ export default function SeachJob() {
       </Box>
     </form>
   );
-}
+};
+export default SeachJob;

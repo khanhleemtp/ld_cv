@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from './Footer';
 import Navbar from './Navbar/Navbar';
+import TopNav from './TopNav';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,7 +84,8 @@ const LayoutPage = ({ children }) => {
 
   return (
     <Box className={classes.root}>
-      <Navbar />
+      {/* <Navbar /> */}
+      <TopNav />
       <div className={classes.page}>
         <div className={classes.toolbar}></div>
         {children}

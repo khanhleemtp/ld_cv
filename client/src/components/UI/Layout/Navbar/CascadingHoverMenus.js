@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ParentPopupState = createContext(null);
-const CascadingHoverMenus = ({ item }) => {
+const CascadingHoverMenus = ({ item, handleClick }) => {
   const popupState = usePopupState({
     popupId: 'demoMenu',
     variant: 'popover',
@@ -138,7 +138,6 @@ const Submenu = withStyles(submenuStyles)(
         <ParentPopupState.Provider value={popupState}>
           <MenuItem
             {...bindHover(popupState)}
-            // disableScrollLock={true}
             selected={popupState.isOpen}
             ref={ref}
             onClick={onClick}

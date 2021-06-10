@@ -144,7 +144,7 @@ const CreateJob = () => {
             ]}
           />
 
-          <Typography variant="h4">Công nghệ</Typography>
+          <Typography variant="h6">Công nghệ</Typography>
           <Button
             variant="contained"
             color="primary"
@@ -199,7 +199,7 @@ const CreateJob = () => {
               </Button>
             </Box>
           ))}
-          <Typography variant="h4">Yêu cầu</Typography>
+          <Typography variant="h6">Yêu cầu</Typography>
           <Button
             variant="contained"
             color="primary"
@@ -234,7 +234,7 @@ const CreateJob = () => {
             </Box>
           ))}
 
-          <Typography variant="h4">Mô tả</Typography>
+          <Typography variant="h6">Mô tả</Typography>
           <Button
             variant="contained"
             color="primary"

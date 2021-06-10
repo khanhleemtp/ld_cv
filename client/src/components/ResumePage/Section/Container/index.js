@@ -1,12 +1,20 @@
-import React, { memo } from 'react';
 import ResumeRecordLayout from '../Layout/ResumeRecordLayout';
 import MuiTextField from '../../Mui/MuiTextField';
 import { useResumeSetting } from '../../Setting/useResumeSetting';
 import ResumeTitleSetting from '../../Setting/ResumeTitleSetting';
 import ResumeContainerItem from './ResumeContainerItem';
 import Box from '@material-ui/core/Box';
+import { useWatch } from 'react-hook-form';
+import { useResume } from '../../../../contexts/useResume';
 
-const ResumeRecordContainer = memo(({ index, record }) => {
+const ResumeRecordContainer = ({ index, record }) => {
+  const { control } = useResume();
+  const enabled = useWatch({
+    control,
+    name: `sections.${index}.enabled`,
+    defaultValue: true,
+  });
+  console.log(enabled);
   const dataRecord = {
     AchievementSection: {
       data: {
@@ -237,50 +245,52 @@ const ResumeRecordContainer = memo(({ index, record }) => {
   } = useResumeSetting(index);
 
   return (
-    <ResumeRecordLayout
-      settingComponent={
-        <ResumeTitleSetting
-          removeSection={removeSection(index)}
-          handleAddField={handleAddField(dataRecord[record].data)}
-          handleUpSection={handleUpSection(index)}
-          handleDownSection={handleDownSection(index)}
-        />
-      }
-      titleComponent={
-        <MuiTextField
-          typeText="h5"
-          title
-          record="section"
-          placeholder="Tiêu đề"
-          nameField={`sections[${index}].name`}
-        />
-      }
-    >
-      <Box
-        display="flex"
-        flexDirection={record === 'CourseSection' ? 'row' : 'column'}
-        flexWrap="wrap"
-        width="100%"
-      >
-        {fields?.map((item, k) => (
-          <ResumeContainerItem
-            key={item.id}
-            nameField={`sections[${index}].items[${k}]`}
-            parentField={`sections[${index}]`}
-            controlLists={dataRecord[record].controlLists}
-            isHiddenUp={isHiddenUp}
-            handleDownField={handleDownField}
+    enabled && (
+      <ResumeRecordLayout
+        settingComponent={
+          <ResumeTitleSetting
+            removeSection={removeSection(index)}
             handleAddField={handleAddField(dataRecord[record].data)}
-            handleUpField={handleUpField}
-            handleRemoveField={handleRemoveField}
-            isHiddenDown={isHiddenDown}
-            indexField={k}
-            record={record}
+            handleUpSection={handleUpSection(index)}
+            handleDownSection={handleDownSection(index)}
           />
-        ))}
-      </Box>
-    </ResumeRecordLayout>
+        }
+        titleComponent={
+          <MuiTextField
+            typeText="h5"
+            title
+            record="section"
+            placeholder="Tiêu đề"
+            nameField={`sections[${index}].name`}
+          />
+        }
+      >
+        <Box
+          display="flex"
+          flexDirection={record === 'CourseSection' ? 'row' : 'column'}
+          flexWrap="wrap"
+          width="100%"
+        >
+          {fields?.map((item, k) => (
+            <ResumeContainerItem
+              key={item.id}
+              nameField={`sections[${index}].items[${k}]`}
+              parentField={`sections[${index}]`}
+              controlLists={dataRecord[record].controlLists}
+              isHiddenUp={isHiddenUp}
+              handleDownField={handleDownField}
+              handleAddField={handleAddField(dataRecord[record].data)}
+              handleUpField={handleUpField}
+              handleRemoveField={handleRemoveField}
+              isHiddenDown={isHiddenDown}
+              indexField={k}
+              record={record}
+            />
+          ))}
+        </Box>
+      </ResumeRecordLayout>
+    )
   );
-});
+};
 
 export default ResumeRecordContainer;

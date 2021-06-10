@@ -1,27 +1,27 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { TokenService } from '../services/TokenService';
+import { userSelector } from '../features/User/UserSlice';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  let auth = TokenService.getToken();
+  // let auth = TokenService.getToken();
+  const { token } = useSelector(userSelector);
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (auth) {
-          return <Component {...rest} {...props} />;
-        } else {
-          return (
-            <Redirect
-              to={{
-                pathname: '/signin',
-                state: {
-                  from: props.location,
-                },
-              }}
-            />
-          );
-        }
+        return token ? (
+          <Component {...rest} {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/signin',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );

@@ -28,10 +28,31 @@ const resumeSchema = new mongoose.Schema(
         enum: [1, 2, 3, 4],
       },
     },
-    header: baseSchema,
+    header: {
+      type: baseSchema,
+      default: {
+        name: 'User',
+        record: 'Header',
+        title: 'IT CV',
+        email: 'exam@email.com',
+        location: '',
+        phone: '0912xxxxxx',
+        showTitle: true,
+        showPhone: true,
+        showLink: true,
+        showEmail: true,
+        showLocation: true,
+        showPhoto: true,
+        photo:
+          'https://res.cloudinary.com/khanhk62hust/image/upload/v1623120778/l03f82piciileebout9s.png',
+      },
+    },
     sections: [baseSchema],
-    title: String,
-    createdAt: { type: Date },
+    title: {
+      type: String,
+      default: 'IT CV',
+    },
+    createdAt: { type: Date, default: Date.now() },
     updatedAt: { type: Date },
     user: {
       type: mongoose.Types.ObjectId,
@@ -67,36 +88,44 @@ sectionsArray.discriminator('VolunteerSection', volunteerSchema);
 // {{url}}/api/v1/job?slugs[all]=reactjs&slugs[all]=Nodejs
 
 resumeSchema.pre('save', function (next) {
+  console.log('runnnnning');
   const techSection = _.filter(this.sections, {
     record: 'TechnologySection',
   })[0];
-  const tags = _.map(techSection.items, (item) => item.tags);
-  const tagArr = _.flattenDepth(tags);
-  const unixTagArr = _.uniq(tagArr);
-  const finalTech = _.map(unixTagArr, (item) =>
-    slugify(item, { lower: true, locale: 'vi' })
-  );
-  console.log(finalTech);
-  this.position = this.header.title;
-  this.tags = finalTech;
-  next();
+  if (_.isUndefined(techSection) || _.isUndefined(techSection.items)) {
+    return next();
+  } else {
+    const tags = _.map(techSection.items, (item) => item.tags);
+    const tagArr = _.flattenDepth(tags);
+    const unixTagArr = _.uniq(tagArr);
+    const finalTech = _.map(unixTagArr, (item) =>
+      slugify(item, { lower: true, locale: 'vi' })
+    );
+    this.position = this.header.title;
+    this.tags = finalTech;
+    next();
+  }
 });
 
 resumeSchema.post('findOneAndUpdate', function (doc, next) {
   const techSection = _.filter(doc.sections, {
     record: 'TechnologySection',
   })[0];
-  const tags = _.map(techSection.items, (item) => item.tags);
-  const tagArr = _.flattenDepth(tags);
-  const unixTagArr = _.uniq(tagArr);
-  const finalTech = _.map(unixTagArr, (item) =>
-    slugify(item, { lower: true, locale: 'vi' })
-  );
-  console.log(finalTech);
-  doc.position = doc.header.title;
-  doc.tags = finalTech;
-  doc.save();
-  next();
+  if (_.isUndefined(techSection) || _.isUndefined(techSection.items)) {
+    return next();
+  } else {
+    const tags = _.map(techSection.items, (item) => item.tags);
+    const tagArr = _.flattenDepth(tags);
+    const unixTagArr = _.uniq(tagArr);
+    const finalTech = _.map(unixTagArr, (item) =>
+      slugify(item, { lower: true, locale: 'vi' })
+    );
+    console.log(finalTech);
+    doc.position = doc.header.title;
+    doc.tags = finalTech;
+    doc.save();
+    next();
+  }
 });
 
 const Resume = mongoose.model('Resume', resumeSchema);

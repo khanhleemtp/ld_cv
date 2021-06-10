@@ -23,7 +23,7 @@ router
   .get(resumeController.getResume)
   .delete(
     authController.protect,
-    authController.restrictTo('admin', 'user'),
+    authController.restrictTo('admin', 'user', 'company'),
     resumeController.deleteResume
   )
   .patch(

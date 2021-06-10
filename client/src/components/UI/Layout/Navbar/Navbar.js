@@ -136,14 +136,14 @@ const Navbar = () => {
     dispatch(clearState());
   }, [dispatch]);
 
-  useEffect(() => {
-    const promise = dispatch(fetchUserBytoken());
+  // useEffect(() => {
+  //   const promise = dispatch(fetchUserBytoken());
 
-    return () => {
-      console.log('Abort unmount');
-      promise.abort();
-    };
-  }, [dispatch]);
+  //   return () => {
+  //     console.log('Abort unmount');
+  //     promise.abort();
+  //   };
+  // }, [dispatch]);
 
   const classes = useStyles();
   const { user } = useSelector(userSelector);
@@ -273,47 +273,6 @@ const Navbar = () => {
                 <MenuIcon />
               </IconButton>
             </Box>
-            {/* <List className={classes.list}>
-              {menuItem.map((item) => {
-                if (item?.list) {
-                  return (
-                    <MenuLink
-                      key={item.text}
-                      text={item.text}
-                      listItems={item.list}
-                      icon={item.icon}
-                      className={classes.listItem}
-                    />
-                  );
-                }
-                if (token) {
-                  return (
-                    <ListItem
-                      key={item.text}
-                      className={
-                        item.isLoggin ? classes.listItem : classes.isHidden
-                      }
-                      onClick={handleClickItem(item)}
-                    >
-                      <ListItemText primary={item.text} />
-                      <ListItemIcon>{item.icon}</ListItemIcon>
-                    </ListItem>
-                  );
-                }
-                return (
-                  <ListItem
-                    key={item.text}
-                    className={
-                      !item.isLoggin ? classes.listItem : classes.isHidden
-                    }
-                    onClick={goToPage(item.path)}
-                  >
-                    <ListItemText primary={item.text} />
-                    <ListItemIcon>{item.icon}</ListItemIcon>
-                  </ListItem>
-                );
-              })}
-            </List> */}
           </Box>
         </Container>
         <FullScreenDialog

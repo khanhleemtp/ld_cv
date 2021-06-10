@@ -7,6 +7,9 @@ import './resume.css';
 import ResumeRecordContainer from '../../components/ResumePage/Section/Container';
 import ResumeDrag from '../../components/ResumePage/Drag';
 import * as htmlToImage from 'html-to-image';
+import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
+import PrintOutlinedIcon from '@material-ui/icons/PrintOutlined';
+
 import { jsPDF } from 'jspdf';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +38,7 @@ const breakpointColumnsObj = {
 
 const PageResume = () => {
   const classes = useStyles();
-  const { handleSubmit, fields } = useResume();
+  const { handleUpdateResume, fields } = useResume();
   const inputRef = useRef(null);
 
   const printDocument = () => {
@@ -69,44 +72,36 @@ const PageResume = () => {
       });
   };
 
-  // const [listSection, setListSection] = useState(null);
-
-  // const showAvaiableSections = () => {
-  //   const liSections = [];
-  //   fields.forEach((item, index) => {
-  //     liSections.push(
-  //       <ResumeRecordContainer
-  //         index={index}
-  //         key={item.id}
-  //         record={item.record}
-  //       />
-  //     );
-  //     setListSection(liSections);
-  //   });
-  // };
-
-  // console.log(listSection);
-  // if (!listSection && fields.length) {
-  //   showAvaiableSections();
-  // }
-
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <form onSubmit={handleUpdateResume}>
       <Box display="flex" alignItems="center" padding={2}>
-        <Button variant="outlined" type="submit">
-          Lưu
+        <Button variant="outlined" type="submit" endIcon={<SaveOutlinedIcon />}>
+          Lưu CV
         </Button>
-        <Button variant="outlined" onClick={printDocument}>
-          In
+        <Button
+          variant="outlined"
+          onClick={printDocument}
+          style={{
+            marginLeft: 16,
+            marginRight: 16,
+          }}
+          endIcon={<PrintOutlinedIcon />}
+        >
+          Tải PDF
         </Button>
         <ResumeDrag />
       </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        // flexDirection="column"
+      <Typography
+        variant="subtitle2"
+        gutterBottom
+        style={{
+          padding: 4,
+        }}
       >
+        Hãy thêm thông tin về kỹ năng chính, vị trí để chúng tôi giúp bạn kết
+        nối với nhà tuyển dụng
+      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="center">
         <Paper className={classes.paper} ref={inputRef}>
           <Box className={classes.cvRoot} id="resume-print">
             <ResumeSectionHeader />
@@ -124,7 +119,6 @@ const PageResume = () => {
                   />
                 );
               })}
-              {/* {listSection} */}
             </Masonry>
             <Box display="flex" justifyContent="flex-end">
               <Typography variant="subtitle1" color="primary" component="h4">

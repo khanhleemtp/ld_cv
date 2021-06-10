@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './helpers/PrivateRoute';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import Dashboard from './features/User/Dashboard';
-import DragPage from './pages/DragPage/DragPage';
 import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
 import { ResumeWrapper } from './contexts/useResume';
@@ -17,12 +16,16 @@ import FindJobPage from './pages/FindJobPage';
 import CompanyPage from './pages/CompanyPage';
 import RegisterCompany from './pages/RegisterCompany';
 import CompanyManagerPage from './pages/CompanyManagerPage';
+import DashboardPage from './pages/DashboardPage';
+// import SigninPage from './pages/SigninPage';
+// import SignupPage from './pages/SignupPage';
+
 /* TODO Lazy */
 const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
 const ResumePage = lazy(() => pMinDelay(import('./pages/ResumePage'), 100));
 
-const Signin = lazy(() => pMinDelay(import('./features/User/Signin'), 500));
-const Signup = lazy(() => pMinDelay(import('./features/User/Signup'), 500));
+const Signin = lazy(() => pMinDelay(import('./pages/SigninPage'), 500));
+const Signup = lazy(() => pMinDelay(import('./pages/SignupPage'), 500));
 
 function App() {
   /* TODO  UI */
@@ -35,23 +38,22 @@ function App() {
 
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
       <Suspense fallback={<Loading />}>
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Router>
-          <LayoutPage>
-            <Switch>
+          <Switch>
+            <LayoutPage>
               <Route exact path="/" children={<HomePage />} />
-              <Route path="/drag" children={<DragPage />} />
               <Route
                 path="/manager-company/:service"
                 children={<CompanyManagerPage />}
@@ -59,7 +61,7 @@ function App() {
               <Route path="/company" children={<CompanyPage />} />
               <Route path="/register-company" children={<RegisterCompany />} />
               <Route
-                path="/resume"
+                path="/resumes/:id"
                 children={
                   <ResumeWrapper>
                     <ResumePage />
@@ -67,12 +69,16 @@ function App() {
                 }
               />
               <Route path="/find" children={<FindJobPage />} />
-
-              <ProtectedRoute component={Signup} path="/signup" />
-              <Route path="/signin" component={Signin} />
-              <PrivateRoute component={Dashboard} path="/dashboard" />
-            </Switch>
-          </LayoutPage>
+              <Route path="/dashboard" children={<DashboardPage />} />
+              <Route children={<Signup />} path="/signup" />
+              <Route children={<Signin />} path="/signin" />
+              {/* <PrivateRoute
+                component={Dashboard}
+                path="/dashboard"
+                role="admin"
+              /> */}
+            </LayoutPage>
+          </Switch>
         </Router>
       </Suspense>
     </>

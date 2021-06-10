@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, createContext, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { getResumeData } from '../pages/ResumePage/data';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getResumesById,
+  resumeSelector,
+  updateResume,
+} from '../features/Resume/ResumeSlice';
+// import { getResumeData } from '../pages/ResumePage/data';
+import { useParams } from 'react-router-dom';
 
 const ResumeContext = createContext();
 export const useResume = () => {
@@ -8,23 +15,24 @@ export const useResume = () => {
 };
 
 export const ResumeWrapper = ({ children }) => {
-  const [data, setData] = useState(null);
+  let { id } = useParams();
+  console.log(id);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setData(await getResumeData());
-    };
-    fetchData();
-  }, []);
+    dispatch(getResumesById({ id }));
+  }, [dispatch, id]);
+  const { resume } = useSelector(resumeSelector);
 
-  return data ? (
-    <ResumeProvider data={data}>{children}</ResumeProvider>
+  return resume ? (
+    <ResumeProvider data={resume}>{children}</ResumeProvider>
   ) : (
     <div>Loading...</div>
   );
 };
 
 export const ResumeProvider = ({ children, data }) => {
+  const dispatch = useDispatch();
   const {
     control,
     handleSubmit,
@@ -39,17 +47,14 @@ export const ResumeProvider = ({ children, data }) => {
     defaultValues: data,
     mode: 'onChange',
   });
-
-  const { fields, append, remove, swap, move } = useFieldArray({
+  const { fields, append, swap, move } = useFieldArray({
     control,
     name: 'sections',
   });
 
-  // const getDatas = useMemo(() => () => dataFromServer, []);
-
-  // useEffect(() => {
-  //   reset(getDatas());
-  // }, [reset, getDatas]);
+  useEffect(() => {
+    reset(data);
+  }, [reset, data]);
 
   const handleDownSection = (fieldIndex) => {
     return () => {
@@ -66,8 +71,13 @@ export const ResumeProvider = ({ children, data }) => {
   };
 
   const removeSection = (sectionIndex) => {
-    return async () => remove(sectionIndex);
+    return () => setValue(`sections.${sectionIndex}.enabled`, false);
   };
+
+  const handleUpdateResume = handleSubmit((d) => {
+    console.log('resume Data update', d);
+    dispatch(updateResume(d));
+  });
 
   const handleDrag = ({ source, destination }) => {
     if (destination) {
@@ -91,6 +101,7 @@ export const ResumeProvider = ({ children, data }) => {
     handleUpSection,
     handleDownSection,
     handleDrag,
+    handleUpdateResume,
   };
 
   return (

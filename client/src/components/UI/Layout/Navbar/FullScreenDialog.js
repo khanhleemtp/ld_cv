@@ -44,7 +44,7 @@ export default function FullScreenDialog({
   listLink,
 }) {
   const classes = useStyles();
-  const { user } = useSelector(userSelector);
+  // const { user } = useSelector(userSelector);
   return (
     <div>
       <Dialog
@@ -71,14 +71,14 @@ export default function FullScreenDialog({
         </AppBar>
         <List>
           <ListItem>
-            {user && (
+            {/* {user && (
               <Box className={classes.boxAvatar}>
                 <Avatar className={classes.avatar}>
                   {String(user.name).charAt(0).toUpperCase()}
                 </Avatar>
                 <Typography>{user.name}</Typography>
               </Box>
-            )}
+            )} */}
           </ListItem>
           <Divider />
           {listLink.map((link) => (

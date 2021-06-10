@@ -42,8 +42,8 @@ exports.createOne = (Model, pickArr) =>
     // const newTour = new Tour({});
     // newTour.save()
     const pickData = pickArr ? _.pick(req.body, pickArr) : req.body;
+    console.log(pickData);
     const doc = await Model.create(pickData);
-
     // Tour.findOne({ _id: req.params.id })
 
     res.status(201).json({

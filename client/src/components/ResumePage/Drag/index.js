@@ -10,6 +10,8 @@ import Slide from '@material-ui/core/Slide';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import MuiCheckBox from '../Mui/MuiCheckBox';
+import ControlPointOutlinedIcon from '@material-ui/icons/ControlPointOutlined';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +30,12 @@ const ResumeDrag = () => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}
+        endIcon={<ControlPointOutlinedIcon />}
+      >
         Điều khiển
       </Button>
       <Dialog
@@ -41,10 +48,10 @@ const ResumeDrag = () => {
         fullWidth
         maxWidth="xs"
       >
-        <DialogTitle id="alert-dialog-slide-title">LD Cv Kéo thả</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">LD Kéo thả</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            Kéo thả để di chuyển các phần
+            Kéo thả,chọn để di chuyển các phần
           </DialogContentText>
           <DragDropContext onDragEnd={handleDrag}>
             <Droppable droppableId="test-items">
@@ -62,6 +69,7 @@ const ResumeDrag = () => {
                             key={item.id}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
+                            flexGrow={1}
                           >
                             <Box padding={1}></Box>
                             <Box
@@ -72,9 +80,16 @@ const ResumeDrag = () => {
                               }}
                               {...provided.dragHandleProps}
                             >
-                              <Typography variant="h6" align="center">
-                                {item.name}
-                              </Typography>
+                              <Box flexGrow={1}>
+                                <Typography variant="h6" align="center">
+                                  {item.name}
+                                </Typography>
+                              </Box>
+                              <Box>
+                                <MuiCheckBox
+                                  nameField={`sections.${index}.enabled`}
+                                />
+                              </Box>
                             </Box>
                           </Box>
                         )}
