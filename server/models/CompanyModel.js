@@ -21,6 +21,7 @@ const companySchema = new mongoose.Schema({
     default: 'pending',
   },
   intro: String,
+  details: String,
   env: [
     {
       type: String,
@@ -30,6 +31,7 @@ const companySchema = new mongoose.Schema({
   workTime: String,
   ot: String,
   country: String,
+
   user: {
     type: mongoose.Types.ObjectId,
     ref: 'User',

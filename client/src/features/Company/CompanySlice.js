@@ -29,6 +29,19 @@ export const getAllCompany = createAsyncThunk(
   }
 );
 
+export const getCompanyById = createAsyncThunk(
+  'company/getCompanyById',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/companies/${id}`);
+      console.log('company', data);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const updateCompany = createAsyncThunk(
   'company/updateCompany',
   async (values, thunkAPI) => {
@@ -116,6 +129,11 @@ export const companySlice = createSlice({
     },
     [updateCompany.fulfilled]: (state, { payload }) => {
       state.companies = [payload];
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [getCompanyById.fulfilled]: (state, { payload }) => {
+      state.company = payload;
       state.isFetching = false;
       state.isSuccess = true;
     },

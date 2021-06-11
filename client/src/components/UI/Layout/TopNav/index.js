@@ -99,7 +99,7 @@ const navOptions = [
   { title: 'Tạo việc', path: '/manager-company/create-job' },
   { title: 'Admin', path: '/admin' },
   { title: 'Đăng ký công ty', path: '/register-company' },
-  { title: 'Công ty', path: '/company' },
+  { title: 'Công ty', path: '/manager' },
   { title: 'Tìm việc', path: '/find' },
 ];
 

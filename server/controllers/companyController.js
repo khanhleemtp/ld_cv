@@ -73,6 +73,7 @@ exports.updateCompany = factory.updateOne(Company, [
   'workTime',
   'country',
   'intro',
+  'details',
 ]);
 
 exports.getAllCompanies = factory.getAll(Company);

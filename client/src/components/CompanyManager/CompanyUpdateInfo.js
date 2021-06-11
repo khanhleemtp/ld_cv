@@ -17,27 +17,27 @@ import {
   updateCompany,
 } from '../../features/Company/CompanySlice';
 import { userSelector } from '../../features/User/UserSlice';
-
-const defaultValues = {
-  company: 'LD Food',
-  intro: 'Chào mừng bạn đến với LD Food',
-  type: 'Product',
-  location: 'Hà Nội',
-  workTime: 'Thứ 2 - Thứ 6',
-  ot: 'No OT',
-  photo: '/mario.jpg',
-  numEmployees: 3,
-  env: [
-    'Có tối thiểu 1 năm kinh nghiệm làm về framework NodeJS trong phát triển phần mềm',
-    'Nắm vững kiến thức lập trình cơ bản, lập trình hướng đối tượng (OOP), cơ sở dữ liệu (DBMS)',
-    'Tiếng Anh đọc hiểu tài liệu kỹ thuật.',
-  ],
-  opportunity: [
-    'Tham gia phát triển các dự án phát triển phần mềm outsourcing cho Nhật sử dụng framework NodeJS của Javascript',
-    'Đề xuất giải pháp, xu hướng công nghệ mới để nâng cao chất lượng sản phẩm cho khách hàng',
-    'Phối hợp hiệu quả cùng nhóm thiết kế, lập trình để cho ra sản phẩm tốt nhất',
-  ],
-};
+import { Link } from 'react-router-dom';
+// const defaultValues = {
+//   company: 'LD Food',
+//   intro: 'Chào mừng bạn đến với LD Food',
+//   type: 'Product',
+//   location: 'Hà Nội',
+//   workTime: 'Thứ 2 - Thứ 6',
+//   ot: 'No OT',
+//   photo: '/mario.jpg',
+//   numEmployees: 3,
+//   env: [
+//     'Có tối thiểu 1 năm kinh nghiệm làm về framework NodeJS trong phát triển phần mềm',
+//     'Nắm vững kiến thức lập trình cơ bản, lập trình hướng đối tượng (OOP), cơ sở dữ liệu (DBMS)',
+//     'Tiếng Anh đọc hiểu tài liệu kỹ thuật.',
+//   ],
+//   opportunity: [
+//     'Tham gia phát triển các dự án phát triển phần mềm outsourcing cho Nhật sử dụng framework NodeJS của Javascript',
+//     'Đề xuất giải pháp, xu hướng công nghệ mới để nâng cao chất lượng sản phẩm cho khách hàng',
+//     'Phối hợp hiệu quả cùng nhóm thiết kế, lập trình để cho ra sản phẩm tốt nhất',
+//   ],
+// };
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,7 +87,14 @@ const CompanyUpdateInfo = () => {
   return (
     <Container maxWidth="sm">
       <Paper className={classes.root}>
-        <Button variant="outlined">Company Page</Button>
+        <Link
+          to={'/company/' + companies?.[0]?._id}
+          style={{
+            textDecoration: 'none',
+          }}
+        >
+          <Button variant="outlined">Company Page</Button>
+        </Link>
         <Box
           display="flex"
           alignItems="center"
@@ -149,8 +156,20 @@ const CompanyUpdateInfo = () => {
           <MuiTextField
             control={control}
             getValues={getValues}
+            nameField="country"
+            label="Quốc gia"
+          />
+          <MuiTextField
+            control={control}
+            getValues={getValues}
             nameField="intro"
             label="Giới thiệu tổng quan"
+          />
+          <MuiTextField
+            control={control}
+            getValues={getValues}
+            nameField="details"
+            label="Chi tiết tổng quan"
           />
           <MuiTextField
             control={control}

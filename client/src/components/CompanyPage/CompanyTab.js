@@ -7,6 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import JobCard from '../FindJobPage/JobCard';
+import CompanyIntro from './CompanyIntro';
+import CompanyWhyChoice from './CompanyWhyChoice';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -72,7 +74,7 @@ export default function CompanyTab() {
           aria-label="full width tabs example"
         >
           <Tab label="Tuyển dụng" {...a11yProps(0)} />
-          <Tab label="69 Reviews" {...a11yProps(1)} />
+          <Tab label="Về chúng tôi" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -86,7 +88,8 @@ export default function CompanyTab() {
           ))}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <CompanyIntro />
+          <CompanyWhyChoice />
         </TabPanel>
       </SwipeableViews>
     </div>

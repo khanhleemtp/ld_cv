@@ -1,4 +1,9 @@
-import { Typography, Box, Paper, Chip, makeStyles } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { companySelector } from '../../features/Company/CompanySlice';
 import React from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const CompanyWhyChoice = () => {
   const classes = useStyles();
-
+  const { company } = useSelector(companySelector);
   return (
     <Paper className={classes.root}>
       <Box>
@@ -19,31 +24,22 @@ const CompanyWhyChoice = () => {
           Tại sao bạn chọn chúng tôi
         </Typography>
         <Box paddingLeft={4} marginY={2}>
-          <Typography variant="h6" gutterBottom={true}>
-            🦾 Global Exposure
-          </Typography>
-          <Typography variant="h6" gutterBottom={true}>
-            🦾 Fast Track Career
-          </Typography>
-          <Typography variant="h6" gutterBottom={true}>
-            🦾Diversified Jobs & Technologies
-          </Typography>
+          {company?.opportunity?.map((e) => (
+            <Typography variant="subtitle1" gutterBottom={true} key={e}>
+              🦾 {e}
+            </Typography>
+          ))}
         </Box>
-        <Typography variant="body2" gutterBottom={true}>
-          You can catch up with unlimited opportunities to work and live in
-          different countries over the world, join world class software projects
-          with trendiest technologies, innovative products & services that bring
-          great values to millions of people around the world, such as the
-          world’s largest airplane brand, biggest broadcast satellite services
-          in the US, the leading manufacturer of postage meter and mailroom
-          equipment in EU, etc.
+        <Typography variant="h5" gutterBottom={true}>
+          Cơ hội khi làm việc tại đây
         </Typography>
-        <Typography variant="body2" gutterBottom={true}>
-          You can choose your career path to become a technology expert or a
-          professional manager which best fits your desire, qualifications and
-          characteristics in an equal opportunity and open-minded culture
-          workplace.
-        </Typography>
+        <Box paddingLeft={4} marginY={2}>
+          {company?.env?.map((e) => (
+            <Typography variant="subtitle1" gutterBottom={true} key={e}>
+              💜 {e}
+            </Typography>
+          ))}
+        </Box>
       </Box>
     </Paper>
   );

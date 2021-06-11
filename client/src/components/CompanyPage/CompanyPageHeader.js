@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'flex-start',
     },
+    marginTop: 24,
   },
   title: {
     fontSize: 18,
@@ -47,9 +48,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CompanyPageHeader = () => {
+const CompanyPageHeader = ({ company }) => {
   const classes = useStyles();
-
+  console.log(company);
   return (
     <Paper className={classes.root} variant="outlined">
       <Box
@@ -62,7 +63,7 @@ const CompanyPageHeader = () => {
         borderColor={'#ddd'}
       >
         <img
-          src="/company/fpt.png"
+          src={company?.photo || '/mario.jpg'}
           alt="company"
           style={{
             maxHeight: '150px',
@@ -80,35 +81,39 @@ const CompanyPageHeader = () => {
         justifyContent="space-around"
         className={classes.main}
       >
-        <Typography variant="h4">FPT Software</Typography>
+        <Typography variant="h4">{company.name}</Typography>
         <Grid container spacing={1}>
           {[
             {
-              text: 'Hà Nội, Hồ Chí Minh, Đà Nẵng',
+              text: company?.location,
               icon: <RoomOutlinedIcon />,
               col: 12,
             },
 
-            { text: 'Dịch vụ', icon: <SettingsOutlinedIcon />, col: 6 },
-            { text: '1000+', icon: <PeopleOutlinedIcon />, col: 6 },
-            { text: 'Việt Nam', icon: <LanguageOutlinedIcon />, col: 6 },
+            { text: company.type, icon: <SettingsOutlinedIcon />, col: 4 },
             {
-              text: 'Thứ 2 - Thứ 6',
+              text: company?.numEmployees,
+              icon: <PeopleOutlinedIcon />,
+              col: 4,
+            },
+            {
+              text: company?.country,
+              icon: <LanguageOutlinedIcon />,
+              col: 4,
+            },
+            {
+              text: company?.workTime,
               icon: <DateRangeOutlinedIcon />,
-              col: 6,
+              col: 4,
             },
             {
-              text: 'Thêm lương OT',
+              text: company.ot,
               icon: <QueryBuilderOutlinedIcon />,
-              col: 6,
+              col: 4,
             },
-          ].map((item) => (
-            <Grid item md={item.col} key={item.text}>
-              <CompanyTextIcon
-                text={item.text}
-                icon={item.icon}
-                key={item.text}
-              />
+          ].map((item, index) => (
+            <Grid item md={item.col} key={index}>
+              <CompanyTextIcon text={item.text} icon={item.icon} />
             </Grid>
           ))}
         </Grid>
