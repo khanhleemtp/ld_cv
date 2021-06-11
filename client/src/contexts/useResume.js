@@ -75,7 +75,7 @@ export const ResumeProvider = ({ children, data }) => {
   };
 
   const handleUpdateResume = handleSubmit((d) => {
-    console.log('resume Data update', d);
+    console.log('Resuem', d);
     dispatch(updateResume(d));
   });
 

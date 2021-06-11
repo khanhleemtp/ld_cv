@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import TabComponent from '../UI/TabComponent';
 import CreateJob from './CreateJob';
 import CompanyUpdateInfo from './CompanyUpdateInfo';
+import CompanyListJob from '../CompanyPage/CompanyListJob';
 
 const tabList = [
   {
@@ -16,9 +17,9 @@ const tabList = [
     component: <CreateJob />,
   },
   {
-    label: 'Ứng viên',
+    label: 'Danh sách việc',
     index: 2,
-    component: <div>Quan tâm</div>,
+    component: <CompanyListJob />,
   },
   {
     label: 'Thông báo 🇻🇳',
@@ -26,7 +27,7 @@ const tabList = [
     component: <div>Thông báo</div>,
   },
   {
-    label: 'Danh sách công việc',
+    label: 'Ứng viên',
     index: 4,
     component: <div>Thông báo</div>,
   },

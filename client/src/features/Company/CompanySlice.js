@@ -46,7 +46,7 @@ export const updateCompany = createAsyncThunk(
   'company/updateCompany',
   async (values, thunkAPI) => {
     const { company } = thunkAPI.getState();
-    const id = company.companies[0]._id;
+    const id = company?.company._id;
     try {
       const { data } = await api.patch(`/companies/${id}`, values);
       toast.success('Cập nhật thành công');
@@ -128,7 +128,7 @@ export const companySlice = createSlice({
       toast.error(`${state.errorMessage}😥`);
     },
     [updateCompany.fulfilled]: (state, { payload }) => {
-      state.companies = [payload];
+      state.company = payload;
       state.isFetching = false;
       state.isSuccess = true;
     },

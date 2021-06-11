@@ -1,27 +1,20 @@
 /* TODO Import */
-import { Grid, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import {
-  TextField,
-  Checkbox,
-  Button,
-  FormControl,
-  FormHelperText,
-  FormControlLabel,
-} from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormLayout from '../../components/UI/FormLayout';
-import {
-  userSelector,
-  clearState,
-  signupUser,
-} from '../../features/User/UserSlice';
+import { userSelector, signupUser } from '../../features/User/UserSlice';
+import { useHistory, useLocation } from 'react-router-dom';
 /* TODO Init state */
 
 /* TODO Style */
@@ -55,46 +48,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignupPage = () => {
-  const onSubmit = (data) => {
-    dispatch(signupUser(data));
-  };
-
   const loginSchema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().min(6).required(),
     passwordConfirm: yup
       .string()
-      .oneOf([yup.ref('password'), null], 'Passwords must match')
+      .oneOf([yup.ref('password'), null], 'Mật khẩu không khớp ☺️')
       .required(),
-    isAccept: yup.bool().oneOf([true], 'You should accept all privacy'),
+    isAccept: yup
+      .bool()
+      .oneOf([true], 'Bạn cần chấp nhận mọi điều khoanar của chúng tôi 😗'),
   });
 
   /* TODO Hook */
-  const history = useHistory();
   const dispatch = useDispatch();
-  const { isFetching, isSuccess, isError, errorMessage, token } =
-    useSelector(userSelector);
+  const history = useHistory();
+  const location = useLocation();
+  let { from } = location.state || { from: { pathname: '/' } };
+
+  const { isFetching } = useSelector(userSelector);
   const { handleSubmit, control } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
-  /* TODO Side effect */
-  useEffect(() => {
-    dispatch(clearState());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Đăng ký thành công 🚀');
-      history.push('/app');
-      dispatch(clearState());
-    }
-    if (isError & errorMessage) {
-      toast.error('💩' + errorMessage);
-      dispatch(clearState());
-    }
-  }, [isSuccess, isError, errorMessage, history, dispatch, token]);
+  const onSubmit = (data) => {
+    dispatch(
+      signupUser({
+        data,
+        cb: () => {
+          history.push(from);
+        },
+      })
+    );
+  };
 
   const classes = useStyles();
 

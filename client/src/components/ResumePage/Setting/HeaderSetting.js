@@ -6,6 +6,7 @@ import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import TriggerMenu from '../Section/TriggerMenu';
 import UploadImageDialog from '../Section/Header/UploadImage/UploadImage';
 import { useResume } from '../../../contexts/useResume';
+import UploadImage from '../../UI/UploadImage/UploadImage';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const HeaderSetting = () => {
   const [open, setOpen] = useState(false);
 
-  const { control, setValue, watch } = useResume();
+  const { control, setValue } = useResume();
 
   const classes = useStyles();
   return (
@@ -64,12 +65,19 @@ const HeaderSetting = () => {
       >
         <CameraAltOutlinedIcon className={classes.icon} />
       </Box>
-      <UploadImageDialog
+      {/* <UploadImageDialog
         open={open}
         setOpen={setOpen}
         setValue={setValue}
         watch={watch}
         control={control}
+      /> */}
+      <UploadImage
+        open={open}
+        setOpen={setOpen}
+        setValue={setValue}
+        control={control}
+        field={'header.photo'}
       />
     </>
   );

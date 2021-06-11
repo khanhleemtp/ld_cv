@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 export const signupUser = createAsyncThunk(
   'users/signupUser',
   async (values, thunkAPI) => {
+    const { data: val, cb } = values;
     try {
-      let data = await api.post(`/users/signup`, values);
+      let data = await api.post(`/users/signup`, val);
       TokenService.setToken(data.token);
-      TokenService.setToken(data?.user?.role, 'roles');
-
+      cb();
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -29,10 +29,7 @@ export const signinUser = createAsyncThunk(
       // if (values.isAccept) {
       //   TokenService.setToken(data.token);
       // }
-      console.log(val, cb);
       TokenService.setToken(data.token);
-      console.log('data', data);
-      TokenService.setToken(data?.user?.role, 'roles');
       cb();
       return data;
     } catch (error) {
@@ -85,16 +82,15 @@ export const userSlice = createSlice({
       state.isError = false;
       state.errorMessage = '';
       TokenService.removeToken('ld-token');
-      TokenService.removeToken('roles');
     },
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
+      toast.success('Đăng  ký tành công 🚀');
       state.isFetching = false;
       state.isSuccess = true;
       state.user = payload.user;
       state.token = payload.token;
-      toast.success('Đăng ký thành công 💘');
       return state;
     },
     [signupUser.pending]: (state) => {
@@ -106,7 +102,7 @@ export const userSlice = createSlice({
       state.errorMessage = payload?.data?.message
         ? payload?.data.message
         : error.message;
-      toast.error(state.errorMessage);
+      toast.error(state?.errorMessage || 'Something went wrong 😞');
     },
     [signinUser.fulfilled]: (state, { payload }) => {
       console.log('payload', payload);
@@ -114,7 +110,7 @@ export const userSlice = createSlice({
       state.isSuccess = true;
       state.user = payload.user;
       state.token = payload.token;
-      toast.success('Đăng nhập thành công 💘');
+      toast.success('Đăng nhập thành công 🚀');
       return state;
     },
     [signinUser.rejected]: (state, { payload, error }) => {

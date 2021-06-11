@@ -163,6 +163,14 @@ export const resumeSlice = createSlice({
       state.isSuccess = true;
       return state;
     },
+    [updateResume.rejected]: (state, { payload, error }) => {
+      toast.error(payload?.data?.message || 'Lưu thất bại 😆');
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message
+        ? payload?.data.message
+        : error.message;
+    },
   },
 });
 

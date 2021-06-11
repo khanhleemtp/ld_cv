@@ -53,7 +53,10 @@ exports.deleteCompany = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getCompany = factory.getOne(Company);
+exports.getCompany = factory.getOne(Company, {
+  path: 'jobs',
+  select: 'tags salary title location',
+});
 
 exports.updateCompany = factory.updateOne(Company, [
   'location',

@@ -64,6 +64,10 @@ exports.createUser = (req, res) => {
 // Do NOT update with this
 
 exports.getAllUsers = factory.getAll(User);
-exports.getUser = factory.getOne(User);
+exports.getUser = factory.getOne(User, {
+  path: 'company',
+  select: 'id -user',
+  match: { status: 'accept' },
+});
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOne(User);

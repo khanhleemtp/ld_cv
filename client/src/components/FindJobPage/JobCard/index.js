@@ -35,9 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobCard = () => {
+const JobCard = ({ item, photo }) => {
   const classes = useStyles();
-
   return (
     <Paper className={classes.root} variant="outlined">
       <Box
@@ -51,7 +50,7 @@ const JobCard = () => {
         borderColor={'#ddd'}
       >
         <img
-          src="/company/samsung.png"
+          src={photo}
           alt="company"
           style={{
             maxHeight: '65px',
@@ -66,14 +65,14 @@ const JobCard = () => {
         alignItems="space-between"
       >
         <Typography variant="h6" component="p">
-          Technical Project Manager
+          {item?.title}
         </Typography>
         <Typography variant="body2" color="primary" className={classes.salary}>
-          💸 1000$-1500$
+          💸 {item?.salary}
         </Typography>
         <Box flexBasis={1}>
-          {[1, 2, 3].map((item) => (
-            <Chip label="Basic" key={item} clickable className={classes.tag} />
+          {item?.tags.map((item) => (
+            <Chip label={item} key={item} clickable className={classes.tag} />
           ))}
         </Box>
       </Box>

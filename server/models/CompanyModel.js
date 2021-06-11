@@ -1,47 +1,60 @@
 const mongoose = require('mongoose');
-const companySchema = new mongoose.Schema({
-  name: {
-    type: String,
-    require: true,
-    unique: true,
-    lowercase: true,
-  },
-  phone: String,
-  location: String,
-  position: String,
-  type: String,
-  photo: {
-    type: String,
-    default: '/mario.jpg',
-  },
-  numEmployees: Number,
-  status: {
-    type: String,
-    enum: ['pending', 'accept', 'reject'],
-    default: 'pending',
-  },
-  intro: String,
-  details: String,
-  env: [
-    {
+const companySchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
+      require: true,
+      unique: true,
+      lowercase: true,
     },
-  ],
-  opportunity: [String],
-  workTime: String,
-  ot: String,
-  country: String,
+    phone: String,
+    location: String,
+    position: String,
+    type: String,
+    photo: {
+      type: String,
+      default: '/mario.jpg',
+    },
+    numEmployees: Number,
+    status: {
+      type: String,
+      enum: ['pending', 'accept', 'reject'],
+      default: 'pending',
+    },
+    intro: String,
+    details: String,
+    env: [
+      {
+        type: String,
+      },
+    ],
+    opportunity: [String],
+    workTime: String,
+    ot: String,
+    country: String,
 
-  user: {
-    type: mongoose.Types.ObjectId,
-    ref: 'User',
+    user: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+    },
   },
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
-companySchema.virtual('reviews', {
-  ref: 'Review',
+// companySchema.virtual('reviews', {
+//   ref: 'Review',
+//   foreignField: 'company',
+//   localField: '_id',
+// });
+
+companySchema.virtual('jobs', {
+  ref: 'Job',
   foreignField: 'company',
   localField: '_id',
+  justOne: false,
 });
 
 companySchema.pre(/^find/, function (next) {

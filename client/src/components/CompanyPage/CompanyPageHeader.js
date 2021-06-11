@@ -81,7 +81,7 @@ const CompanyPageHeader = ({ company }) => {
         justifyContent="space-around"
         className={classes.main}
       >
-        <Typography variant="h4">{company.name}</Typography>
+        <Typography variant="h4">{company?.name?.toUpperCase()}</Typography>
         <Grid container spacing={1}>
           {[
             {

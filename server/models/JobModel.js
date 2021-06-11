@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-var slugify = require('slugify');
-
+const slugify = require('slugify');
+const moment = require('moment');
 const jobSchema = new mongoose.Schema(
   {
     title: String,
-    salary: [Number],
+    salary: String,
     location: [String],
     type: String,
     tags: [
@@ -14,7 +14,13 @@ const jobSchema = new mongoose.Schema(
       },
     ],
     slugs: [String],
-    createdAt: Date,
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    to: {
+      type: Date,
+    },
     position: String,
     company: {
       type: mongoose.Types.ObjectId,
@@ -37,10 +43,21 @@ jobSchema.pre('save', function (next) {
   next();
 });
 
+// jobSchema.pre(/^find/, function (next) {
+//   this.populate({
+//     path: 'company',
+//     select: 'company location -_id',
+//   });
+//   next();
+// });
+
+// get all job active
 jobSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'company',
-    select: 'company location -_id',
+  // this points to current query
+  this.find({
+    to: {
+      $gte: moment().toISOString(),
+    },
   });
   next();
 });

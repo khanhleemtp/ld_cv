@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import JobCard from '../FindJobPage/JobCard';
 import CompanyIntro from './CompanyIntro';
 import CompanyWhyChoice from './CompanyWhyChoice';
+import CompanyListJob from './CompanyListJob';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,9 +84,7 @@ export default function CompanyTab() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <JobCard key={item} />
-          ))}
+          <CompanyListJob />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <CompanyIntro />

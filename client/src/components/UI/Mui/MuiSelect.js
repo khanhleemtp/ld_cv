@@ -14,6 +14,7 @@ const MuiSelect = ({ control, label, menus, nameField }) => {
         {label}
       </label>
       <Controller
+        defaultValue={''}
         render={({ field }) => (
           <Select MenuProps={{ disableScrollLock: true }} {...field} fullWidth>
             {menus?.map((item) => (

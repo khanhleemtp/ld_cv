@@ -62,11 +62,11 @@ class APIFeatures {
   }
 }
 
-exports.aliasTopTours = async (req, res, next) => {
-  req.query.limit = '5';
-  req.query.sort = '-ratingAverage,price';
-  req.query.fields = 'name,price,ratingAverage,summary,dificulty';
-  next();
-};
+// exports.aliasTopTours = async (req, res, next) => {
+//   req.query.limit = '5';
+//   req.query.sort = '-ratingAverage,price';
+//   req.query.fields = 'name,price,ratingAverage,summary,dificulty';
+//   next();
+// };
 
 module.exports = APIFeatures;

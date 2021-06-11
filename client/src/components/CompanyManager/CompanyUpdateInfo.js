@@ -13,8 +13,8 @@ import UploadImage from '../../components/UI/UploadImage/UploadImage';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   companySelector,
-  getAllCompany,
   updateCompany,
+  getCompanyById,
 } from '../../features/Company/CompanySlice';
 import { userSelector } from '../../features/User/UserSlice';
 import { Link } from 'react-router-dom';
@@ -48,11 +48,13 @@ const useStyles = makeStyles((theme) => ({
 
 const CompanyUpdateInfo = () => {
   const { user } = useSelector(userSelector);
-  const { companies } = useSelector(companySelector);
+
+  const { company } = useSelector(companySelector);
   const dispatch = useDispatch();
+  console.log(user);
   useEffect(() => {
-    dispatch(getAllCompany({ query: `?user=${user._id}` }));
-  }, [user._id, dispatch]);
+    dispatch(getCompanyById(user?.company?.id));
+  }, [user, dispatch]);
 
   const { handleSubmit, getValues, control, reset, register, setValue } =
     useForm();
@@ -74,8 +76,8 @@ const CompanyUpdateInfo = () => {
     name: 'opportunity',
   });
   useEffect(() => {
-    reset(companies[0]);
-  }, [reset, companies]);
+    reset(company);
+  }, [reset, company]);
 
   const [open, setOpen] = useState(false);
   const classes = useStyles();
@@ -88,7 +90,7 @@ const CompanyUpdateInfo = () => {
     <Container maxWidth="sm">
       <Paper className={classes.root}>
         <Link
-          to={'/company/' + companies?.[0]?._id}
+          to={'/company/' + company._id}
           style={{
             textDecoration: 'none',
           }}
@@ -105,7 +107,7 @@ const CompanyUpdateInfo = () => {
         </Box>
         <form
           onSubmit={handleSubmit((data) => {
-            // console.log('data to server', data);
+            console.log('data to server', data);
             dispatch(updateCompany(data));
           })}
           className="form"
@@ -145,6 +147,7 @@ const CompanyUpdateInfo = () => {
             setOpen={setOpen}
             setValue={setValue}
             control={control}
+            field={'photo'}
           />
 
           <MuiTextField

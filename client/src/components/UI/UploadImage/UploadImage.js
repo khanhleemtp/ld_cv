@@ -54,7 +54,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UploadImage({ open, setOpen, setValue, control }) {
+export default function UploadImage({
+  open,
+  setOpen,
+  setValue,
+  control,
+  field,
+}) {
   const handleClose = () => {
     setOpen(false);
   };
@@ -94,7 +100,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
 
   const imageLink = useWatch({
     control,
-    name: 'photo',
+    name: field,
   });
 
   const classes = useStyles();
@@ -114,7 +120,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box>Photo</Box>
+            <Box>Ảnh</Box>
             <Button onClick={handleClose} color="primary">
               <CloseOutlinedIcon />
             </Button>
@@ -138,7 +144,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
                 variant="contained"
                 color="primary"
                 className={classes.deleteBtn}
-                onClick={() => setValue('photo', '/user.svg')}
+                onClick={() => setValue(field, '/user.svg')}
               >
                 <DeleteOutlineIcon />
               </Button>
@@ -195,7 +201,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
                       .then((data) => {
                         console.log(data);
                         setLoading(false);
-                        setValue('photo', data.url);
+                        setValue(field, data.url);
                       })
                       .catch((err) => {
                         setLoading(false);
@@ -206,7 +212,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
                 }}
                 color="primary"
               >
-                Accept
+                Chấp nhận
               </Button>
             </>
           ) : (
@@ -216,7 +222,7 @@ export default function UploadImage({ open, setOpen, setValue, control }) {
                 component="label"
                 className={classes.upload}
               >
-                Upload File
+                Tải ảnh lên
                 <input type="file" hidden onChange={onInputChange} />
               </Button>
               <Button variant="contained" onClick={handleClose} color="primary">

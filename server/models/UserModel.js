@@ -3,49 +3,62 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please tell us your name'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide your email address'],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide valid  your emmail'],
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide your password'],
-    minlength: [4, 'Password must be at least 4 characters'],
-    select: false,
-  },
-  photo: String,
-  role: {
-    type: String,
-    enum: ['user', 'guide', 'lead-guide', 'admin'],
-    default: 'user',
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      // This only works on CREATE and SAVE!!!
-      validator: function (el) {
-        console.log(el);
-        return el === this.password;
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please tell us your name'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Please provide your email address'],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide valid  your emmail'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide your password'],
+      minlength: [4, 'Password must be at least 4 characters'],
+      select: false,
+    },
+    photo: String,
+    role: {
+      type: String,
+      enum: ['user', 'guide', 'lead-guide', 'admin'],
+      default: 'user',
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password'],
+      validate: {
+        // This only works on CREATE and SAVE!!!
+        validator: function (el) {
+          console.log(el);
+          return el === this.password;
+        },
+        message: 'Passwords are not the same!',
       },
-      message: 'Passwords are not the same!',
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
     },
   },
-  passwordChangedAt: Date,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: Boolean,
-    default: true,
-  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
+
+userSchema.virtual('company', {
+  ref: 'Company',
+  foreignField: 'user',
+  localField: '_id',
+  justOne: true,
 });
 
 userSchema.pre('save', async function (next) {
