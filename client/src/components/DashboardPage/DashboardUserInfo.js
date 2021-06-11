@@ -18,6 +18,9 @@ const DashboardUserInfo = () => {
         Tên: {user?.name}
       </Typography>
       <Typography variant="body1" gutterBottom>
+        Người dùng: {user?.role}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
         Id: {user?._id}
       </Typography>
       <Typography variant="body1" gutterBottom>

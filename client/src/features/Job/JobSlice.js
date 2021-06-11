@@ -1,21 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/xhr/api';
 import { toast } from 'react-toastify';
-import _ from 'lodash';
 
 export const createJob = createAsyncThunk(
   'job/createJob',
   async (values, thunkAPI) => {
     const states = thunkAPI.getState();
     const company = states?.company?.company?._id;
-    // console.log(company);
-    // console.log(values, company);
+    const { data: job, cb } = values;
     const data = {
-      ...values,
+      ...job,
       company,
     };
     try {
       await api.post(`/job`, data);
+      cb();
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -50,31 +49,14 @@ export const getjobById = createAsyncThunk(
   }
 );
 
-export const updatejob = createAsyncThunk(
+export const updateJob = createAsyncThunk(
   'job/updatejob',
   async (values, thunkAPI) => {
-    const { job } = thunkAPI.getState();
-    const id = job.jobs[0]._id;
+    const { data: newJob, id, cb } = values;
     try {
-      const { data } = await api.patch(`/job/${id}`, values);
-      toast.success('Cập nhật thành công');
+      const { data } = await api.patch(`/job/${id}`, newJob);
+      cb();
       return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export const responsejob = createAsyncThunk(
-  'job/responsejob',
-  async (values, thunkAPI) => {
-    const { id, status } = values;
-
-    try {
-      await api.post(`/job/${id}`, { status });
-      const notify = status === 'reject' ? 'Từ chối' : 'Chấp nhận';
-      toast.success(notify + ' thành công 😃');
-      return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -85,18 +67,7 @@ export const jobSlice = createSlice({
   name: 'job',
   initialState: {
     jobs: [],
-    job: {
-      title: '',
-      company: '',
-      tags: [],
-      position: '',
-      location: '',
-      requirements: [],
-      descriptions: [],
-      salary: '',
-      type: '',
-      to: '',
-    },
+    job: {},
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -113,7 +84,7 @@ export const jobSlice = createSlice({
 
   extraReducers: {
     [createJob.fulfilled]: (state) => {
-      toast.success(`Tạo việc thành công 😅`);
+      toast.success(`Tạo việc làm thành công 😅`);
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -133,12 +104,14 @@ export const jobSlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
-    [responsejob.fulfilled]: (state, { payload: _id }) => {
-      state.jobs = _.dropRightWhile(state.jobs, { _id });
+
+    [updateJob.fulfilled]: (state, { payload }) => {
+      toast.success('Cập nhật thành công việc làm 🚀');
+      state.job = payload;
       state.isFetching = false;
       state.isSuccess = true;
     },
-    [responsejob.rejected]: (state, { payload, error }) => {
+    [updateJob.rejected]: (state, { payload, error }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload?.data?.message
@@ -147,11 +120,6 @@ export const jobSlice = createSlice({
       toast.error(`${state.errorMessage}😥`);
     },
 
-    [updatejob.fulfilled]: (state, { payload }) => {
-      state.jobs = [payload];
-      state.isFetching = false;
-      state.isSuccess = true;
-    },
     [getjobById.fulfilled]: (state, { payload }) => {
       state.job = payload;
       state.isFetching = false;
@@ -161,5 +129,4 @@ export const jobSlice = createSlice({
 });
 
 export const { clearState } = jobSlice.actions;
-
 export const jobSelector = (state) => state.job;

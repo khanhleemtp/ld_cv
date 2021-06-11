@@ -15,6 +15,18 @@ export const registerCompany = createAsyncThunk(
   }
 );
 
+export const deleteJob = createAsyncThunk(
+  'company/deleteJob',
+  async (id, thunkAPI) => {
+    try {
+      await api.delete(`/job/${id}`);
+      return id;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const getAllCompany = createAsyncThunk(
   'company/getAllCompany',
   async (values, thunkAPI) => {
@@ -104,7 +116,7 @@ export const companySlice = createSlice({
       state.isSuccess = true;
     },
     [responseCompany.fulfilled]: (state, { payload: _id }) => {
-      state.companies = _.dropRightWhile(state.companies, { _id });
+      state.companies = _.filter(state.companies, { _id: !_id });
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -134,6 +146,14 @@ export const companySlice = createSlice({
     },
     [getCompanyById.fulfilled]: (state, { payload }) => {
       state.company = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [deleteJob.fulfilled]: (state, { payload: _id }) => {
+      let jobs = _.filter(state.company.jobs, { _id: !_id });
+      console.log('newJobs', jobs);
+      toast.success('Xóa thành công');
+      state.company = { ...state.company, jobs };
       state.isFetching = false;
       state.isSuccess = true;
     },

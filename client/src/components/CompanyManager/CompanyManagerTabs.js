@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import TabComponent from '../UI/TabComponent';
 import CreateJob from './CreateJob';
 import CompanyUpdateInfo from './CompanyUpdateInfo';
-import CompanyListJob from '../CompanyPage/CompanyListJob';
+import CompanyListJob from './CompanyListJobs';
 
 const tabList = [
   {

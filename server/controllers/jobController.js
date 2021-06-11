@@ -9,7 +9,10 @@ exports.setUserIds = (req, res, next) => {
 
 exports.createJob = factory.createOne(Job);
 
-exports.getJob = factory.getOne(Job);
+exports.getJob = factory.getOne(Job, {
+  path: 'companyFrom',
+  select: 'photo name',
+});
 
 exports.updateJob = factory.updateOne(Job);
 

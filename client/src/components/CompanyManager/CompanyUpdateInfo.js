@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   makeStyles,
   Paper,
   Typography,
@@ -42,9 +43,21 @@ import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(4),
-    marginTop: theme.spacing(2),
+    // marginTop: theme.spacing(2),
   },
 }));
+
+const listFields = [
+  { label: 'name', nameField: 'name', md: 3 },
+  { label: 'Quốc gia', nameField: 'country', md: 2 },
+  { label: 'Nơi làm việc', nameField: 'location', md: 2 },
+  { label: 'Chế độ OT', nameField: 'ot', md: 2 },
+  { label: 'Số lượng nhân viên', nameField: 'numEmployees', md: 3 },
+  { label: 'Kiểu công ty', nameField: 'type', md: 2 },
+  { label: 'Thời gian làm', nameField: 'workTime', md: 2 },
+  { label: 'Giới thiệu tổng quan', nameField: 'intro', md: 12 },
+  { label: 'Chi tiết công ty', nameField: 'details', md: 12 },
+];
 
 const CompanyUpdateInfo = () => {
   const { user } = useSelector(userSelector);
@@ -86,23 +99,11 @@ const CompanyUpdateInfo = () => {
     name: 'photo',
     defaultValue: '/mario.jpg',
   });
+
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Paper className={classes.root}>
-        <Link
-          to={'/company/' + company._id}
-          style={{
-            textDecoration: 'none',
-          }}
-        >
-          <Button variant="outlined">Company Page</Button>
-        </Link>
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          marginBottom={2}
-        >
+        <Box display="flex" alignItems="center" justifyContent="center">
           <Typography variant="h6">🦹‍♂️ Cập nhật thông tin 💌</Typography>
         </Box>
         <form
@@ -112,130 +113,70 @@ const CompanyUpdateInfo = () => {
           })}
           className="form"
         >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            style={{
-              width: '170px',
-              height: '170px',
-            }}
-          >
-            <img
-              src={`${photo}`}
-              alt="company"
-              style={{
-                maxWidth: '170px',
-                maxHeight: '170px',
-              }}
-            />
-          </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpen(true)}
-            style={{
-              marginTop: 16,
-              marginBottom: 16,
-            }}
-          >
-            Cập nhật logo
-          </Button>
-
-          <UploadImage
-            open={open}
-            setOpen={setOpen}
-            setValue={setValue}
-            control={control}
-            field={'photo'}
-          />
-
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="name"
-            label="Tên công ty"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="country"
-            label="Quốc gia"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="intro"
-            label="Giới thiệu tổng quan"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="details"
-            label="Chi tiết tổng quan"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="location"
-            label="Vị trí"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="type"
-            label="Kiểu công ty"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="numEmployees"
-            label="Số lượng nhân viên"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="workTime"
-            label="Khoảng thời gian làm việc"
-          />
-          <MuiTextField
-            control={control}
-            getValues={getValues}
-            nameField="ot"
-            label="Chế độ OT"
-          />
-          {/* <MuiSelect
-            control={control}
-            nameField="location"
-            label="Thành phố"
-            menus={[
-              { text: 'Hà Nội', value: 'Hà Nội' },
-              { text: 'Hồ Chí Minh', value: 'Hồ Chí Minh' },
-              { text: 'Đà Nẵng', value: 'Đà Nẵng' },
-              { text: 'others', value: 'Other' },
-            ]}
-          /> */}
-
-          {/* {tagFields.map((tag, index) => (
-            <Controller
-              control={control}
-              key={tag.id}
-              name={`tags[${index}]`}
-              render={({ ...props }) => (
-                <>
-                  <TextField {...props} multiline={true} />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    onClick={() => tagRemove(index)}
-                  >
-                    Remove
+          <Grid container spacing={2}>
+            <Grid item md={12}>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                style={{
+                  width: '170px',
+                  height: '170px',
+                }}
+              >
+                <img
+                  src={`${photo}`}
+                  alt="company"
+                  style={{
+                    maxWidth: '170px',
+                    maxHeight: '170px',
+                  }}
+                />
+              </Box>
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                onClick={() => setOpen(true)}
+                style={{
+                  marginTop: 8,
+                }}
+              >
+                Cập nhật logo
+              </Button>
+              <Box>
+                <Link
+                  to={'/company/' + company._id}
+                  style={{
+                    textDecoration: 'none',
+                  }}
+                >
+                  <Button variant="text" color="primary">
+                    Company Page
                   </Button>
-                </>
-              )}
-            />
-          ))} */}
+                </Link>
+              </Box>
+              <UploadImage
+                open={open}
+                setOpen={setOpen}
+                setValue={setValue}
+                control={control}
+                field={'photo'}
+              />
+            </Grid>
+
+            {listFields.map((field) => (
+              <Grid item key={field?.label} md={parseInt(field?.md)}>
+                <MuiTextField
+                  control={control}
+                  getValues={getValues}
+                  // register={register}
+                  label={field?.label}
+                  nameField={field.nameField}
+                />
+              </Grid>
+            ))}
+          </Grid>
 
           <Typography variant="h5">Môi trường làm việc</Typography>
           <Button

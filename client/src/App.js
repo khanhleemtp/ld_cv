@@ -19,6 +19,8 @@ import CompanyManagerPage from './pages/CompanyManagerPage';
 
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
+import JobDetails from './components/FindJobPage/JobDetails';
+import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
 
@@ -67,8 +69,11 @@ function App() {
                 }
               />
               <Route path="/manager" children={<CompanyManagerPage />} />
+              <Route path="/update-job/:id" children={<UpdateJob />} />
+
               <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
+              <Route path="/jobs/:id" children={<JobDetails />} />
               <Route path="/dashboard" children={<DashboardPage />} />
               <Route children={<Signup />} path="/signup" />
               <Route children={<Signin />} path="/signin" />

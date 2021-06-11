@@ -4,6 +4,8 @@ import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,11 +19,9 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: `0 3px 4px 0 rgba(0,0,0,.4)`,
     },
     marginBottom: theme.spacing(1),
-
     borderLeft: '4px solid',
     borderLeftColor: '#ec407a',
-    // [theme.breakpoints.up('md')]: {
-    // },
+    maxWidth: theme.spacing(64),
   },
   title: {
     fontSize: 18,
@@ -35,10 +35,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobCard = ({ item, photo }) => {
+const JobCard = ({ item, photo, companyName }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const handleDetailsJob = () => {
+    // console.log('click');
+    history.push('/jobs/' + item?.id);
+  };
   return (
-    <Paper className={classes.root} variant="outlined">
+    <Paper
+      className={classes.root}
+      variant="outlined"
+      onClick={handleDetailsJob}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -48,6 +57,7 @@ const JobCard = ({ item, photo }) => {
         height={70}
         width={70}
         borderColor={'#ddd'}
+        flexDirection="column"
       >
         <img
           src={photo}
@@ -57,12 +67,17 @@ const JobCard = ({ item, photo }) => {
             maxWidth: '65px',
           }}
         />
+        <Typography variant="subtitle2" align="center">
+          {companyName.toUpperCase()}
+        </Typography>
       </Box>
       <Box
         display="flex"
         justifyContent="center"
         flexDirection="column"
         alignItems="space-between"
+        flexGrow={1}
+        marginLeft={2}
       >
         <Typography variant="h6" component="p">
           {item?.title}
@@ -82,9 +97,10 @@ const JobCard = ({ item, photo }) => {
         flexDirection="column"
         alignItems="space-between"
       >
-        {/* <Chip label="Hot" clickable color="primary" /> */}
-        <Typography variant="subtitle2">Ho Chi Minh</Typography>
-        <Typography variant="subtitle2">1 ngày trước</Typography>
+        <Typography variant="subtitle2">{item?.location || '__'}</Typography>
+        <Typography variant="subtitle2">
+          {moment().diff(item?.createdAt, 'hour')} giờ trước
+        </Typography>
       </Box>
     </Paper>
   );

@@ -55,7 +55,7 @@ exports.deleteCompany = catchAsync(async (req, res, next) => {
 
 exports.getCompany = factory.getOne(Company, {
   path: 'jobs',
-  select: 'tags salary title location',
+  select: 'tags salary title location createdAt',
 });
 
 exports.updateCompany = factory.updateOne(Company, [

@@ -5,7 +5,7 @@ const jobSchema = new mongoose.Schema(
   {
     title: String,
     salary: String,
-    location: [String],
+    location: String,
     type: String,
     tags: [
       {
@@ -50,6 +50,13 @@ jobSchema.pre('save', function (next) {
 //   });
 //   next();
 // });
+
+jobSchema.virtual('companyFrom', {
+  ref: 'Company',
+  foreignField: '_id',
+  localField: 'company',
+  justOne: true,
+});
 
 // get all job active
 jobSchema.pre(/^find/, function (next) {

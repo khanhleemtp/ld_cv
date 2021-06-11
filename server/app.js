@@ -10,10 +10,14 @@ const hpp = require('hpp');
 // const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
+const _ = require('lodash');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const { cloudinary } = require('./utils/cloudinary');
+const Job = require('./models/JobModel');
+const Resume = require('./models/ResumeModel');
+
 // const tourRouter = require('./routes/tourRoutes');
 // const userRouter = require('./routes/userRoutes');
 // const reviewRouter = require('./routes/reviewRoutes');
@@ -113,12 +117,41 @@ app.use('/api/v1/upload', async (req, res) => {
     res.status(500).json({ status: 'fail', msg: 'Uploading fail' });
   }
 });
+
+app.use('/api/v1/suggest/:id', async (req, res) => {
+  try {
+    console.log(req.params);
+    const job = await Job.findById(req.params.id);
+    const resumes = await Resume.find();
+    const math80 = resumes.filter((cv) => {
+      const intersection = _.intersection(cv.tags, job.slugs);
+      return intersection.length >= job.slugs.length * 0.8;
+    });
+
+    const math50 = resumes.filter((cv) => {
+      const intersection = _.intersection(cv.tags, job.slugs);
+      return intersection.length >= job.slugs.length * 0.5;
+    });
+    res.json({
+      status: 'OK',
+      job,
+      resumes,
+      math80,
+      math50,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: 'fail', msg: 'Uploading fail' });
+  }
+});
+
 // 3) ROUTES
 // app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
 app.use('/api/v1/companies', require('./routes/companyRoutes'));
 app.use('/api/v1/job', require('./routes/jobRoutes'));
+
 app.use('/api/v1/applies', require('./routes/applyRoutes'));
 app.use('/api/v1/reviews', require('./routes/reviewRoutes'));
 

@@ -5,11 +5,16 @@ import { companySelector } from '../../features/Company/CompanySlice';
 
 const CompanyListJob = () => {
   const { company } = useSelector(companySelector);
-
   return (
     <Box>
       {company?.jobs?.map((item) => (
-        <JobCard key={item.id} item={item} photo={company?.photo} />
+        <Box key={item.id}>
+          <JobCard
+            item={item}
+            photo={company?.photo}
+            companyName={company?.name}
+          />
+        </Box>
       ))}
     </Box>
   );

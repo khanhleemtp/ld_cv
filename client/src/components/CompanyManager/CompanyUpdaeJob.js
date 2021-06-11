@@ -7,36 +7,18 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import MuiDatePicker from '../../components/UI/Mui/MuiDatePicker';
 import MuiSelect from '../../components/UI/Mui/MuiSelect';
 import MuiTextField from '../../components/UI/Mui/MuiTextField';
-import { createJob } from '../../features/Job/JobSlice';
-import { userSelector } from '../../features/User/UserSlice';
-
-// const defaultValues = {
-//   title: 'Python',
-//   company: '60b7fbeee3cc070914e6a733',
-//   tags: ['Python', 'C++', 'Node JS', 'Quản lý dự án'],
-//   position: 'Dev',
-//   location: 'Hà Nội',
-//   requirements: [
-//     'Có tối thiểu 1 năm kinh nghiệm làm về framework NodeJS trong phát triển phần mềm',
-//     'Nắm vững kiến thức lập trình cơ bản, lập trình hướng đối tượng (OOP), cơ sở dữ liệu (DBMS)',
-//     'Tiếng Anh đọc hiểu tài liệu kỹ thuật.',
-//   ],
-//   descriptions: [
-//     'Tham gia phát triển các dự án phát triển phần mềm outsourcing cho Nhật sử dụng framework NodeJS của Javascript',
-//     'Đề xuất giải pháp, xu hướng công nghệ mới để nâng cao chất lượng sản phẩm cho khách hàng',
-//     'Phối hợp hiệu quả cùng nhóm thiết kế, lập trình để cho ra sản phẩm tốt nhất',
-//   ],
-//   salary: '1000-2000',
-//   type: 'Fulltime',
-//   from: '',
-//   to: '',
-// };
+import {
+  updateJob,
+  jobSelector,
+  getjobById,
+} from '../../features/Job/JobSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,12 +27,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CreateJob = () => {
+const UpdateJob = () => {
   const dispatch = useDispatch();
-  const { handleSubmit, getValues, control, register } = useForm();
-  const history = useHistory();
-  const { user } = useSelector(userSelector);
-  const companyId = user?.company?._id;
+  const { handleSubmit, getValues, control, register, reset } = useForm();
+
   const {
     fields: tagFields,
     append: tagAppend,
@@ -84,8 +64,23 @@ const CreateJob = () => {
     { label: 'Mức lương', nameField: 'salary' },
   ];
 
-  const classes = useStyles();
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(getjobById(id));
+  }, [dispatch, id]);
 
+  const { job } = useSelector(jobSelector);
+  const history = useHistory();
+
+  useEffect(() => {
+    reset(job);
+  }, [job, reset]);
+
+  const handleUpdateJob = handleSubmit((data) =>
+    dispatch(updateJob({ id, data, cb: () => history.push('/jobs/' + id) }))
+  );
+
+  const classes = useStyles();
   return (
     <Container maxWidth="md">
       <Paper className={classes.root}>
@@ -95,21 +90,9 @@ const CreateJob = () => {
           justifyContent="center"
           marginBottom={2}
         >
-          <Typography variant="h6">🦹‍♂️ Tạo việc làm 💌</Typography>
+          <Typography variant="h6">🦹‍♂️ Cập nhật việc làm 💌</Typography>
         </Box>
-        <form
-          onSubmit={handleSubmit((data) => {
-            dispatch(
-              createJob({
-                data,
-                cb: () => {
-                  history.push(`/company/` + companyId);
-                },
-              })
-            );
-          })}
-          className="form"
-        >
+        <form onSubmit={handleUpdateJob} className="form">
           <Grid container spacing={2}>
             {listField?.map((field) => (
               <Grid item key={field.label}>
@@ -274,7 +257,7 @@ const CreateJob = () => {
               marginTop: 8,
             }}
           >
-            Tạo công việc
+            Cập nhật công việc
           </Button>
         </form>
       </Paper>
@@ -282,4 +265,4 @@ const CreateJob = () => {
   );
 };
 
-export default CreateJob;
+export default UpdateJob;
