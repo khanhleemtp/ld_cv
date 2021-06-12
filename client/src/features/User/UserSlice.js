@@ -57,6 +57,18 @@ export const fetchUserBytoken = createAsyncThunk(
   }
 );
 
+export const getNotifications = createAsyncThunk(
+  'user/getNotifications',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/notification?user=${id}`);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -66,6 +78,7 @@ export const userSlice = createSlice({
     isSuccess: false,
     isError: false,
     errorMessage: '',
+    notifications: [],
   },
   reducers: {
     clearState: (state) => {
@@ -139,6 +152,13 @@ export const userSlice = createSlice({
         : error.message;
       state.isFetching = false;
       state.isError = true;
+    },
+    [getNotifications.fulfilled]: (state, { payload }) => {
+      console.log('notification', payload);
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isFetching = false;
+      state.notifications = payload;
     },
   },
 });

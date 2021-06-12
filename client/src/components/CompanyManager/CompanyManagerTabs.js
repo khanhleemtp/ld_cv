@@ -21,16 +21,6 @@ const tabList = [
     index: 2,
     component: <CompanyListJob />,
   },
-  {
-    label: 'Thông báo 🇻🇳',
-    index: 3,
-    component: <div>Thông báo</div>,
-  },
-  {
-    label: 'Ứng viên',
-    index: 4,
-    component: <div>Thông báo</div>,
-  },
 ];
 const CompanyManagerTabs = () => {
   return (

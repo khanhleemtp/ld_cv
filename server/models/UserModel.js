@@ -61,6 +61,12 @@ userSchema.virtual('company', {
   justOne: true,
 });
 
+// userSchema.virtual('applies', {
+//   ref: 'Apply',
+//   foreignField: 'user',
+//   localField: '_id',
+// });
+
 userSchema.pre('save', async function (next) {
   // Only run function if password was actually modified
 

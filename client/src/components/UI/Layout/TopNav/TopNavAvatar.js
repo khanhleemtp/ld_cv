@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   userSelector,
   fetchUserBytoken,
+  getNotifications,
 } from '../../../../features/User/UserSlice';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
@@ -23,7 +24,14 @@ const TopNavAvatar = () => {
   useEffect(() => {
     dispatch(fetchUserBytoken());
   }, [dispatch]);
-  const { user } = useSelector(userSelector);
+
+  const { user, isFetching } = useSelector(userSelector);
+
+  useEffect(() => {
+    const id = !isFetching && user?._id;
+    dispatch(getNotifications(id));
+  }, [dispatch, isFetching, user]);
+
   const userList = {
     text: user?.name,
     path: '',

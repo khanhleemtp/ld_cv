@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import TabComponent from '../UI/TabComponent';
 import DashboardUserInfo from './DashboardUserInfo';
 import DashboardUserCv from './DashboardUserCv';
+import DashboardUserApply from './DashboardUserApply';
 
 const DashboardTabs = () => {
   const tabList = [
@@ -17,9 +18,9 @@ const DashboardTabs = () => {
       component: <DashboardUserCv />,
     },
     {
-      label: 'Quan tâm 💛',
+      label: 'Ứng tuyển',
       index: 2,
-      component: <div>Quan tâm</div>,
+      component: <DashboardUserApply />,
     },
     {
       label: 'Ứng tuyển 😁',

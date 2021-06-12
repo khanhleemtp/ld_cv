@@ -29,19 +29,23 @@ const CompanyPage = () => {
         minHeight: '100vh',
       }}
     >
-      <Container>
-        <Grid container spacing={1} style={{ flexGrow: 1 }}>
-          <Grid item md={12}>
-            <CompanyPageHeader company={company} />
-          </Grid>
-          <Grid item md={8} style={{ flexGrow: 1 }}>
-            <CompanyTab />
-          </Grid>
-          {/* <Grid item md={4}>
+      {!company ? (
+        <div>Loading...</div>
+      ) : (
+        <Container>
+          <Grid container spacing={1} style={{ flexGrow: 1 }}>
+            <Grid item md={12}>
+              <CompanyPageHeader company={company} />
+            </Grid>
+            <Grid item md={8} style={{ flexGrow: 1 }}>
+              <CompanyTab />
+            </Grid>
+            {/* <Grid item md={4}>
             <CompanyReview style={{ flexGrow: 1 }} />
           </Grid> */}
-        </Grid>
-      </Container>
+          </Grid>
+        </Container>
+      )}
     </Box>
   );
 };

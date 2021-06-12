@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import HomeCompanyCard from './HomeCompanyCard';
-
+import {
+  companySelector,
+  getTopCompany,
+} from '../../features/Company/CompanySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   companyItem: {
     display: 'flex',
+    cursor: 'pointer',
     flexDirection: 'column',
     justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
@@ -18,71 +24,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 const HomeCompanyList = () => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
+  const history = useHistory();
+  useEffect(() => {
+    dispatch(getTopCompany());
+  }, [dispatch]);
+  const { topCom } = useSelector(companySelector);
+  const handleGoCompany = (id) => () => {
+    history.push('/company/' + id);
+  };
   return (
     <Container maxWidth="lg">
       <Box marginY={4}>
         <Typography variant="h4">Nhà tuyển dụng hàng đầu</Typography>
       </Box>
       <Grid container spacing={2}>
-        {[
-          {
-            id: 1,
-            photo: 'company/fpt.png',
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/samsung.png',
-            id: 2,
-            company: 'Samsung',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/fpt.png',
-            id: 3,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/samsung.png',
-            id: 4,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/fpt.png',
-            id: 5,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/samsung.png',
-            id: 6,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/fpt.png',
-            id: 7,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-          {
-            photo: 'company/samsung.png',
-            id: 8,
-            company: 'FPT',
-            location: 'Ho Chi Minh',
-            totalJob: 5,
-          },
-        ].map((item) => (
+        {topCom?.map((item) => (
           <Grid
             item
             xs={12}
@@ -90,12 +47,12 @@ const HomeCompanyList = () => {
             md={3}
             className={classes.companyItem}
             key={item.id}
+            onClick={handleGoCompany(item.id)}
           >
             <HomeCompanyCard
               photo={item.photo}
-              totalJob={item.totalJob || 0}
               location={item.location}
-              company={item.company}
+              company={item.name}
             />
           </Grid>
         ))}

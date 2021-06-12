@@ -21,6 +21,7 @@ import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 import JobDetails from './components/FindJobPage/JobDetails';
 import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
+import CompanyListCandiate from './components/CompanyManager/CompanyListCandiate';
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
 
@@ -70,6 +71,7 @@ function App() {
               />
               <Route path="/manager" children={<CompanyManagerPage />} />
               <Route path="/update-job/:id" children={<UpdateJob />} />
+              <Route path="/cadidate/:id" children={<CompanyListCandiate />} />
 
               <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
@@ -77,11 +79,6 @@ function App() {
               <Route path="/dashboard" children={<DashboardPage />} />
               <Route children={<Signup />} path="/signup" />
               <Route children={<Signin />} path="/signin" />
-              {/* <PrivateRoute
-                component={Dashboard}
-                path="/dashboard"
-                role="admin"
-              /> */}
             </LayoutPage>
           </Switch>
         </Router>

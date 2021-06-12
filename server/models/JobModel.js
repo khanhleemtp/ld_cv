@@ -58,6 +58,13 @@ jobSchema.virtual('companyFrom', {
   justOne: true,
 });
 
+jobSchema.virtual('applies', {
+  ref: 'Apply',
+  foreignField: '_id',
+  localField: 'job',
+  justOne: true,
+});
+
 // get all job active
 jobSchema.pre(/^find/, function (next) {
   // this points to current query

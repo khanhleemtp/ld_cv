@@ -10,12 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { getjobById, jobSelector } from '../../features/Job/JobSlice';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { Grid } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
+import { createApply } from '../../features/Apply/ApplySlice';
 const useStyles = makeStyles((theme) => ({
   root: {},
 }));
@@ -23,13 +24,18 @@ const useStyles = makeStyles((theme) => ({
 const JobDetails = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getjobById(id));
     return () => {};
   }, [dispatch, id]);
   const { job } = useSelector(jobSelector);
-  console.log(job);
+
+  const handleApply = () => {
+    dispatch(createApply(() => history.push('/dashboard')));
+  };
+
   return (
     <Container maxWidth="md">
       <Card className={classes.root}>
@@ -42,7 +48,12 @@ const JobDetails = () => {
             title="Contemplative Reptile"
           />
           <CardActions>
-            <Button size="large" color="primary" variant="contained">
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              onClick={handleApply}
+            >
               Ứng tuyển ngay
             </Button>
           </CardActions>
@@ -75,8 +86,7 @@ const JobDetails = () => {
                   </Typography>
                   <Typography gutterBottom variant="body1">
                     Thời gian ứng tuyển:{' '}
-                    {moment(job?.createdAt).format('DD/MM/YYYY')}
-                    <span style={{ margin: 2 }}>-</span>
+                    {moment(job?.createdAt).format('DD/MM/YYYY')} {' - '}
                     {moment(job?.to).format('DD/MM/YYYY')}
                   </Typography>
                 </Typography>

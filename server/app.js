@@ -75,17 +75,12 @@ app.use(xss());
 app.use(
   hpp({
     whitelist: [
-      'duration',
-      'ratingsQuantity',
-      'ratingsAverage',
-      'maxGroupSize',
-      'difficulty',
-      'price',
       'tags',
       'or',
       'all',
       'in',
       'and',
+      'ne',
       // 'elemMatch',
     ],
   })
@@ -151,6 +146,7 @@ app.use('/api/v1/users', require('./routes/userRoutes'));
 app.use('/api/v1/resumes', require('./routes/resumeRoutes'));
 app.use('/api/v1/companies', require('./routes/companyRoutes'));
 app.use('/api/v1/job', require('./routes/jobRoutes'));
+app.use('/api/v1/notification', require('./routes/notificationRoutes'));
 
 app.use('/api/v1/applies', require('./routes/applyRoutes'));
 app.use('/api/v1/reviews', require('./routes/reviewRoutes'));

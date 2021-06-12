@@ -53,8 +53,6 @@ const HomeCompanyCard = ({ photo, company, totalJob, location }) => {
         {company}
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Typography color="primary">{totalJob} việc làm</Typography>
-        <Box marginX={1}>-</Box>
         <Typography>{location}</Typography>
       </Box>
     </Paper>

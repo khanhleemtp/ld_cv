@@ -19,12 +19,12 @@ router
   .post(authController.protect, authController.restrictTo('user', 'admin'))
   .delete(
     authController.protect,
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('user', 'company'),
     applyController.deleteApply
   )
   .patch(
     authController.protect,
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('company', 'admin'),
     applyController.updateApply
   );
 

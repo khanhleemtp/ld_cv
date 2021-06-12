@@ -12,7 +12,6 @@ import { userSelector } from '../../features/User/UserSlice';
 const CompanyListJob = () => {
   const { user } = useSelector(userSelector);
   const companyId = user?.company?._id;
-  console.log(companyId);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCompanyById(companyId));

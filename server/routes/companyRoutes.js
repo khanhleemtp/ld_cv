@@ -14,6 +14,10 @@ router
   );
 
 router
+  .route('/top-8-company')
+  .get(companyController.aliasTopCompany, companyController.getAllCompanies);
+
+router
   .route('/:id')
   .get(companyController.getCompany)
   .post(

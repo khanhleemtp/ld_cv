@@ -11,6 +11,7 @@ import { TokenService } from '../../../../services/TokenService';
 import { Button } from '@material-ui/core';
 import { logOut } from '../../../../features/User/UserSlice';
 import { useDispatch } from 'react-redux';
+import TopNavBadge from './TopNavBadge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,12 +95,10 @@ const navOptions = [
   { title: 'Đăng nhập', path: '/signin' },
   { title: 'Đăng ký', path: '/signup' },
   { title: 'Việc làm IT', path: '/job' },
-  { title: 'Dash', path: '/dashboard' },
-  { title: 'Update Company', path: '/manager-company/update-info' },
-  { title: 'Tạo việc', path: '/manager-company/create-job' },
+  { title: 'Tôi', path: '/dashboard' },
+  { title: 'Công ty', path: '/manager' },
   { title: 'Admin', path: '/admin' },
   { title: 'Đăng ký công ty', path: '/register-company' },
-  { title: 'Công ty', path: '/manager' },
   { title: 'Tìm việc', path: '/find' },
 ];
 
@@ -174,6 +173,7 @@ function TopNav() {
                 );
               })}
             </Box>
+            <TopNavBadge />
             {TokenService.getToken() && <TopNavAvatar />}
             {TokenService.getToken() && (
               <Button variant="outlined" onClick={handleLogOut}>

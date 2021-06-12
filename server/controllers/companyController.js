@@ -18,6 +18,13 @@ exports.createCompany = factory.createOne(Company, [
   'website',
 ]);
 
+exports.aliasTopCompany = (req, res, next) => {
+  req.query.limit = '8';
+  req.query.sort = 'name';
+  req.query.fields = 'name,photo,location';
+  next();
+};
+
 exports.acceptCompany = catchAsync(async (req, res, next) => {
   const company = await Company.findByIdAndUpdate(req.params.id, req.body);
   req.body.status === 'accept'

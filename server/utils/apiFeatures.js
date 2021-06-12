@@ -15,9 +15,10 @@ class APIFeatures {
     // { duration: { gte: '5' }, difficulty: 'easy' }
     // gte, gt, lte, lt
     // using regular expression
+
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt|all|elemMatch|or|regex|option|in|and)\b/g,
+      /\b(gte|gt|lte|lt|all|elemMatch|or|regex|option|in|and|ne)\b/g,
       (match) => `$${match}`
     );
 
