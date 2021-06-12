@@ -24,13 +24,13 @@ const SelectLocation = ({ control }) => {
     <Box className={classes.root}>
       {/* <label>Chọn thành phố</label> */}
       <Controller
-        name="Select"
+        name="location"
         render={({ field }) => (
           <Select {...field} MenuProps={{ disableScrollLock: true }} fullWidth>
-            <MenuItem value={'ha-noi'}>Hà Nội</MenuItem>
-            <MenuItem value={'ho-chi-minh'}>Hồ Chí Minh</MenuItem>
-            <MenuItem value={'da-nang'}>Đà Nẵng</MenuItem>
-            <MenuItem value={'other-'}>Khác</MenuItem>
+            <MenuItem value={'Hà Nội'}>Hà Nội</MenuItem>
+            <MenuItem value={'Hồ Chí Minh'}>Hồ Chí Minh</MenuItem>
+            <MenuItem value={'Đà Nẵng'}>Đà Nẵng</MenuItem>
+            <MenuItem value={'other'}>Khác</MenuItem>
           </Select>
         )}
         control={control}

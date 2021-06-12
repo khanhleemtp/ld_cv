@@ -90,7 +90,7 @@ const CompanyPageHeader = ({ company }) => {
               col: 12,
             },
 
-            { text: company.type, icon: <SettingsOutlinedIcon />, col: 4 },
+            { text: company?.type, icon: <SettingsOutlinedIcon />, col: 4 },
             {
               text: company?.numEmployees,
               icon: <PeopleOutlinedIcon />,
@@ -107,7 +107,7 @@ const CompanyPageHeader = ({ company }) => {
               col: 4,
             },
             {
-              text: company.ot,
+              text: company?.ot,
               icon: <QueryBuilderOutlinedIcon />,
               col: 4,
             },

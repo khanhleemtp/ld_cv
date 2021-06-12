@@ -1,20 +1,29 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
-import MailIcon from '@material-ui/icons/Mail';
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import { useSelector } from 'react-redux';
 import { userSelector } from '../../../../features/User/UserSlice';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
       cursor: 'pointer',
+      marginRight: theme.spacing(1.6),
+      marginLeft: theme.spacing(1.6),
     },
+  },
+  text: {
+    padding: 4,
+  },
+  icon: {
+    textAlign: 'center',
+    cursor: 'pointer',
+    paddingTop: 4,
   },
 }));
 
@@ -27,7 +36,7 @@ const TopNavBadge = () => {
         <div>
           <div className={classes.root} {...bindTrigger(popupState)}>
             <Badge badgeContent={notifications?.length || 0} color="primary">
-              <MailIcon />
+              <NotificationsNoneOutlinedIcon />
             </Badge>
           </div>
           <Popover
@@ -40,16 +49,37 @@ const TopNavBadge = () => {
               vertical: 'top',
               horizontal: 'center',
             }}
+            disableScrollLock={true}
           >
             {notifications?.length > 0 ? (
-              <Box p={2}>
+              <Box
+                p={2}
+                style={{
+                  maxHeight: 120,
+                  maxWidth: 240,
+                }}
+              >
                 {notifications?.map((noti) => (
-                  <Typography variant="caption" key={noti?.message}>
-                    {noti?.message}
+                  <Typography
+                    variant="caption"
+                    key={noti?.message}
+                    className={classes.text}
+                  >
+                    {noti?.message}{' '}
+                    <ClearOutlinedIcon
+                      className={classes.icon}
+                      fontSize="small"
+                    />
                   </Typography>
                 ))}
               </Box>
-            ) : null}
+            ) : (
+              <Box className={classes.text}>
+                <Typography variant="caption">
+                  Bạn không có thông báo nào
+                </Typography>
+              </Box>
+            )}
           </Popover>
         </div>
       )}

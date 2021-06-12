@@ -131,7 +131,7 @@ const CreateJob = () => {
                   { text: 'Hà Nội', value: 'Hà Nội' },
                   { text: 'Hồ Chí Minh', value: 'Hồ Chí Minh' },
                   { text: 'Đà Nẵng', value: 'Đà Nẵng' },
-                  { text: 'others', value: 'Other' },
+                  { text: 'other', value: 'other' },
                 ]}
               />
             </Grid>
@@ -141,9 +141,9 @@ const CreateJob = () => {
                 nameField="type"
                 label="Loại công việc"
                 menus={[
-                  { text: 'Fulltime', value: 'Fulltime' },
-                  { text: 'Partime', value: 'Partime' },
-                  { text: 'Remote', value: 'Remote' },
+                  { text: 'Fulltime', value: 'fulltime' },
+                  { text: 'Partime', value: 'partime' },
+                  { text: 'Remote', value: 'remote' },
                 ]}
               />
             </Grid>

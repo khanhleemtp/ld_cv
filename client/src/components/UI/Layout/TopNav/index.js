@@ -8,29 +8,27 @@ import Box from '@material-ui/core/Box';
 import { useState, useEffect, useCallback } from 'react';
 import TopNavAvatar from './TopNavAvatar';
 import { TokenService } from '../../../../services/TokenService';
-import { Button } from '@material-ui/core';
 import { logOut } from '../../../../features/User/UserSlice';
 import { useDispatch } from 'react-redux';
 import TopNavBadge from './TopNavBadge';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     overflow: 'hidden',
   },
-
+  menu: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
   toolbar: theme.mixins.toolbar,
-  avatar: {
-    marginRight: theme.spacing(1),
-  },
-  boxAvatar: {
-    display: 'flex',
-    alignItems: 'center',
-  },
   logo: {
     marginRight: theme.spacing(4),
     color: theme.palette.primary.main,
-    fontSize: 28,
+    fontSize: 24,
     cursor: 'pointer',
   },
   nav: {
@@ -44,44 +42,23 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     background: theme.palette.primary.header,
   },
-  boxGrow: {
-    display: 'flex',
-    alignItems: 'center',
-    flex: '1 1 0',
-  },
-  list: {
-    // width: '100%',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-    display: 'flex',
-    flex: '1 1 0',
-  },
-
-  user: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-  },
-
   isHidden: {
     display: 'none',
   },
-  btn: {
-    justifySelf: 'end',
-    [theme.breakpoints.down('sm')]: {
-      width: 160,
-    },
-    width: 200,
-    color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.main,
-    '&:hover': {
-      background: theme.palette.primary.header,
-    },
-    marginRight: theme.spacing(1),
+  boxGrow: {
+    display: 'flex',
+    alignItems: 'center',
+    flexGrow: 1,
   },
+  linkList: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+
   linkItem: {
-    fontSize: theme.spacing(2.2),
+    fontSize: theme.spacing(1.8),
     color: theme.palette.grey[700],
     textAlign: 'center',
     userSelect: 'none',
@@ -91,11 +68,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const navOptions = [
+const guestOptions = [
   { title: 'Đăng nhập', path: '/signin' },
   { title: 'Đăng ký', path: '/signup' },
   { title: 'Việc làm IT', path: '/job' },
-  { title: 'Tôi', path: '/dashboard' },
+];
+
+const userOptions = [
+  { title: 'Tìm việc', path: '/signin' },
+  { title: 'Tạo CV', path: '/signup' },
+  { title: 'Công ty', path: '/signup' },
+];
+
+const companyOptions = [
+  { title: 'Quản lý', path: '/manager' },
+  { title: 'Compant Page', path: '/company' },
+  { title: 'Việc làm IT', path: '/job' },
+];
+
+const adminOptions = [
+  { title: 'Đăng nhập', path: '/signin' },
+  { title: 'Đăng ký', path: '/signup' },
+  { title: 'Việc làm IT', path: '/job' },
+];
+
+const navOptions = [
+  // { title: 'Đăng nhập', path: '/signin' },
+  // { title: 'Đăng ký', path: '/signup' },
+  // { title: 'Việc làm IT', path: '/job' },
+  { title: 'Thông tin', path: '/dashboard' },
   { title: 'Công ty', path: '/manager' },
   { title: 'Admin', path: '/admin' },
   { title: 'Đăng ký công ty', path: '/register-company' },
@@ -151,7 +152,7 @@ function TopNav() {
             >
               LD ☕
             </Typography>
-            <Box className={classes.list}>
+            <Box className={classes.linkList}>
               {navOptions.map(({ path, title }) => {
                 return (
                   <Link
@@ -173,13 +174,23 @@ function TopNav() {
                 );
               })}
             </Box>
-            <TopNavBadge />
-            {TokenService.getToken() && <TopNavAvatar />}
-            {TokenService.getToken() && (
-              <Button variant="outlined" onClick={handleLogOut}>
-                LogOut
-              </Button>
-            )}
+            <Box
+              flexGrow={1}
+              alignItems="center"
+              display="flex"
+              justifyContent="flex-end"
+            >
+              <TopNavBadge />
+              {TokenService.getToken() && <TopNavAvatar />}
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                className={classes.menu}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Container>
       </Toolbar>

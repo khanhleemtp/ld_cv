@@ -35,7 +35,7 @@ const Signup = lazy(() => pMinDelay(import('./pages/SignupPage'), 500));
 function App() {
   /* TODO  UI */
   console.log(
-    slugify('Project Manager', {
+    slugify('ld-khánh', {
       lower: true,
       locale: 'vi',
     })

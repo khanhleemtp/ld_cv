@@ -69,13 +69,8 @@ const options = [
   { value: '6666', label: 'nextjs' },
 ];
 
-const defaultOption = [
-  { value: '1111', label: 'c++' },
-  { value: '2222', label: 'c#' },
-];
-
 const defaultValues = {
-  Select: 'ho-chi-minh',
+  location: 'Hồ Chí Minh',
 };
 
 const SeachJob = () => {
@@ -84,9 +79,9 @@ const SeachJob = () => {
     defaultValues,
   });
 
-  useEffect(() => {
-    setValue('food', defaultOption);
-  });
+  // useEffect(() => {
+  //   setValue('food', defaultOption);
+  // });
   const [inputValue, setInputValue] = useState('');
 
   return (
@@ -135,7 +130,6 @@ const SeachJob = () => {
                         focused: 'focused',
                       },
                     }}
-                    SelectProps={{}}
                   />
                 )}
               />

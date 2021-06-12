@@ -68,7 +68,7 @@ const JobCard = ({ item, photo, companyName }) => {
           }}
         />
         <Typography variant="subtitle2" align="center">
-          {companyName.toUpperCase()}
+          {companyName?.toUpperCase()}
         </Typography>
       </Box>
       <Box

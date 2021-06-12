@@ -160,7 +160,6 @@ const MuiTextField = ({
                   }
                 : null
             }
-            autoFocus={true}
           />
         )}
       />
