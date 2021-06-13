@@ -31,6 +31,7 @@ const SelectLocation = ({ control }) => {
             <MenuItem value={'Hồ Chí Minh'}>Hồ Chí Minh</MenuItem>
             <MenuItem value={'Đà Nẵng'}>Đà Nẵng</MenuItem>
             <MenuItem value={'other'}>Khác</MenuItem>
+            <MenuItem value={'all'}>Tất cả</MenuItem>
           </Select>
         )}
         control={control}

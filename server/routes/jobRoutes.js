@@ -14,6 +14,11 @@ router
   );
 
 router
+  .route('/data-search')
+  .get(jobController.getJobSearch)
+  .post(jobController.setConditionSearch, jobController.getAllJobs);
+
+router
   .route('/:id')
   .get(jobController.getJob)
   .post(authController.protect, authController.restrictTo('company', 'admin'))

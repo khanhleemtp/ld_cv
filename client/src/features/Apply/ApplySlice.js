@@ -56,13 +56,12 @@ export const getApplyById = createAsyncThunk(
 );
 
 export const deleteApply = createAsyncThunk(
-  'Applys/deleteApply',
-  async (values, thunkAPI) => {
-    const { id } = values;
-    const { Apply } = thunkAPI.getState();
-    const data = Apply?.Applys.filter((item) => item.id !== id);
+  'apply/deleteApply',
+  async (id, thunkAPI) => {
+    const { apply } = thunkAPI.getState();
+    const data = apply?.applies.filter((item) => item.id !== id);
     try {
-      await api.delete(`/Applys/${id}`);
+      await api.delete(`/applies/${id}`);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -97,8 +96,8 @@ export const updateApply = createAsyncThunk(
         ? 'Hẹn gặp bạn lần sau 😪'
         : 'Chúng tôi chấp nhận ứng tuyển của bạn 😊';
     try {
-      await api.patch(`/applies/${id}`, { status, message });
-      await api.post('/notification', { user });
+      await api.patch(`/applies/${id}`, { status });
+      await api.post('/notification', { user, message });
       cb();
       return;
     } catch (error) {
@@ -128,7 +127,7 @@ export const applySlice = createSlice({
   extraReducers: {
     [deleteApply.fulfilled]: (state, { payload }) => {
       console.log('payload: ', payload);
-      state.Applys = payload;
+      state.applies = payload;
       state.isFetching = false;
       state.isSuccess = true;
       toast.success('Xóa thành công 😵');
@@ -141,9 +140,8 @@ export const applySlice = createSlice({
       console.log(payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload?.data?.message
-        ? payload?.data.message
-        : error.message;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.success('Xóa thất bại 😵 state.errorMessage');
     },
     [createApply.pending]: (state) => {
       state.isFetching = true;

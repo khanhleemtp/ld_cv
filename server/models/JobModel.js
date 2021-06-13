@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const moment = require('moment');
+const _ = require('lodash');
 const jobSchema = new mongoose.Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
     salary: String,
     location: String,
     type: String,
@@ -11,6 +16,7 @@ const jobSchema = new mongoose.Schema(
       {
         type: String,
         trim: true,
+        lowercase: true,
       },
     ],
     slugs: [String],
@@ -21,7 +27,10 @@ const jobSchema = new mongoose.Schema(
     to: {
       type: Date,
     },
-    position: String,
+    position: {
+      type: String,
+      lowercase: true,
+    },
     company: {
       type: mongoose.Types.ObjectId,
       ref: 'Company',
@@ -40,16 +49,17 @@ jobSchema.pre('save', function (next) {
   this.slugs = this.tags.map((item) =>
     slugify(item, { lower: true, locale: 'vi' })
   );
+
   next();
 });
 
-// jobSchema.pre(/^find/, function (next) {
-//   this.populate({
-//     path: 'company',
-//     select: 'company location -_id',
-//   });
-//   next();
-// });
+jobSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'company',
+    select: 'company name location photo',
+  });
+  next();
+});
 
 jobSchema.virtual('companyFrom', {
   ref: 'Company',
@@ -77,10 +87,11 @@ jobSchema.pre(/^find/, function (next) {
 });
 
 jobSchema.post('findOneAndUpdate', function (doc, next) {
-  console.log(doc);
+  // console.log(doc);
   doc.slugs = doc.tags.map((item) =>
     slugify(item, { lower: true, locale: 'vi' })
   );
+
   doc.save();
   console.log(doc);
   next();

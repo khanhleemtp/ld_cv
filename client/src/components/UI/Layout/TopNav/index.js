@@ -93,9 +93,9 @@ const adminOptions = [
 ];
 
 const navOptions = [
-  // { title: 'Đăng nhập', path: '/signin' },
-  // { title: 'Đăng ký', path: '/signup' },
-  // { title: 'Việc làm IT', path: '/job' },
+  { title: 'Đăng nhập', path: '/signin' },
+  { title: 'Đăng ký', path: '/signup' },
+  { title: 'Việc làm IT', path: '/job' },
   { title: 'Thông tin', path: '/dashboard' },
   { title: 'Công ty', path: '/manager' },
   { title: 'Admin', path: '/admin' },
@@ -174,6 +174,7 @@ function TopNav() {
                 );
               })}
             </Box>
+            <div onClick={handleLogOut}> Logout</div>
             <Box
               flexGrow={1}
               alignItems="center"

@@ -1,10 +1,7 @@
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import EditIcon from '@material-ui/icons/Edit';
 import Grid from '@material-ui/core/Grid';
-import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -13,6 +10,7 @@ import { makeStyles } from '@material-ui/core';
 import moment from 'moment';
 import {
   applySelector,
+  deleteApply,
   getApplyByUserId,
 } from '../../features/Apply/ApplySlice';
 
@@ -39,10 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 const DashboardUserApply = () => {
   const dispatch = useDispatch();
-  // const handleDelete = (id) => {
-  //   return () => dispatch(deleteResume({ id }));
-  // };
-
+  const handleDelete = (id) => {
+    return () => dispatch(deleteApply(id));
+  };
   // const handleCreate = () => {
   //   dispatch(createResume());
   // };
@@ -92,7 +89,7 @@ const DashboardUserApply = () => {
                   aria-label="upload picture"
                   component="span"
                   title="Xóa"
-                  // onClick={handleDelete(apply?.id)}
+                  onClick={handleDelete(apply?.id)}
                 >
                   <DeleteOutlinedIcon />
                 </IconButton>

@@ -25,9 +25,8 @@ export const createJob = createAsyncThunk(
 export const getAllJob = createAsyncThunk(
   'job/getAllJob',
   async (values, thunkAPI) => {
-    let query = values?.query || '';
     try {
-      const { data } = await api.get(`/job` + query);
+      const { data } = await api.post(`/job/data-search`, values);
       console.log('job', data);
       return data;
     } catch (error) {
@@ -63,11 +62,26 @@ export const updateJob = createAsyncThunk(
   }
 );
 
+export const getJobSearch = createAsyncThunk(
+  'job/getJobSearch',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/job/data-search`);
+      console.log('job', data);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const jobSlice = createSlice({
   name: 'job',
   initialState: {
     jobs: [],
-    job: {},
+    search: {},
+    filter: {},
+    position: [],
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -79,6 +93,10 @@ export const jobSlice = createSlice({
       state.isSuccess = false;
       state.isFetching = false;
       state.errorMessage = '';
+    },
+    updateFilter(state, action) {
+      state.filter = action.payload;
+      return state;
     },
   },
 
@@ -104,13 +122,13 @@ export const jobSlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
-
-    [updateJob.fulfilled]: (state, { payload }) => {
-      toast.success('Cập nhật thành công việc làm 🚀');
-      state.job = payload;
+    [getAllJob.rejected]: (state, { payload, error }) => {
       state.isFetching = false;
-      state.isSuccess = true;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.error(`${state.errorMessage}😥`);
     },
+
     [updateJob.rejected]: (state, { payload, error }) => {
       state.isFetching = false;
       state.isError = true;
@@ -125,8 +143,23 @@ export const jobSlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
+
+    [getJobSearch.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getJobSearch.fulfilled]: (state, { payload }) => {
+      state.search = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [getJobSearch.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.error(`${state?.errorMessage}😥`);
+    },
   },
 });
 
-export const { clearState } = jobSlice.actions;
+export const { clearState, updateFilter } = jobSlice.actions;
 export const jobSelector = (state) => state.job;

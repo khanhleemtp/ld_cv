@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const companySchema = new mongoose.Schema(
   {
     name: {
@@ -32,7 +33,6 @@ const companySchema = new mongoose.Schema(
     workTime: String,
     ot: String,
     country: String,
-
     user: {
       type: mongoose.Types.ObjectId,
       ref: 'User',

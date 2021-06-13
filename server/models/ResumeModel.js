@@ -50,6 +50,8 @@ const resumeSchema = new mongoose.Schema(
     sections: [baseSchema],
     title: {
       type: String,
+      trim: true,
+      lowercase: true,
       default: 'IT CV',
     },
     createdAt: { type: Date, default: Date.now() },
@@ -58,8 +60,18 @@ const resumeSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'User',
     },
-    position: String,
-    tags: [String],
+    position: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
+    tags: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+    ],
   },
   {
     //virtuals properties not save in db but caculate

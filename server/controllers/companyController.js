@@ -20,6 +20,7 @@ exports.createCompany = factory.createOne(Company, [
 
 exports.aliasTopCompany = (req, res, next) => {
   req.query.limit = '8';
+  req.query.status = 'accept';
   req.query.sort = 'name';
   req.query.fields = 'name,photo,location';
   next();

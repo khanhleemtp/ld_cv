@@ -7,7 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './helpers/PrivateRoute';
 import ProtectedRoute from './helpers/ProtectedRoute';
-import Dashboard from './features/User/Dashboard';
 import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
 import { ResumeWrapper } from './contexts/useResume';
@@ -72,7 +71,6 @@ function App() {
               <Route path="/manager" children={<CompanyManagerPage />} />
               <Route path="/update-job/:id" children={<UpdateJob />} />
               <Route path="/cadidate/:id" children={<CompanyListCandiate />} />
-
               <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
               <Route path="/jobs/:id" children={<JobDetails />} />

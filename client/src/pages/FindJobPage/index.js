@@ -1,27 +1,34 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Typography,
-  Button,
-  Paper,
-} from '@material-ui/core';
-import React from 'react';
+import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import JobCard from '../../components/FindJobPage/JobCard';
 import SeachJob from '../../components/UI/SeachJob';
 import Pagination from '@material-ui/lab/Pagination';
-import CompanyPageHeader from '../../components/CompanyPage/CompanyPageHeader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllJob, jobSelector } from '../../features/Job/JobSlice';
+
+const useStyles = makeStyles((theme) => ({
+  search: {
+    background: theme.palette.grey[200],
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(2),
+  },
+}));
 
 const FindJobPage = () => {
+  const dispatch = useDispatch();
+  const { jobs, isFetching, filter } = useSelector(jobSelector);
+
+  useEffect(() => {
+    dispatch(getAllJob(filter));
+  }, [dispatch, filter]);
+
+  console.log('filte: ', filter);
+  const classes = useStyles();
   return (
     <Box>
-      <Container
-        style={{
-          background: '#ddd',
-        }}
-      >
+      <Paper className={classes.search}>
         <SeachJob />
-      </Container>
+      </Paper>
       <Container
         maxWidth="lg"
         style={{
@@ -33,39 +40,30 @@ const FindJobPage = () => {
             item
             md={6}
             style={{
-              maxHeight: '640px',
+              maxHeight: '320px',
               overflow: 'auto',
             }}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-              <JobCard key={item} />
-            ))}
+            {isFetching ? (
+              <div>Loading...</div>
+            ) : (
+              jobs?.map((item) => (
+                <JobCard
+                  key={item._id}
+                  item={item}
+                  photo={item?.company?.photo}
+                  companyName={item?.company?.name}
+                />
+              ))
+            )}
             <Box
               display="flex"
               alignItems="center"
               justifyContent="center"
               marginY={2}
             >
-              <Pagination count={10} variant="outlined" shape="rounded" />
+              <Pagination count={5} variant="outlined" shape="rounded" />
             </Box>
-          </Grid>
-          <Grid item md={6}>
-            <Paper>
-              <CompanyPageHeader />
-              <Box display="flex" flexDirection="column" padding={4}>
-                <Typography variant="h5" gutterBottom={true}>
-                  Web developer (PHP/MySQL, CI, ReactJS)
-                </Typography>
-                <Typography variant="body2" gutterBottom={true}>
-                  OCMG
-                </Typography>
-                <Box flexGrow={1} marginY={3}>
-                  <Button variant="contained" color="primary" fullWidth>
-                    Apply Now
-                  </Button>
-                </Box>
-              </Box>
-            </Paper>
           </Grid>
         </Grid>
       </Container>

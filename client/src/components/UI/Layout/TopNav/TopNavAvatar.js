@@ -10,8 +10,6 @@ import TopNavHoverMenus from './TopNavHoverMenus';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import LibraryBooksRoundedIcon from '@material-ui/icons/LibraryBooksRounded';
-import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import BusinessOutlinedIcon from '@material-ui/icons/BusinessOutlined';
@@ -56,16 +54,6 @@ const TopNavAvatar = () => {
         path: '/resume',
         icon: <LibraryBooksRoundedIcon />,
       },
-      // {
-      //   text: 'Thông báo việc làm',
-      //   path: '/reviews',
-      //   icon: <FaceRoundedIcon />,
-      // },
-      // {
-      //   text: 'Đã lưu',
-      //   path: '/save',
-      //   icon: <FavoriteRoundedIcon />,
-      // },
       {
         text: 'Đã ứng tuyển',
         path: '/apply',

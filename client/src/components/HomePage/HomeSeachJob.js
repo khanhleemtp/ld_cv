@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import SeachJob from '../../components/UI/SeachJob';
 import codeImg from '../../assets/images/top.svg';
+import { blueGrey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,15 +30,14 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: theme.palette.primary.orange,
   },
-  btn: {
-    justifySelf: 'end',
-    width: 160,
-    margin: 12,
-    color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.main,
-    '&:hover': {
-      background: theme.palette.primary.dark,
+
+  landingImg: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
     },
+  },
+  img: {
+    width: theme.spacing(32),
   },
 }));
 
@@ -47,35 +47,36 @@ const HomeSeachJob = () => {
   return (
     <div className={classes.root}>
       <Container className={classes.boxContainer}>
-        <Container maxWidth="md">
-          <Box>
-            <Typography variant="h6" className={classes.title}>
-              Tìm việc nhanh chóng 👨‍🌾
-            </Typography>
-          </Box>
+        <Box display="flex" flexDirection="column">
           <SeachJob />
           <Box display="flex" marginX={2} marginY={2}>
             <Chip label="C++ 💁" clickable />
             <Chip label="Python 👩‍🦰" clickable />
             <Chip label="Javascript 👳" clickable />
           </Box>
-
           <Box marginX={2}>
-            <Typography variant="body1" component="h6">
+            <Typography
+              variant="caption"
+              style={{
+                color: blueGrey['A700'],
+              }}
+            >
               CV của chúng tôi đưa bạn đến với những công ty hàng đầu
             </Typography>
-            <Button className={classes.btn} fullWidth>
+            <Button
+              color="primary"
+              variant="contained"
+              style={{
+                margin: 8,
+              }}
+            >
               Tạo CV ngay
             </Button>
           </Box>
-        </Container>
-        <img
-          src={codeImg}
-          alt="mario"
-          style={{
-            overflow: 'hidden',
-          }}
-        />
+        </Box>
+        <Box className={classes.landingImg}>
+          <img src={codeImg} alt="mario" className={classes.img} />
+        </Box>
       </Container>
     </div>
   );
