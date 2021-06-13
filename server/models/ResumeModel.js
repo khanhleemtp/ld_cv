@@ -119,6 +119,14 @@ resumeSchema.pre('save', function (next) {
   }
 });
 
+resumeSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'name email',
+  });
+  next();
+});
+
 resumeSchema.post('findOneAndUpdate', function (doc, next) {
   const techSection = _.filter(doc.sections, {
     record: 'TechnologySection',

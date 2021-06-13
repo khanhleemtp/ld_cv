@@ -35,7 +35,7 @@ const TopNavAvatar = () => {
   const { user, isFetching } = useSelector(userSelector);
 
   useEffect(() => {
-    const id = !isFetching && user?._id;
+    const id = user?._id;
     dispatch(getNotifications(id));
   }, [dispatch, isFetching, user]);
 

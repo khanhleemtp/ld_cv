@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/xhr/api';
 import { toast } from 'react-toastify';
+import _ from 'lodash';
 
 export const createJob = createAsyncThunk(
   'job/createJob',
@@ -48,6 +49,26 @@ export const getjobById = createAsyncThunk(
   }
 );
 
+export const getSuggestCandidate = createAsyncThunk(
+  'job/getSuggestCandidate',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/suggest/${id}`);
+      let math80 = _.map(data?.job80, (item) => ({ ...item, status: '80%' }));
+      let math30 = _.map(data?.job30, (item) => ({ ...item, status: '30%' }));
+      const math = _.concat(math30, math80);
+      console.log('math ...............final math', math, data.job);
+
+      return {
+        rows: math,
+        job: data.job,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const updateJob = createAsyncThunk(
   'job/updatejob',
   async (values, thunkAPI) => {
@@ -82,6 +103,7 @@ export const jobSlice = createSlice({
     search: {},
     filter: {},
     position: [],
+    suggestCv: [],
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -140,6 +162,21 @@ export const jobSlice = createSlice({
 
     [getjobById.fulfilled]: (state, { payload }) => {
       state.job = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+
+    [getSuggestCandidate.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getSuggestCandidate.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.error(`${state?.errorMessage}😥`);
+    },
+    [getSuggestCandidate.fulfilled]: (state, { payload }) => {
+      state.suggestCv = payload;
       state.isFetching = false;
       state.isSuccess = true;
     },

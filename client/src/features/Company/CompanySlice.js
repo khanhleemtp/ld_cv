@@ -5,9 +5,10 @@ import _ from 'lodash';
 
 export const registerCompany = createAsyncThunk(
   'company/registerCompany',
-  async (values, thunkAPI) => {
+  async ({ data, cb }, thunkAPI) => {
     try {
-      await api.post(`/companies`, values);
+      await api.post(`/companies`, data);
+      cb();
       return;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -85,13 +86,18 @@ export const updateCompany = createAsyncThunk(
 export const responseCompany = createAsyncThunk(
   'company/responseCompany',
   async (values, thunkAPI) => {
-    const { id, status } = values;
+    const { userId, status, companyId } = values;
 
     try {
-      await api.post(`/companies/${id}`, { status });
-      const notify = status === 'reject' ? 'Từ chối' : 'Chấp nhận';
-      toast.success(notify + ' thành công 😃');
-      return id;
+      await api.post(`/companies/${companyId}`, { status });
+      const message =
+        status === 'reject'
+          ? 'Rất tiếc, chúng tôi phải từ chối yêu cầu của bạn 😥'
+          : 'Chúng tôi chấp nhận công ty của bạn 😄';
+      await api.post('/notification', { user: userId, message });
+      toast.success('Phản hồi thành công 😃');
+
+      return companyId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

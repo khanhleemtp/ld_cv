@@ -15,12 +15,14 @@ import FindJobPage from './pages/FindJobPage';
 import CompanyPage from './pages/CompanyPage';
 import RegisterCompany from './pages/RegisterCompany';
 import CompanyManagerPage from './pages/CompanyManagerPage';
-
+import CompanySuggestCandidate from './pages/CompanySuggestCandidate';
+import CompanyTable from './components/CompanyManager/CompanyTable';
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 import JobDetails from './components/FindJobPage/JobDetails';
 import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
 import CompanyListCandiate from './components/CompanyManager/CompanyListCandiate';
+
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
 
@@ -71,6 +73,10 @@ function App() {
               <Route path="/manager" children={<CompanyManagerPage />} />
               <Route path="/update-job/:id" children={<UpdateJob />} />
               <Route path="/cadidate/:id" children={<CompanyListCandiate />} />
+              <Route
+                path="/suggest-candidate/:id"
+                children={<CompanySuggestCandidate />}
+              />
               <Route path="/admin" children={<AdminPage />} />
               <Route path="/find" children={<FindJobPage />} />
               <Route path="/jobs/:id" children={<JobDetails />} />

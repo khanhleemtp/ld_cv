@@ -17,6 +17,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const { cloudinary } = require('./utils/cloudinary');
 const Job = require('./models/JobModel');
 const Resume = require('./models/ResumeModel');
+const catchAsync = require('./utils/catchAsync');
 
 // const tourRouter = require('./routes/tourRoutes');
 // const userRouter = require('./routes/userRoutes');
@@ -34,9 +35,9 @@ app.enable('trust proxy');
 // Implement CORS
 app.use(cors());
 // Access-Control-Allow-Origin *
-// api.natours.com, front-end natours.com
+// api.ld.com, front-end ld.com
 // app.use(cors({
-//   origin: 'https://www.natours.com'
+//   origin: 'https://www.ldcv.com'
 // }))
 
 app.options('*', cors());
@@ -122,32 +123,64 @@ app.use('/api/v1/upload', async (req, res) => {
   }
 });
 
-app.use('/api/v1/suggest/:id', async (req, res) => {
-  try {
+app.use(
+  '/api/v1/suggest/:id',
+  catchAsync(async (req, res) => {
     console.log(req.params);
-    const job = await Job.findById(req.params.id);
-    const resumes = await Resume.find();
-    const math80 = resumes.filter((cv) => {
+    const job = await Job.findById(req.params.id).select({
+      title: 1,
+      createdAt: 1,
+      tags: 1,
+      slugs: 1,
+      company: 0,
+    });
+    const resumes = await Resume.find().select({ position: 1, tags: 1 });
+    const job80 = resumes.filter((cv) => {
       const intersection = _.intersection(cv.tags, job.slugs);
       return intersection.length >= job.slugs.length * 0.8;
     });
 
-    const math50 = resumes.filter((cv) => {
+    const job30 = resumes.filter((cv) => {
       const intersection = _.intersection(cv.tags, job.slugs);
-      return intersection.length >= job.slugs.length * 0.5;
+      return (
+        intersection.length >= job.slugs.length * 0.3 &&
+        intersection.length < job.slugs.length * 0.8
+      );
+    });
+
+    res.json({
+      status: 'success',
+      data: {
+        job,
+        job30,
+        job80,
+      },
+    });
+  })
+);
+
+app.use(
+  '/api/v1/helper/:id',
+  catchAsync(async (req, res) => {
+    console.log(req.params);
+    const resume = await Resume.findById(req.params.id);
+    const jobs = await Job.find().select({ slugs: 1, position: 1, company: 0 });
+    const math80 = jobs.filter((job) => {
+      const intersection = _.intersection(job.slugs, resume.tags);
+      return intersection.length >= resume.tags.length * 0.8;
+    });
+    console.log(resume.user);
+    const math30 = jobs.filter((job) => {
+      const intersection = _.intersection(job.slugs, resume.tags);
+      return intersection.length >= resume.tags.length * 0.3;
     });
     res.json({
-      status: 'OK',
-      job,
-      resumes,
+      status: 'success',
+      job30: math30,
       math80,
-      math50,
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ status: 'fail', msg: 'Uploading fail' });
-  }
-});
+  })
+);
 
 // 3) ROUTES
 // app.use('/api/v1/tours', tourRouter);

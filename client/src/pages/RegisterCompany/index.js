@@ -11,6 +11,7 @@ import MuiSelect from '../../components/UI/Mui/MuiSelect';
 import MuiTextField from '../../components/UI/Mui/MuiTextField';
 import { useDispatch } from 'react-redux';
 import { registerCompany } from '../../features/Company/CompanySlice';
+import { useHistory } from 'react-router-dom';
 
 const defaultValues = {
   name: '',
@@ -28,13 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterCompany = () => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const { handleSubmit, getValues, control } = useForm({
     defaultValues,
   });
 
   const handleRegisterCompany = handleSubmit((data) =>
-    dispatch(registerCompany(data))
+    dispatch(registerCompany({ data, cb: () => history.push('/') }))
   );
 
   const classes = useStyles();

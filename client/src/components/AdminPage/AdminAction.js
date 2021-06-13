@@ -5,9 +5,10 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
 export const AdminAction = ({ company }) => {
+  const userId = company?.user?._id;
   const dispatch = useDispatch();
-  const handleResponeCompany = (status) => {
-    return () => dispatch(responseCompany(status));
+  const handleResponeCompany = ({ status, companyId }) => {
+    return () => dispatch(responseCompany({ status, userId, companyId }));
   };
 
   return (
@@ -18,7 +19,7 @@ export const AdminAction = ({ company }) => {
         style={{ marginRight: 16 }}
         onClick={handleResponeCompany({
           status: 'accept',
-          id: company._id,
+          companyId: company._id,
         })}
       >
         Chấp nhận
@@ -29,7 +30,7 @@ export const AdminAction = ({ company }) => {
         size="large"
         onClick={handleResponeCompany({
           status: 'reject',
-          id: company._id,
+          companyId: company._id,
         })}
       >
         Từ chối

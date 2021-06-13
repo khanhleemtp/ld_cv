@@ -60,9 +60,23 @@ export const fetchUserBytoken = createAsyncThunk(
 export const getNotifications = createAsyncThunk(
   'user/getNotifications',
   async (id, thunkAPI) => {
+    // if (!id) return;
     try {
       const { data } = await api.get(`/notification?user=${id}`);
+      console.log('notif');
       return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteNotification = createAsyncThunk(
+  'user/deleteNotification',
+  async (id, thunkAPI) => {
+    try {
+      await api.delete(`/notification/${id}`);
+      return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -115,7 +129,7 @@ export const userSlice = createSlice({
       state.errorMessage = payload?.data?.message
         ? payload?.data.message
         : error.message;
-      toast.error(state?.errorMessage || 'Something went wrong 😞');
+      toast.error(state?.errorMessage || 'Hãy thử lại nhé 😞');
     },
     [signinUser.fulfilled]: (state, { payload }) => {
       console.log('payload', payload);
@@ -153,12 +167,19 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.isError = true;
     },
-    [getNotifications.fulfilled]: (state, { payload }) => {
-      console.log('notification', payload);
+    [getNotifications.fulfilled]: (state, data) => {
+      state.notifications = data?.payload || [];
       state.isFetching = false;
       state.isSuccess = true;
       state.isFetching = false;
-      state.notifications = payload;
+    },
+    [deleteNotification.fulfilled]: (state, { payload: id }) => {
+      state.notifications = state?.notifications?.filter(
+        (item) => item._id !== id
+      );
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isFetching = false;
     },
   },
 });

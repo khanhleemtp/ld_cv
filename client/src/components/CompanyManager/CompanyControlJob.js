@@ -20,7 +20,9 @@ const CompanyControlJob = ({ jobId }) => {
   const handleRequestCandidate = () => {
     history.push(`/cadidate/` + jobId);
   };
-
+  const handleSuggestCandidate = () => {
+    history.push(`/suggest-candidate/` + jobId);
+  };
   return (
     <Box>
       <IconButton
@@ -46,6 +48,7 @@ const CompanyControlJob = ({ jobId }) => {
         aria-label="edit"
         component="span"
         title="Gợi ý ứng viên"
+        onClick={handleSuggestCandidate}
       >
         <ShowChartOutlinedIcon />
       </IconButton>

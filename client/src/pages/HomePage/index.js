@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useCompanyStore } from '../../store/useCompanyStore';
 import shallow from 'zustand/shallow';
 import { isLoggedIn } from '../../utils';
 import HomeSection from '../../components/HomePage/HomeSection';
@@ -10,28 +9,9 @@ import HomePartner from '../../components/HomePage/HomePartner';
 
 const HomePage = () => {
   isLoggedIn();
-  const getCompany = useCompanyStore((state) => state.getCompany);
-  const { company, loading } = useCompanyStore(
-    (state) => ({
-      company: state.company,
-      loading: state.loading,
-    }),
-    shallow
-  );
-
-  useEffect(() => {
-    getCompany(`/companies`);
-  }, [getCompany]);
 
   return (
     <>
-      {/* <TopNav
-        routes={[
-          { title: 'Login', path: '/signin' },
-          { title: 'Register', path: '/signup' },
-        ]}
-        prefix=""
-      /> */}
       <HomeSeachJob />
       <HomeCompanyList />
       <HomeSection
