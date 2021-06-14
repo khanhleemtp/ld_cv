@@ -1,33 +1,44 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { responseCompany } from '../../features/Company/CompanySlice';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import { useParams, Link } from 'react-router-dom';
 
 export const AdminAction = ({ company }) => {
+  const { page } = useParams();
   const userId = company?.user?._id;
   const dispatch = useDispatch();
   const handleResponeCompany = ({ status, companyId }) => {
     return () => dispatch(responseCompany({ status, userId, companyId }));
   };
 
+  if (page === 'list-company')
+    return (
+      <>
+        <Link to={`/company/${company._id}`}>Page </Link>
+        <Button>-----</Button>
+      </>
+    );
+
   return (
-    <Box display="flex" justifyContent="space-between" marginY={2}>
+    <>
       <Button
         variant="outlined"
         size="medium"
-        style={{ marginRight: 16 }}
         onClick={handleResponeCompany({
           status: 'accept',
           companyId: company._id,
         })}
+        style={{
+          marginRight: 6,
+        }}
       >
         Chấp nhận
       </Button>
       <Button
         variant="outlined"
         color="secondary"
-        size="large"
+        size="medium"
         onClick={handleResponeCompany({
           status: 'reject',
           companyId: company._id,
@@ -35,6 +46,6 @@ export const AdminAction = ({ company }) => {
       >
         Từ chối
       </Button>
-    </Box>
+    </>
   );
 };

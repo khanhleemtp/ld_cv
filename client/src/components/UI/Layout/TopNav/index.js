@@ -118,15 +118,15 @@ function TopNav() {
   ];
 
   const companyOptions = [
-    { title: 'Quản lý', path: '/manager-company/update-company' },
-    { title: 'Compant Page', path: `/company/${user?.company?._id}` },
-    ...userOptions,
+    { title: 'Cập nhật công ty', path: '/manager-company/update-company' },
+    { title: 'Tạo việc làm', path: '/manager-company/create-job' },
+    { title: 'Danh sách việc làm', path: '/manager-company/list-job' },
+    { title: 'Company Page', path: `/company/${user?.company?._id}` },
   ];
 
   const adminOptions = [
     { title: 'Duyệt công ty', path: '/admin/response-company' },
     { title: 'Quản lý công ty', path: '/admin/list-company' },
-    ...userOptions,
   ];
 
   let navOptions = !TokenService.getToken()

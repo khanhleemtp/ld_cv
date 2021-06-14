@@ -1,20 +1,21 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import AdminCompanyList from './AdminCompanyList';
-import AdminCompanyAccept from './AdminCompanyAccept';
+// import AdminCompanyAccept from './AdminCompanyAccept';
 import TabLink from '../UI/TabLink';
+import AdminResponse from './AdminResponse';
+import AdminListCompany from './AdminListCompany';
 
 const AdminTabs = () => {
   const listTabs = [
     {
       index: 0,
-      component: <AdminCompanyList />,
+      component: <AdminResponse />,
       label: 'Duyệt công ty',
       page: 'response-company',
     },
     {
       index: 1,
-      component: <AdminCompanyAccept />,
+      component: <AdminListCompany />,
       label: 'Danh sách công ty',
       page: 'list-company',
     },

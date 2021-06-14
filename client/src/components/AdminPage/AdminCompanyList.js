@@ -85,6 +85,7 @@ const AdminCompanyList = () => {
       })
     );
   }, [dispatch]);
+
   const { companies, isFetching } = useSelector(companySelector);
   return (
     <Grid container>

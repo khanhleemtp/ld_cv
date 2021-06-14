@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/xhr/api';
 import { toast } from 'react-toastify';
-import _ from 'lodash';
 
 export const getApplyByUserId = createAsyncThunk(
   'apply/getApplyByUserId',
@@ -23,8 +22,17 @@ export const getApplyById = createAsyncThunk(
   'apply/getApplyById',
   async (applyId, thunkAPI) => {
     try {
-      let { data: job } = await api.get(`/applies?job=${applyId}`);
+      let { data: job } = await api.get(
+        `/applies?job=${applyId}&status=pending`
+      );
       if (!job) return;
+
+      console.log('applies--------', job);
+
+      const userApplies = job?.map((apply) => ({
+        user: apply?.user,
+        applyId: apply._id,
+      }));
 
       const promise = job.map((user) =>
         api.get(
@@ -38,14 +46,16 @@ export const getApplyById = createAsyncThunk(
         resumes: rs?.data,
         user: rs?.data?.[0]?.user,
       }));
-      console.log('rs', resumesArr);
-      // resumes = res?.data;
-      // console.log(res);
-      const resumes = data
-        .map((data) => data?.data)
-        .filter((i) => i.status === 'pending');
 
-      return resumesArr;
+      const info = userApplies.map((apply) => ({
+        ...apply,
+        id: apply.applyId,
+        resumes: resumesArr.filter((rs) => rs.user._id === apply.user._id)?.[0]
+          ?.resumes,
+      }));
+
+      console.log('rs', info);
+      return info;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   userSelector,
   fetchUserBytoken,
-  getNotifications,
 } from '../../../../features/User/UserSlice';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
@@ -13,6 +12,7 @@ import LibraryBooksRoundedIcon from '@material-ui/icons/LibraryBooksRounded';
 import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import BusinessOutlinedIcon from '@material-ui/icons/BusinessOutlined';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 
@@ -55,13 +55,18 @@ const TopNavAvatar = () => {
         icon: <CheckBoxRoundedIcon />,
       },
       {
+        text: 'Tìm việc',
+        path: '/find',
+        icon: <SearchOutlinedIcon />,
+      },
+      {
         text: 'Đăng xuất',
         path: '/logout',
         icon: <ExitToAppOutlinedIcon />,
       },
       {
         text: 'Đăng ký tuyển dụng',
-        path: '/resgister-company',
+        path: '/register-company',
         icon: <BusinessOutlinedIcon />,
       },
     ],

@@ -38,7 +38,7 @@ const JobDetails = () => {
 
   const handleApply = () => {
     if (!TokenService.getToken()) return history.push('/signin');
-    dispatch(createApply(() => history.push('/dashboard')));
+    dispatch(createApply(() => history.push('/dashboard/apply')));
   };
 
   return (

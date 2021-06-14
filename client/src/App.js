@@ -24,7 +24,7 @@ import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 import JobDetails from './components/FindJobPage/JobDetails';
 import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
-import CompanyListCandiate from './components/CompanyManager/CompanyListCandiate';
+import CompanyCandidateList from './components/CompanyManager/CompanyCandidateList';
 import Logout from './components/UI/Logout';
 import NotFound from './components/UI/NotFound';
 
@@ -100,7 +100,7 @@ function App() {
               <PrivateRoute
                 roles={['company']}
                 path="/cadidate/:id"
-                component={CompanyListCandiate}
+                component={CompanyCandidateList}
               />
 
               <PrivateRoute

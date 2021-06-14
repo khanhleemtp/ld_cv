@@ -12,22 +12,23 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { Link } from 'react-router-dom';
-
+import moment from 'moment';
 import { Box, Chip } from '@material-ui/core';
+import CompanyControlJob from './CompanyControlJob';
 
 const headCells = [
   {
     id: '1',
     numeric: false,
     disablePadding: true,
-    label: 'Ứng viên',
+    label: 'ID',
   },
-  { id: '2', numeric: true, disablePadding: false, label: 'Email' },
+  { id: '2', numeric: true, disablePadding: false, label: 'Tiêu đề' },
   { id: '3', numeric: true, disablePadding: false, label: 'Vị trí' },
-  { id: '5', numeric: true, disablePadding: false, label: 'Độ phù hợp' },
-  { id: '4', numeric: true, disablePadding: false, label: 'Kỹ năng chính' },
-  { id: '6', numeric: true, disablePadding: false, label: 'Link CV' },
+  { id: '7', numeric: true, disablePadding: false, label: 'Mức lương' },
+  { id: '4', numeric: true, disablePadding: false, label: 'Hết hạn' },
+  { id: '5', numeric: true, disablePadding: false, label: 'Kỹ năng' },
+  { id: '6', numeric: true, disablePadding: false, label: 'Hành động' },
 ];
 
 function EnhancedTableHead() {
@@ -84,13 +85,13 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Tiêu đề: {props?.job?.title}
+          Tiêu đề: Danh sách việc làm
         </Typography>
-        <Box component="span">
+        {/* <Box component="span">
           {props?.job?.tags?.map((tag) => (
             <Chip label={tag} key={tag} clickable className={classes.chip} />
           ))}
-        </Box>
+        </Box> */}
       </Box>
     </Toolbar>
   );
@@ -125,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompanyJobTable({ rows, job }) {
+export default function CompanyTable({ rows }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -150,7 +151,7 @@ export default function CompanyJobTable({ rows, job }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar job={job} />
+        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             className={classes.table}
@@ -173,12 +174,13 @@ export default function CompanyJobTable({ rows, job }) {
                         tabIndex={-1}
                         key={row._id}
                       >
-                        <TableCell component="th" scope="row">
-                          {row?.user?.name}
-                        </TableCell>
-                        <TableCell align="right"> {row?.user?.email}</TableCell>
+                        <TableCell align="right"> {row?._id}</TableCell>
+                        <TableCell align="right">{row?.title}</TableCell>
                         <TableCell align="right">{row?.position}</TableCell>
-                        <TableCell align="right">{row?.status}</TableCell>
+                        <TableCell align="right">{row?.salary}</TableCell>
+                        <TableCell align="right">
+                          {moment(row?.createdAt).format('DD/MM')}
+                        </TableCell>
                         <TableCell align="right">
                           {row?.tags?.map((tag) => (
                             <Chip
@@ -190,9 +192,7 @@ export default function CompanyJobTable({ rows, job }) {
                           ))}
                         </TableCell>
                         <TableCell align="right">
-                          <Link to={'/dashboard/resumes/' + row?._id}>
-                            Xem ngay
-                          </Link>
+                          <CompanyControlJob jobId={row?._id} />
                         </TableCell>
                       </TableRow>
                     );

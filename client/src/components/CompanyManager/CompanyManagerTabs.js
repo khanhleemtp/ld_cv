@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import CreateJob from './CreateJob';
 import CompanyUpdateInfo from './CompanyUpdateInfo';
-import CompanyListJob from './CompanyListJobs';
+import CompanyJobList from './CompanyJobList';
 import TabLink from '../UI/TabLink';
 
 const listTabs = [
@@ -20,7 +20,7 @@ const listTabs = [
   },
   {
     index: 2,
-    component: <CompanyListJob />,
+    component: <CompanyJobList />,
     label: 'Danh sách việc',
     page: 'list-job',
   },

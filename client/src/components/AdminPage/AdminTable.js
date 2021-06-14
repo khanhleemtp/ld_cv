@@ -12,22 +12,25 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { Link } from 'react-router-dom';
-
-import { Box, Chip } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateApply } from '../../features/Apply/ApplySlice';
+import { AdminAction } from './AdminAction';
 
 const headCells = [
   {
     id: '1',
     numeric: false,
     disablePadding: true,
-    label: 'Ứng viên',
+    label: 'Tên công ty',
   },
-  { id: '2', numeric: true, disablePadding: false, label: 'Email' },
-  { id: '3', numeric: true, disablePadding: false, label: 'Vị trí' },
-  { id: '5', numeric: true, disablePadding: false, label: 'Độ phù hợp' },
-  { id: '4', numeric: true, disablePadding: false, label: 'Kỹ năng chính' },
-  { id: '6', numeric: true, disablePadding: false, label: 'Link CV' },
+  { id: '2', numeric: true, disablePadding: false, label: 'Nơi làm việc' },
+  { id: '3', numeric: true, disablePadding: false, label: 'User' },
+  { id: '4', numeric: true, disablePadding: false, label: 'Vị trí' },
+  { id: '5', numeric: true, disablePadding: false, label: 'Email' },
+  { id: '6', numeric: true, disablePadding: false, label: 'SĐT' },
+  { id: '7', numeric: true, disablePadding: false, label: 'Hành động' },
 ];
 
 function EnhancedTableHead() {
@@ -74,7 +77,6 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-
   return (
     <Toolbar>
       <Box>
@@ -84,13 +86,8 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Tiêu đề: {props?.job?.title}
+          Danh sách công ty:
         </Typography>
-        <Box component="span">
-          {props?.job?.tags?.map((tag) => (
-            <Chip label={tag} key={tag} clickable className={classes.chip} />
-          ))}
-        </Box>
       </Box>
     </Toolbar>
   );
@@ -125,12 +122,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompanyJobTable({ rows, job }) {
+export default function AdminTable({ rows }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -147,10 +143,23 @@ export default function CompanyJobTable({ rows, job }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const handleResponse = (status, user, id) => () => {
+    return dispatch(
+      updateApply({
+        id,
+        status,
+        cb: () => history.go(0),
+        user,
+      })
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar job={job} />
+        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             className={classes.table}
@@ -160,7 +169,7 @@ export default function CompanyJobTable({ rows, job }) {
           >
             <EnhancedTableHead classes={classes} rowCount={rows?.length} />
             {!rows ? (
-              <div>Không có kết quả nào phù hợp</div>
+              <div>Danh sách công ty: </div>
             ) : (
               <TableBody>
                 {rows
@@ -173,26 +182,15 @@ export default function CompanyJobTable({ rows, job }) {
                         tabIndex={-1}
                         key={row._id}
                       >
-                        <TableCell component="th" scope="row">
-                          {row?.user?.name}
-                        </TableCell>
-                        <TableCell align="right"> {row?.user?.email}</TableCell>
-                        <TableCell align="right">{row?.position}</TableCell>
-                        <TableCell align="right">{row?.status}</TableCell>
+                        <TableCell align="right"> {row?.name}</TableCell>
+                        <TableCell align="right">{row?.location}</TableCell>
+                        <TableCell align="right"> {row?.user?.name}</TableCell>
+                        <TableCell align="right"> {row?.position}</TableCell>
+                        <TableCell align="right">{row?.user?.email}</TableCell>
+                        <TableCell align="right">{row?.phone}</TableCell>
+
                         <TableCell align="right">
-                          {row?.tags?.map((tag) => (
-                            <Chip
-                              label={tag}
-                              key={tag}
-                              clickable
-                              className={classes.chip}
-                            />
-                          ))}
-                        </TableCell>
-                        <TableCell align="right">
-                          <Link to={'/dashboard/resumes/' + row?._id}>
-                            Xem ngay
-                          </Link>
+                          <AdminAction company={row} />
                         </TableCell>
                       </TableRow>
                     );

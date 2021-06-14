@@ -43,7 +43,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const TopNavMobile = ({ handleClose, open, navOptions, handleLink }) => {
+const TopNavMobile = ({ handleClose, open, navOptions }) => {
   const classes = useStyles();
 
   const { user } = useSelector(userSelector);

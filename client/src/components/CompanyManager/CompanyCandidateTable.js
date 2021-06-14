@@ -12,9 +12,12 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { Link } from 'react-router-dom';
-
-import { Box, Chip } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateApply } from '../../features/Apply/ApplySlice';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 
 const headCells = [
   {
@@ -24,10 +27,8 @@ const headCells = [
     label: 'Ứng viên',
   },
   { id: '2', numeric: true, disablePadding: false, label: 'Email' },
-  { id: '3', numeric: true, disablePadding: false, label: 'Vị trí' },
-  { id: '5', numeric: true, disablePadding: false, label: 'Độ phù hợp' },
-  { id: '4', numeric: true, disablePadding: false, label: 'Kỹ năng chính' },
-  { id: '6', numeric: true, disablePadding: false, label: 'Link CV' },
+  { id: '3', numeric: true, disablePadding: false, label: 'Thông tin' },
+  { id: '6', numeric: true, disablePadding: false, label: 'Hành động' },
 ];
 
 function EnhancedTableHead() {
@@ -84,13 +85,8 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Tiêu đề: {props?.job?.title}
+          Tiêu đề: Danh sách ứng viên
         </Typography>
-        <Box component="span">
-          {props?.job?.tags?.map((tag) => (
-            <Chip label={tag} key={tag} clickable className={classes.chip} />
-          ))}
-        </Box>
       </Box>
     </Toolbar>
   );
@@ -125,12 +121,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CompanyJobTable({ rows, job }) {
+export default function CompanyTable({ rows }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -147,10 +142,23 @@ export default function CompanyJobTable({ rows, job }) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows?.length - page * rowsPerPage);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const handleResponse = (status, user, id) => () => {
+    return dispatch(
+      updateApply({
+        id,
+        status,
+        cb: () => history.go(0),
+        user,
+      })
+    );
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar job={job} />
+        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             className={classes.table}
@@ -160,7 +168,7 @@ export default function CompanyJobTable({ rows, job }) {
           >
             <EnhancedTableHead classes={classes} rowCount={rows?.length} />
             {!rows ? (
-              <div>Không có kết quả nào phù hợp</div>
+              <div>Không có ai ứng tuyển</div>
             ) : (
               <TableBody>
                 {rows
@@ -173,26 +181,57 @@ export default function CompanyJobTable({ rows, job }) {
                         tabIndex={-1}
                         key={row._id}
                       >
-                        <TableCell component="th" scope="row">
-                          {row?.user?.name}
-                        </TableCell>
-                        <TableCell align="right"> {row?.user?.email}</TableCell>
-                        <TableCell align="right">{row?.position}</TableCell>
-                        <TableCell align="right">{row?.status}</TableCell>
+                        <TableCell align="right"> {row?.user?.name}</TableCell>
+                        <TableCell align="right">{row?.user?.email}</TableCell>
                         <TableCell align="right">
-                          {row?.tags?.map((tag) => (
-                            <Chip
-                              label={tag}
-                              key={tag}
-                              clickable
-                              className={classes.chip}
-                            />
+                          {row?.resumes?.map((resume) => (
+                            <Box key={resume._id} margin={1}>
+                              <Link to={'/dashboard/resumes/' + resume._id}>
+                                Xem CV
+                              </Link>
+                              <Typography
+                                variant="body2"
+                                color="primary"
+                                gutterBottom
+                              >
+                                Vai trò: {resume?.header?.title}
+                              </Typography>
+                              {resume?.tags?.map((tag) => (
+                                <Chip
+                                  label={tag}
+                                  key={tag}
+                                  clickable
+                                  className={classes.chip}
+                                />
+                              ))}
+                            </Box>
                           ))}
                         </TableCell>
                         <TableCell align="right">
-                          <Link to={'/dashboard/resumes/' + row?._id}>
-                            Xem ngay
-                          </Link>
+                          <Button
+                            size="medium"
+                            variant="outlined"
+                            onClick={handleResponse(
+                              'accept',
+                              row?.user?.id,
+                              row?.id
+                            )}
+                          >
+                            Chấp nhận
+                          </Button>
+                          <Button
+                            size="medium"
+                            color="primary"
+                            variant="outlined"
+                            style={{ marginLeft: 4 }}
+                            onClick={handleResponse(
+                              'reject',
+                              row?.user?.id,
+                              row?.id
+                            )}
+                          >
+                            Từ chối
+                          </Button>
                         </TableCell>
                       </TableRow>
                     );
