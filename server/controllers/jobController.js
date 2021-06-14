@@ -2,6 +2,7 @@ const factory = require('./handleFactory');
 const Job = require('../models/JobModel');
 const _ = require('lodash');
 const catchAsync = require('../utils/catchAsync');
+const moment = require('moment');
 
 exports.setUserIds = (req, res, next) => {
   // Allow nested routes
@@ -76,6 +77,10 @@ exports.getJob = factory.getOne(Job, {
 
 exports.updateJob = factory.updateOne(Job);
 
-exports.getAllJobs = factory.getAll(Job);
+exports.getAllJobs = factory.getAll(Job, {
+  to: {
+    $gte: moment().toISOString(),
+  },
+});
 
 exports.deleteJob = factory.deleteOne(Job);

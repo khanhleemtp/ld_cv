@@ -4,7 +4,11 @@ import JobCard from '../../components/FindJobPage/JobCard';
 import SeachJob from '../../components/UI/SeachJob';
 import Pagination from '@material-ui/lab/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllJob, jobSelector } from '../../features/Job/JobSlice';
+import {
+  getAllJob,
+  jobSelector,
+  updatePage,
+} from '../../features/Job/JobSlice';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -16,14 +20,13 @@ const useStyles = makeStyles((theme) => ({
 
 const FindJobPage = () => {
   const dispatch = useDispatch();
-  const { jobs, isFetching, filter } = useSelector(jobSelector);
+  const { jobs, isFetching, filter, pageSize, page } = useSelector(jobSelector);
 
   useEffect(() => {
-    dispatch(getAllJob(filter));
-  }, [dispatch, filter]);
+    dispatch(getAllJob({ filter, page }));
+  }, [dispatch, filter, page]);
 
-  console.log('filter: ', filter);
-
+  // console.log('filter: ', filter);
   const classes = useStyles();
   return (
     <Box>
@@ -37,33 +40,43 @@ const FindJobPage = () => {
         }}
       >
         <Grid container>
-          <Grid
-            item
-            md={6}
-            style={{
-              maxHeight: '320px',
-              overflow: 'auto',
-            }}
-          >
-            {isFetching ? (
-              <div>Loading...</div>
-            ) : (
-              jobs?.map((item) => (
-                <JobCard
-                  key={item._id}
-                  item={item}
-                  photo={item?.company?.photo}
-                  companyName={item?.company?.name}
-                />
-              ))
-            )}
+          <Grid item md={6}>
+            <Box
+              style={{
+                maxHeight: '360px',
+                overflow: 'auto',
+              }}
+            >
+              {isFetching ? (
+                <div>Loading...</div>
+              ) : (
+                jobs?.map((item) => (
+                  <JobCard
+                    key={item._id}
+                    item={item}
+                    photo={item?.company?.photo}
+                    companyName={item?.company?.name}
+                  />
+                ))
+              )}
+            </Box>
             <Box
               display="flex"
               alignItems="center"
               justifyContent="center"
               marginY={2}
             >
-              <Pagination count={5} variant="outlined" shape="rounded" />
+              <Pagination
+                count={pageSize}
+                // page={page}
+                onChange={(e, p) => {
+                  console.log('current page', p);
+                  dispatch(updatePage(p));
+                  console.log('after page', page);
+                }}
+                variant="outlined"
+                shape="rounded"
+              />
             </Box>
           </Grid>
         </Grid>

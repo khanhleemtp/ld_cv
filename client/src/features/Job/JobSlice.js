@@ -3,6 +3,8 @@ import api from '../../api/xhr/api';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 
+const limit = 5;
+
 export const createJob = createAsyncThunk(
   'job/createJob',
   async (values, thunkAPI) => {
@@ -26,10 +28,21 @@ export const createJob = createAsyncThunk(
 export const getAllJob = createAsyncThunk(
   'job/getAllJob',
   async (values, thunkAPI) => {
+    // const { job } = thunkAPI.getState();
+    // console.log('jobssssss', job?.page);
+    const { page, filter } = values;
     try {
-      const { data } = await api.post(`/job/data-search`, values);
-      console.log('jobSeacrch', data);
-      return data;
+      const { data, total } = await api.post(
+        `/job/data-search?page=${page}&limit=${limit}`,
+        filter
+      );
+      // console.log('jobSeacrch', data);
+      console.log('toal', total);
+      let pageSize = 0;
+      if (total > 0) {
+        pageSize = Math.ceil(total / limit);
+      }
+      return { data, pageSize };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -41,7 +54,6 @@ export const getjobById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const { data } = await api.get(`/job/${id}`);
-      console.log('job', data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -119,6 +131,8 @@ export const jobSlice = createSlice({
     jobs: [],
     search: {},
     filter: {},
+    pageSize: 0,
+    page: 1,
     position: [],
     suggestCv: [],
     suggestJob: [],
@@ -141,6 +155,11 @@ export const jobSlice = createSlice({
       };
       return state;
     },
+    updatePage(state, action) {
+      console.log('page payload', action.payload);
+      state.page = action.payload;
+      return state;
+    },
   },
 
   extraReducers: {
@@ -160,8 +179,13 @@ export const jobSlice = createSlice({
         : error.message;
       toast.error(`${state.errorMessage}😥`);
     },
+    [getAllJob.pending]: (state) => {
+      state.isFetching = true;
+    },
     [getAllJob.fulfilled]: (state, { payload }) => {
-      state.jobs = payload;
+      const { data, pageSize } = payload;
+      state.jobs = data;
+      state.pageSize = pageSize;
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -234,5 +258,5 @@ export const jobSlice = createSlice({
   },
 });
 
-export const { clearState, updateFilter } = jobSlice.actions;
+export const { clearState, updateFilter, updatePage } = jobSlice.actions;
 export const jobSelector = (state) => state.job;

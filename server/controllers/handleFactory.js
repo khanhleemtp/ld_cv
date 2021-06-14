@@ -66,7 +66,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, conditionCount = {}) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET resumes on users (hack)
     let filter = {};
@@ -78,14 +78,14 @@ exports.getAll = (Model) =>
       .sort()
       .limitFields()
       .paginate();
-
     // const doc = await features.query.explain();
     const doc = await features.query;
-
+    const total = await Model.count(conditionCount);
     // TODO SEND RESPONSE
     res.status(200).json({
       status: 'success',
       result: doc.length,
       data: doc,
+      total,
     });
   });

@@ -1,6 +1,3 @@
-import React, { useEffect } from 'react';
-import shallow from 'zustand/shallow';
-import { isLoggedIn } from '../../utils';
 import HomeSection from '../../components/HomePage/HomeSection';
 import HomeToTop from '../../components/HomePage/HomeToTop';
 import HomeSeachJob from '../../components/HomePage/HomeSeachJob';
@@ -8,8 +5,6 @@ import HomeCompanyList from '../../components/HomePage/HomeCompanyList';
 import HomePartner from '../../components/HomePage/HomePartner';
 
 const HomePage = () => {
-  isLoggedIn();
-
   return (
     <>
       <HomeSeachJob />

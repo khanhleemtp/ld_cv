@@ -29,7 +29,7 @@ const AdminCompanyAccept = () => {
           style={{
             cursor: 'pointer',
           }}
-          onClick={() => history.push('company/' + company._id)}
+          onClick={() => history.push('/company/' + company._id)}
         >
           <AdminCompanyItem company={company} />
         </Grid>

@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const JobCard = ({ item, photo, companyName }) => {
-  console.log(item);
   const classes = useStyles();
   const history = useHistory();
   const handleDetailsJob = () => {

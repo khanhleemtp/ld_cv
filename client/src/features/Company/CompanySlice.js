@@ -89,7 +89,7 @@ export const deleteCompany = createAsyncThunk(
     const { company } = thunkAPI.getState();
     const id = company?.company._id;
     try {
-      const { data } = await api.delete(`/companies/${id}`);
+      const { data } = await api.delete(`/companies/${id}`, values);
       toast.success('Cập nhật thành công');
       return data;
     } catch (error) {

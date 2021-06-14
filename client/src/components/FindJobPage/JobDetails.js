@@ -19,7 +19,10 @@ import { Link } from 'react-router-dom';
 import { createApply } from '../../features/Apply/ApplySlice';
 import { TokenService } from '../../services/TokenService';
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  chip: {
+    margin: 2,
+    textTransform: 'capitalize',
+  },
 }));
 
 const JobDetails = () => {
@@ -95,7 +98,12 @@ const JobDetails = () => {
                 <Box flexBasis={1}>
                   <Typography variant="body1">Kỹ năng chính: </Typography>
                   {job?.tags?.map((item) => (
-                    <Chip label={item} key={item} clickable />
+                    <Chip
+                      label={item}
+                      key={item}
+                      clickable
+                      className={classes.chip}
+                    />
                   ))}
                 </Box>
               </Grid>
