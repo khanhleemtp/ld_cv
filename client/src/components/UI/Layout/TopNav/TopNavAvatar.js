@@ -32,12 +32,7 @@ const TopNavAvatar = () => {
     dispatch(fetchUserBytoken());
   }, [dispatch]);
 
-  const { user, isFetching } = useSelector(userSelector);
-
-  useEffect(() => {
-    const id = user?._id;
-    dispatch(getNotifications(id));
-  }, [dispatch, isFetching, user]);
+  const { user } = useSelector(userSelector);
 
   const userList = {
     text: user?.name,
@@ -46,27 +41,27 @@ const TopNavAvatar = () => {
     subMenu: [
       {
         text: 'Tài khoản',
-        path: '/dashboard',
+        path: '/dashboard/info',
         icon: <PersonRoundedIcon />,
       },
       {
         text: 'Quản lý cv',
-        path: '/resume',
+        path: '/dashboard/cv',
         icon: <LibraryBooksRoundedIcon />,
       },
       {
         text: 'Đã ứng tuyển',
-        path: '/apply',
+        path: '/dashboard/apply',
         icon: <CheckBoxRoundedIcon />,
       },
       {
         text: 'Đăng xuất',
-        path: '/',
+        path: '/logout',
         icon: <ExitToAppOutlinedIcon />,
       },
       {
         text: 'Đăng ký tuyển dụng',
-        path: '/',
+        path: '/resgister-company',
         icon: <BusinessOutlinedIcon />,
       },
     ],

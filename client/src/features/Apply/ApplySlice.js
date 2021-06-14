@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/xhr/api';
 import { toast } from 'react-toastify';
+import _ from 'lodash';
 
 export const getApplyByUserId = createAsyncThunk(
   'apply/getApplyByUserId',
@@ -32,23 +33,19 @@ export const getApplyById = createAsyncThunk(
       );
 
       const data = await Promise.all(promise);
+
+      const resumesArr = data?.map((rs) => ({
+        resumes: rs?.data,
+        user: rs?.data?.[0]?.user,
+      }));
+      console.log('rs', resumesArr);
       // resumes = res?.data;
       // console.log(res);
-      const resumes = data.map((data) => data?.data);
-
-      let result = job
-        ?.map((j) => {
-          const flatArr = resumes?.flat();
-          const res = flatArr?.filter((i) => i?.user === j?.user?._id);
-          return {
-            resumes: res,
-            ...j,
-          };
-        })
+      const resumes = data
+        .map((data) => data?.data)
         .filter((i) => i.status === 'pending');
 
-      console.log('result', result);
-      return result;
+      return resumesArr;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -77,9 +74,12 @@ export const createApply = createAsyncThunk(
       job: job?.job?._id,
       user: user?.user?._id,
     };
+    const message = `${user?.user?.name?.toUpperCase()} đã ứng tuyển vào công việc ${job?.job?.title?.toUpperCase()} 😪`;
+    const companyId = job?.job?.companyFrom?.user?._id;
     console.log('info apply', data);
     try {
       await api.post(`/applies`, data);
+      await api.post('/notification', { user: companyId, message });
       cb();
       return;
     } catch (error) {
@@ -158,6 +158,7 @@ export const applySlice = createSlice({
       state.isSuccess = true;
     },
     [getApplyByUserId.fulfilled]: (state, { payload }) => {
+      console.log('pl', payload);
       state.applies = payload;
       state.isFetching = false;
       state.isSuccess = true;

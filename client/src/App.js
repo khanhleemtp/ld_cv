@@ -1,12 +1,16 @@
 /* TODO  import */
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { Suspense } from 'react';
 import { lazy } from '@loadable/component';
 import pMinDelay from 'p-min-delay';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import PrivateRoute from './helpers/PrivateRoute';
-import ProtectedRoute from './helpers/ProtectedRoute';
+import { PrivateRoute } from './helpers/PrivateRoutes';
 import LayoutPage from './components/UI/Layout/LayoutPage';
 import Loading from './components/UI/Loading';
 import { ResumeWrapper } from './contexts/useResume';
@@ -16,12 +20,13 @@ import CompanyPage from './pages/CompanyPage';
 import RegisterCompany from './pages/RegisterCompany';
 import CompanyManagerPage from './pages/CompanyManagerPage';
 import CompanySuggestCandidate from './pages/CompanySuggestCandidate';
-import CompanyTable from './components/CompanyManager/CompanyTable';
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
 import JobDetails from './components/FindJobPage/JobDetails';
 import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
 import CompanyListCandiate from './components/CompanyManager/CompanyListCandiate';
+import Logout from './components/UI/Logout';
+import NotFound from './components/UI/NotFound';
 
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
@@ -29,7 +34,6 @@ import CompanyListCandiate from './components/CompanyManager/CompanyListCandiate
 /* TODO Lazy */
 const HomePage = lazy(() => pMinDelay(import('./pages/HomePage'), 500));
 const ResumePage = lazy(() => pMinDelay(import('./pages/ResumePage'), 100));
-
 const Signin = lazy(() => pMinDelay(import('./pages/SigninPage'), 500));
 const Signup = lazy(() => pMinDelay(import('./pages/SignupPage'), 500));
 
@@ -60,30 +64,73 @@ function App() {
           <Switch>
             <LayoutPage>
               <Route exact path="/" children={<HomePage />} />
-              <Route path="/company/:id" children={<CompanyPage />} />
+              <Route children={<Signup />} path="/signup" />
+              <Route children={<Signin />} path="/signin" />
+              <Route children={<Logout />} path="/logout" />
               <Route path="/register-company" children={<RegisterCompany />} />
+              <Route path="/company/:id" children={<CompanyPage />} />
+
               <Route
-                path="/resumes/:id"
+                path="/dashboard/resumes/:id"
                 children={
                   <ResumeWrapper>
                     <ResumePage />
                   </ResumeWrapper>
                 }
               />
-              <Route path="/manager" children={<CompanyManagerPage />} />
-              <Route path="/update-job/:id" children={<UpdateJob />} />
-              <Route path="/cadidate/:id" children={<CompanyListCandiate />} />
-              <Route
-                path="/suggest-candidate/:id"
-                children={<CompanySuggestCandidate />}
+
+              <Redirect
+                exact
+                from="/manager-company"
+                to="/manager-company/update-company"
               />
-              <Route path="/admin" children={<AdminPage />} />
+              <PrivateRoute
+                exact
+                path="/manager-company/:page?"
+                component={CompanyManagerPage}
+                roles={['company']}
+              />
+
+              <PrivateRoute
+                roles={['company']}
+                path="/suggest-candidate/:id"
+                component={CompanySuggestCandidate}
+              />
+
+              <PrivateRoute
+                roles={['company']}
+                path="/cadidate/:id"
+                component={CompanyListCandiate}
+              />
+
+              <PrivateRoute
+                roles={['company']}
+                path="/update-job/:id"
+                component={UpdateJob}
+              />
+
+              <Redirect exact from="/admin" to="/admin/response-company" />
+              <PrivateRoute
+                exact
+                path="/admin/:page?"
+                component={AdminPage}
+                roles={['admin']}
+              />
+
               <Route path="/find" children={<FindJobPage />} />
               <Route path="/jobs/:id" children={<JobDetails />} />
-              <Route path="/dashboard" children={<DashboardPage />} />
-              <Route children={<Signup />} path="/signup" />
-              <Route children={<Signin />} path="/signin" />
+              <Redirect exact from="/dashboard" to="/dashboard/info" />
+              <PrivateRoute
+                exact
+                roles={['user', 'admin', 'company']}
+                path="/dashboard/:page?"
+                component={DashboardPage}
+              />
             </LayoutPage>
+
+            <Route path="*">
+              <NotFound />
+            </Route>
           </Switch>
         </Router>
       </Suspense>

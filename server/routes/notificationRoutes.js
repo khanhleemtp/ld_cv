@@ -8,7 +8,7 @@ router
   .get(notificationController.getAllNotifications)
   .post(
     authController.protect,
-    authController.restrictTo('company', 'admin'),
+    authController.restrictTo('company', 'admin', 'user'),
     notificationController.createNotification
   );
 
@@ -18,7 +18,7 @@ router
   .post(authController.protect, authController.restrictTo('company', 'admin'))
   .delete(
     authController.protect,
-    authController.restrictTo('company', 'admin'),
+    authController.restrictTo('company', 'admin', 'user'),
     notificationController.deleteNotification
   )
   .patch(

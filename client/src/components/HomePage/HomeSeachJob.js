@@ -7,6 +7,8 @@ import Chip from '@material-ui/core/Chip';
 import SeachJob from '../../components/UI/SeachJob';
 import codeImg from '../../assets/images/top.svg';
 import { blueGrey } from '@material-ui/core/colors';
+import { useHistory } from 'react-router-dom';
+import { TokenService } from '../../services/TokenService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomeSeachJob = () => {
   const classes = useStyles();
-
+  const history = useHistory();
   return (
     <div className={classes.root}>
       <Container className={classes.boxContainer}>
@@ -68,6 +70,9 @@ const HomeSeachJob = () => {
               variant="contained"
               style={{
                 margin: 8,
+              }}
+              onClick={() => {
+                history.push('/dashboard/cv');
               }}
             >
               Tạo CV ngay

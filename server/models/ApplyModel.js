@@ -41,7 +41,7 @@ applySchema.pre(/^find/, function (next) {
 applySchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name email',
+    select: 'name email resume',
   });
   next();
 });

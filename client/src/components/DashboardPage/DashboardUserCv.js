@@ -80,7 +80,6 @@ const DashboardUserCv = () => {
                   {resume?.title || 'CV: '}
                 </Typography>
                 <IconButton
-                  // color="secondary"
                   aria-label="edit"
                   component="span"
                   title="Chỉnh sửa CV"
@@ -95,7 +94,6 @@ const DashboardUserCv = () => {
             </Link>
             <Box>
               <IconButton
-                // color="secondary"
                 aria-label="upload picture"
                 component="span"
                 title="Xóa"

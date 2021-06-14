@@ -60,10 +60,10 @@ export const fetchUserBytoken = createAsyncThunk(
 export const getNotifications = createAsyncThunk(
   'user/getNotifications',
   async (id, thunkAPI) => {
-    // if (!id) return;
+    if (!id) return;
     try {
       const { data } = await api.get(`/notification?user=${id}`);
-      console.log('notif');
+      console.log('notification', data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

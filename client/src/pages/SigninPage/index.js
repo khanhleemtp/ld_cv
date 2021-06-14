@@ -8,10 +8,11 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useForm, Controller } from 'react-hook-form';
 import Link from '@material-ui/core/Link';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FormLayout from '../../components/UI/FormLayout';
 import { signinUser, userSelector } from '../../features/User/UserSlice';
+import { TokenService } from '../../services/TokenService';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,25 +64,14 @@ const SigninPage = () => {
 
   const { isFetching } = useSelector(userSelector);
 
-  // useEffect(() => {
-  //   dispatch(clearState());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (isSuccess && token) {
-  //     toast.success('Đăng nhập thành công 🚀 ');
-  //     history.push('/app');
-  //     dispatch(clearState());
-  //   }
-  //   if (isError) {
-  //     toast.error('💩' + errorMessage);
-  //     dispatch(clearState());
-  //   }
-  // }, [isSuccess, isError, errorMessage, history, dispatch, token]);
-
   const classes = useStyles();
+
+  if (TokenService.getToken()) {
+    return <Redirect to="dashboard/info" />;
+  }
+
   return (
-    <FormLayout title="Sign in" avatar="🙆‍">
+    <FormLayout title="Đăng nhập" avatar="🙆‍">
       <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
         <Grid container>
           <Grid item xs={12} className={classes.paper}>
@@ -112,7 +102,7 @@ const SigninPage = () => {
                   {...field}
                   className={classes.textField}
                   fullWidth
-                  label="Password"
+                  label="Mật khẩu"
                   variant="outlined"
                   margin="normal"
                   type="password"
@@ -133,7 +123,7 @@ const SigninPage = () => {
                       checked={value}
                     />
                   }
-                  label="Remember password ?"
+                  label="Nhớ mật khẩu ?"
                 />
                 {error && <FormHelperText error>{error}</FormHelperText>}
               </FormControl>
@@ -147,7 +137,7 @@ const SigninPage = () => {
             type="submit"
             className={classes.btn}
           >
-            {isFetching ? 'Sending...' : 'Login'}
+            {isFetching ? 'Đang gửi...' : 'Đăng nhập'}
           </Button>
         </Grid>
         <Grid container justify="flex-end">
@@ -159,7 +149,7 @@ const SigninPage = () => {
                 history.push('/signup');
               }}
             >
-              You have new user? Signup
+              Bạn là người mới? Đăng kí ngay
             </Link>
           </Grid>
         </Grid>

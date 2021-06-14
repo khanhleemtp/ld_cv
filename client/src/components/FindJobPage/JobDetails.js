@@ -17,6 +17,7 @@ import Chip from '@material-ui/core/Chip';
 import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
 import { createApply } from '../../features/Apply/ApplySlice';
+import { TokenService } from '../../services/TokenService';
 const useStyles = makeStyles((theme) => ({
   root: {},
 }));
@@ -33,6 +34,7 @@ const JobDetails = () => {
   const { job } = useSelector(jobSelector);
 
   const handleApply = () => {
+    if (!TokenService.getToken()) return history.push('/signin');
     dispatch(createApply(() => history.push('/dashboard')));
   };
 

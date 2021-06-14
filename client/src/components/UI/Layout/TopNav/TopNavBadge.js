@@ -1,10 +1,10 @@
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   deleteNotification,
+  getNotifications,
   userSelector,
 } from '../../../../features/User/UserSlice';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,8 @@ import Box from '@material-ui/core/Box';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import { useEffect } from 'react';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -32,8 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 const TopNavBadge = () => {
   const classes = useStyles();
-  const { notifications } = useSelector(userSelector);
+  const { user } = useSelector(userSelector);
   const dispatch = useDispatch();
+  useEffect(() => {
+    const id = user?._id;
+    dispatch(getNotifications(id));
+  }, [dispatch, user]);
+
+  const { notifications } = useSelector(userSelector);
+
   const handleDeleteNotification = (id) => () =>
     dispatch(deleteNotification(id));
 

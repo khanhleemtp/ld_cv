@@ -83,6 +83,21 @@ export const updateCompany = createAsyncThunk(
   }
 );
 
+export const deleteCompany = createAsyncThunk(
+  'company/deleteCompany',
+  async (values, thunkAPI) => {
+    const { company } = thunkAPI.getState();
+    const id = company?.company._id;
+    try {
+      const { data } = await api.delete(`/companies/${id}`);
+      toast.success('Cập nhật thành công');
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const responseCompany = createAsyncThunk(
   'company/responseCompany',
   async (values, thunkAPI) => {
@@ -117,6 +132,7 @@ export const companySlice = createSlice({
   },
   reducers: {
     clearState: (state) => {
+      state.companies = [];
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
@@ -130,23 +146,10 @@ export const companySlice = createSlice({
       state.isFetching = false;
       state.isSuccess = true;
     },
-    [getAllCompany.fulfilled]: (state, { payload }) => {
-      state.companies = payload;
-      state.isFetching = false;
-      state.isSuccess = true;
-    },
     [responseCompany.fulfilled]: (state, { payload: _id }) => {
       state.companies = _.filter(state.companies, { _id: !_id });
       state.isFetching = false;
       state.isSuccess = true;
-    },
-    [responseCompany.rejected]: (state, { payload, error }) => {
-      state.isFetching = false;
-      state.isError = true;
-      state.errorMessage = payload?.data?.message
-        ? payload?.data.message
-        : error.message;
-      toast.error(`${state.errorMessage}😥`);
     },
     [registerCompany.pending]: (state) => {
       state.isFetching = true;
@@ -159,6 +162,29 @@ export const companySlice = createSlice({
         : error.message;
       toast.error(`${state.errorMessage}😥`);
     },
+    [responseCompany.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message
+        ? payload?.data.message
+        : error.message;
+      toast.error(`${state.errorMessage}😥`);
+    },
+    [getAllCompany.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getAllCompany.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error.message;
+      toast.error(`${state.errorMessage}😥`);
+    },
+    [getAllCompany.fulfilled]: (state, { payload }) => {
+      state.companies = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+
     [updateCompany.fulfilled]: (state, { payload }) => {
       state.company = payload;
       state.isFetching = false;

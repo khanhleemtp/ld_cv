@@ -11,7 +11,6 @@ import LanguageOutlinedIcon from '@material-ui/icons/LanguageOutlined';
 import Grid from '@material-ui/core/Grid';
 import CompanyTextIcon from './CompanyTextIcon';
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
-import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   root: {
     cursor: 'pointer',
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
       alignItems: 'flex-start',
     },
-    marginTop: 24,
+    marginTop: 2,
   },
   title: {
     fontSize: 18,
@@ -73,9 +72,7 @@ const CompanyPageHeader = ({ company }) => {
       </Box>
       <Box
         display="flex"
-        // justifyContent="center"
         flexDirection="column"
-        // alignItems="space-between"
         flexGrow={1}
         alignSelf="stretch"
         justifyContent="space-around"
@@ -123,14 +120,7 @@ const CompanyPageHeader = ({ company }) => {
         justifyContent="center"
         flexDirection="column"
         alignItems="space-between"
-      >
-        <Button color="secondary" variant="contained" className={classes.btn}>
-          Viết review
-        </Button>
-        <Button variant="contained" className={classes.btn}>
-          Theo dõi
-        </Button>
-      </Box>
+      ></Box>
     </Paper>
   );
 };

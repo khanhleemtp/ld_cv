@@ -49,7 +49,7 @@ const TopNavHoverMenus = ({ menu }) => {
           <MenuItem
             key={item.text}
             onClick={() => {
-              history.push('/abc');
+              history.push(item.path);
               popupState.close();
             }}
           >

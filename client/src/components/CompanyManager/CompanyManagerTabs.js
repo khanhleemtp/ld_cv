@@ -1,27 +1,31 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import TabComponent from '../UI/TabComponent';
 import CreateJob from './CreateJob';
 import CompanyUpdateInfo from './CompanyUpdateInfo';
 import CompanyListJob from './CompanyListJobs';
+import TabLink from '../UI/TabLink';
 
-const tabList = [
+const listTabs = [
   {
-    label: 'Cập nhật thông tin',
     index: 0,
     component: <CompanyUpdateInfo />,
+    label: 'Cập nhật thông tin',
+    page: 'update-company',
   },
   {
-    label: 'Tạo việc',
     index: 1,
     component: <CreateJob />,
+    label: 'Tạo việc',
+    page: 'create-job',
   },
   {
-    label: 'Danh sách việc',
     index: 2,
     component: <CompanyListJob />,
+    label: 'Danh sách việc',
+    page: 'list-job',
   },
 ];
+
 const CompanyManagerTabs = () => {
   return (
     <Box
@@ -29,7 +33,8 @@ const CompanyManagerTabs = () => {
         minHeight: '52vh',
       }}
     >
-      <TabComponent tabList={tabList} />
+      {/* <TabComponent tabList={tabList} /> */}
+      <TabLink rootLink="manager-company" listTabs={listTabs} />
     </Box>
   );
 };

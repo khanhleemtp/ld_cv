@@ -74,6 +74,7 @@ const TabComponent = ({ tabList }) => {
           ))}
         </Tabs>
       </AppBar>
+
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}

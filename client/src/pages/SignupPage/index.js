@@ -14,7 +14,8 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormLayout from '../../components/UI/FormLayout';
 import { userSelector, signupUser } from '../../features/User/UserSlice';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
+import { TokenService } from '../../services/TokenService';
 /* TODO Init state */
 
 /* TODO Style */
@@ -58,7 +59,7 @@ const SignupPage = () => {
       .required(),
     isAccept: yup
       .bool()
-      .oneOf([true], 'Bạn cần chấp nhận mọi điều khoanar của chúng tôi 😗'),
+      .oneOf([true], 'Bạn cần chấp nhận mọi điều khoản của chúng tôi 😗'),
   });
 
   /* TODO Hook */
@@ -82,12 +83,15 @@ const SignupPage = () => {
       })
     );
   };
-
   const classes = useStyles();
+
+  if (TokenService.getToken()) {
+    return <Redirect to="dashboard/info" />;
+  }
 
   /* TODO UI*/
   return (
-    <FormLayout title="Sign up" avatar="🙆‍♂️">
+    <FormLayout title="Đăng ký" avatar="🙆‍♂️">
       <form onSubmit={handleSubmit(onSubmit)} noValidate autoComplete="off">
         <Grid container>
           <Grid item xs={12}>
@@ -99,7 +103,7 @@ const SignupPage = () => {
                 <TextField
                   {...field}
                   className={classes.textField}
-                  label="Name"
+                  label="Họ và tên"
                   variant="outlined"
                   fullWidth
                   autoFocus
@@ -134,7 +138,7 @@ const SignupPage = () => {
                 <TextField
                   {...field}
                   className={classes.textField}
-                  label="Password"
+                  label="Mật khẩu"
                   variant="outlined"
                   fullWidth
                   error={!!error}
@@ -152,7 +156,7 @@ const SignupPage = () => {
                 <TextField
                   {...field}
                   className={classes.textField}
-                  label="PasswordConfirm"
+                  label="Nhập lại mật khẩu"
                   variant="outlined"
                   fullWidth
                   error={!!error}
@@ -178,7 +182,7 @@ const SignupPage = () => {
                         checked={value}
                       />
                     }
-                    label="Please accept all privacy*"
+                    label="Chấp nhận mọi điều khoản của chúng tôi*"
                   />
                   {error && (
                     <FormHelperText error>
@@ -198,7 +202,7 @@ const SignupPage = () => {
             type="submit"
             className={classes.btn}
           >
-            {isFetching ? 'Sending...' : 'Signup'}
+            {isFetching ? 'Đang gửi...' : 'Đăng ký'}
           </Button>
         </Grid>
         <Grid container justify="flex-end">
@@ -210,7 +214,7 @@ const SignupPage = () => {
                 history.push('/signin');
               }}
             >
-              Already have an account? Log in
+              Bạn đã có tài khoản? Đăng nhập ngay
             </Link>
           </Grid>
         </Grid>

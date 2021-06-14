@@ -5,14 +5,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import LinkItemText from '@material-ui/core/ListItemText';
+
 import { useState, useEffect, useCallback } from 'react';
 import TopNavAvatar from './TopNavAvatar';
 import { TokenService } from '../../../../services/TokenService';
-import { logOut } from '../../../../features/User/UserSlice';
-import { useDispatch } from 'react-redux';
+import { userSelector } from '../../../../features/User/UserSlice';
+import { useSelector } from 'react-redux';
 import TopNavBadge from './TopNavBadge';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import TopNavMobile from './TopNavMobile';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,53 +71,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const guestOptions = [
-  { title: 'Đăng nhập', path: '/signin' },
-  { title: 'Đăng ký', path: '/signup' },
-  { title: 'Việc làm IT', path: '/job' },
-];
-
-const userOptions = [
-  { title: 'Tìm việc', path: '/signin' },
-  { title: 'Tạo CV', path: '/signup' },
-  { title: 'Công ty', path: '/signup' },
-];
-
-const companyOptions = [
-  { title: 'Quản lý', path: '/manager' },
-  { title: 'Compant Page', path: '/company' },
-  { title: 'Việc làm IT', path: '/job' },
-];
-
-const adminOptions = [
-  { title: 'Đăng nhập', path: '/signin' },
-  { title: 'Đăng ký', path: '/signup' },
-  { title: 'Việc làm IT', path: '/job' },
-];
-
-const navOptions = [
-  { title: 'Đăng nhập', path: '/signin' },
-  { title: 'Đăng ký', path: '/signup' },
-  { title: 'Việc làm IT', path: '/job' },
-  { title: 'Thông tin', path: '/dashboard' },
-  { title: 'Công ty', path: '/manager' },
-  { title: 'Admin', path: '/admin' },
-  { title: 'Đăng ký công ty', path: '/register-company' },
-  { title: 'Tìm việc', path: '/find' },
-];
-
 function TopNav() {
   let history = useHistory();
   const location = useLocation();
-  const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog = () => setOpenDialog(true);
+  const handleCloseDialog = () => setOpenDialog(false);
+
   const handleGoHome = () => {
     history.push('/');
   };
 
-  const handleLogOut = () => {
-    dispatch(logOut());
-    history.push('/');
-  };
+  // const handleLink = (path) => () => history.replace({ pathname: path });
 
   const handleChangeBgNav = useCallback(() => {
     if (window.scrollY >= 56) {
@@ -132,7 +101,45 @@ function TopNav() {
   const [changeNav, setChangeNav] = useState(false);
 
   const classes = useStyles();
+  const { user } = useSelector(userSelector);
 
+  const guestOptions = [
+    { title: 'Đăng nhập', path: '/signin' },
+    { title: 'Đăng ký', path: '/signup' },
+    { title: 'Việc làm IT', path: '/find' },
+  ];
+
+  const userOptions = [
+    { title: 'Việc làm IT', path: '/find' },
+    { title: 'Đăng ký công ty', path: '/register-company' },
+    { title: 'Tạo CV', path: '/dashboard/cv' },
+    { title: 'Thông tin', path: '/dashboard/info' },
+    { title: 'Đăng xuất', path: '/logout' },
+  ];
+
+  const companyOptions = [
+    { title: 'Quản lý', path: '/manager-company/update-company' },
+    { title: 'Compant Page', path: `/company/${user?.company?._id}` },
+    ...userOptions,
+  ];
+
+  const adminOptions = [
+    { title: 'Duyệt công ty', path: '/admin/response-company' },
+    { title: 'Quản lý công ty', path: '/admin/list-company' },
+    ...userOptions,
+  ];
+
+  let navOptions = !TokenService.getToken()
+    ? guestOptions
+    : user?.role === 'admin'
+    ? adminOptions
+    : user?.role === 'company'
+    ? companyOptions
+    : user?.role === 'user'
+    ? userOptions
+    : guestOptions;
+
+  console.log(user?.role);
   return (
     <AppBar
       position="fixed"
@@ -174,23 +181,29 @@ function TopNav() {
                 );
               })}
             </Box>
-            <div onClick={handleLogOut}> Logout</div>
             <Box
               flexGrow={1}
               alignItems="center"
               display="flex"
               justifyContent="flex-end"
             >
-              <TopNavBadge />
+              {TokenService.getToken() && <TopNavBadge />}
               {TokenService.getToken() && <TopNavAvatar />}
               <IconButton
                 edge="start"
                 color="inherit"
                 aria-label="menu"
                 className={classes.menu}
+                onClick={handleOpenDialog}
               >
                 <MenuIcon />
               </IconButton>
+              <TopNavMobile
+                open={openDialog}
+                handleClose={handleCloseDialog}
+                navOptions={navOptions}
+                // handleLink={handleLink}
+              />
             </Box>
           </Box>
         </Container>

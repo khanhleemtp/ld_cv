@@ -53,7 +53,7 @@ const CandidateCard = ({ user, resumes, id }) => {
         <Typography>Danh sách CV:</Typography>
         {resumes?.map((resume) => (
           <Box key={resume._id} margin={1}>
-            <Link to={'/resumes/' + resume._id}>Xem CV</Link>
+            <Link to={'/dashboard/resumes/' + resume._id}>Xem CV</Link>
             <Typography variant="body2" color="primary" gutterBottom>
               Vai trò: {resume?.header?.title}
             </Typography>

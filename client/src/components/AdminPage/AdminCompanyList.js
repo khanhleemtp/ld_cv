@@ -12,9 +12,11 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import AdminCompanyItem from './AdminCompanyItem';
 import { AdminAction } from './AdminAction';
+import { clearState } from '../../features/Company/CompanySlice';
 
 export const CompanyItem = ({ company }) => {
   const dispatch = useDispatch();
+
   const handleResponeCompany = (status) => {
     return () => dispatch(responseCompany(status));
   };
@@ -71,6 +73,11 @@ export const CompanyItem = ({ company }) => {
 
 const AdminCompanyList = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearState());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(
       getAllCompany({
@@ -78,18 +85,21 @@ const AdminCompanyList = () => {
       })
     );
   }, [dispatch]);
-  const { companies } = useSelector(companySelector);
-  console.log(companies);
+  const { companies, isFetching } = useSelector(companySelector);
   return (
     <Grid container>
-      {companies?.map((company) => (
-        <Grid key={company.name} item>
-          <AdminCompanyItem
-            company={company}
-            btnAction={<AdminAction company={company} />}
-          />
-        </Grid>
-      ))}
+      {isFetching ? (
+        <div>Loading...</div>
+      ) : (
+        companies?.map((company) => (
+          <Grid key={company.name} item>
+            <AdminCompanyItem
+              company={company}
+              btnAction={<AdminAction company={company} />}
+            />
+          </Grid>
+        ))
+      )}
     </Grid>
   );
 };

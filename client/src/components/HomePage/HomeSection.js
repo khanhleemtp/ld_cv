@@ -1,6 +1,7 @@
 import { Typography, Grid, Button, Box, Container } from '@material-ui/core';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   btn: {
     justifySelf: 'end',
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const HomeSection = ({ id, title, body, textBtn, img }) => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <Container className={classes.container} maxWidth="md">
       <Grid
@@ -39,7 +41,16 @@ const HomeSection = ({ id, title, body, textBtn, img }) => {
         <Grid item xs={12} md={6}>
           <Typography variant="h4">{title}</Typography>
           <Typography>{body}</Typography>
-          <Button className={classes.btn}>{textBtn}</Button>
+          <Button
+            className={classes.btn}
+            onClick={() => {
+              history.push({
+                pathname: '/dashboard/cv',
+              });
+            }}
+          >
+            {textBtn}
+          </Button>
         </Grid>
       </Grid>
     </Container>

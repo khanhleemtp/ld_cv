@@ -53,9 +53,13 @@ const DashboardUserApply = () => {
   console.log(applies);
   return (
     <Box display="flex" flexDirection="column">
-      <Typography variant="h5">Danh sách ứng tuyển: </Typography>
+      <Typography variant="h6">Danh sách ứng tuyển: </Typography>
       {isFetching ? (
         <Typography variant="caption">Loading...</Typography>
+      ) : applies?.length === 0 ? (
+        <Typography variant="caption">
+          Bạn hiện không ứng tuyển ở vị trí nào
+        </Typography>
       ) : (
         <Grid container spacing={3}>
           {applies?.map((apply) => (

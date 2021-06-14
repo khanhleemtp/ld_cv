@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from './Footer';
-import Navbar from './Navbar/Navbar';
 import TopNav from './TopNav';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'hidden',
   },
-
   page: {
     width: '100%',
     background: '#f9f9f9',

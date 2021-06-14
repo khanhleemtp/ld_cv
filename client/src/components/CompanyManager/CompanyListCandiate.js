@@ -18,9 +18,8 @@ const CompanyListCandiate = () => {
     <Grid container spacing={2}>
       <Grid item></Grid>
       {applies?.map((a) => {
-        console.log('add', a);
         return (
-          <Grid key={a._id} item xs={12} sm={12} md={6} lg={4}>
+          <Grid key={a.user?._id} item xs={12} sm={12} md={6} lg={4}>
             <CandidateCard user={a?.user} resumes={a?.resumes} id={a?._id} />
           </Grid>
         );

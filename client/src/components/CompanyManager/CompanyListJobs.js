@@ -21,7 +21,7 @@ const CompanyListJob = () => {
   return (
     <Grid container spacing={2}>
       {company?.jobs?.map((i) => (
-        <Grid key={i.id} item xs={12} sm={12} md={6} lg={4}>
+        <Grid key={i._id} item xs={12} sm={12} md={6} lg={4}>
           <CompanyControlJob jobId={i._id} />
           <JobCard
             item={i}
