@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: 8,
     border: '1px solid #ddd',
     '&:hover': {
       boxShadow: `0 3px 4px 0 rgba(0,0,0,.4)`,
@@ -28,14 +28,17 @@ const useStyles = makeStyles((theme) => ({
   },
   tag: {
     margin: theme.spacing(0.5),
+    textTransform: 'capitalize',
   },
   salary: {
+    textTransform: 'capitalize',
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
 }));
 
 const JobCard = ({ item, photo, companyName }) => {
+  console.log(item);
   const classes = useStyles();
   const history = useHistory();
   const handleDetailsJob = () => {
@@ -82,8 +85,13 @@ const JobCard = ({ item, photo, companyName }) => {
         <Typography variant="h6" component="p">
           {item?.title}
         </Typography>
+        {item?.status && (
+          <Typography variant="body2" component="p">
+            Độ phù hợp : {item?.status}
+          </Typography>
+        )}
         <Typography variant="body2" color="primary" className={classes.salary}>
-          💸 {item?.salary}
+          💸 {item?.position}-{item?.salary}
         </Typography>
         <Box flexBasis={1}>
           {item?.tags.map((item) => (

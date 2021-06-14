@@ -164,20 +164,26 @@ app.use(
   catchAsync(async (req, res) => {
     console.log(req.params);
     const resume = await Resume.findById(req.params.id);
-    const jobs = await Job.find().select({ slugs: 1, position: 1, company: 0 });
-    const math80 = jobs.filter((job) => {
+    const jobs = await Job.find().select({
+      slugs: 1,
+      tags: 1,
+      salary: 1,
+      position: 1,
+      title: 1,
+      company: 1,
+    });
+    const job80 = jobs.filter((job) => {
       const intersection = _.intersection(job.slugs, resume.tags);
       return intersection.length >= resume.tags.length * 0.8;
     });
     console.log(resume.user);
-    const math30 = jobs.filter((job) => {
+    const job30 = jobs.filter((job) => {
       const intersection = _.intersection(job.slugs, resume.tags);
       return intersection.length >= resume.tags.length * 0.3;
     });
     res.json({
       status: 'success',
-      job30: math30,
-      math80,
+      data: { job30, job80 },
     });
   })
 );

@@ -22,7 +22,8 @@ const FindJobPage = () => {
     dispatch(getAllJob(filter));
   }, [dispatch, filter]);
 
-  console.log('filte: ', filter);
+  console.log('filter: ', filter);
+
   const classes = useStyles();
   return (
     <Box>

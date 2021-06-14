@@ -40,43 +40,29 @@ exports.getJobSearch = catchAsync(async (req, res, next) => {
 
 exports.setConditionSearch = (req, res, next) => {
   let query = { ...req.query };
-  if (!_.isEmpty(req.body)) {
-    const tags = req.body.tags || [''];
-    const positions = req.body.positions || [''];
-    const location = req.body.location;
-    location !== 'all'
-      ? (query = {
-          ...query,
-          or: [
-            {
-              tags: {
-                in: tags,
-              },
-            },
-            {
-              position: {
-                in: positions,
-              },
-            },
-          ],
-          location: location,
-        })
-      : {
-          ...query,
-          or: [
-            {
-              tags: {
-                in: tags,
-              },
-            },
-            {
-              position: {
-                in: positions,
-              },
-            },
-          ],
-        };
+  const location = req.body.location;
+  query = location === 'all' ? { ...query } : { ...query, location };
+
+  if (!_.isEmpty(req.body.tags) || !_.isEmpty(req.body.positions)) {
+    const orQuery = {
+      or: [
+        {
+          tags: {
+            in: req.body.tags,
+          },
+        },
+        {
+          position: {
+            in: req.body.positions,
+          },
+        },
+      ],
+    };
+
+    query = { ...orQuery, ...query };
   }
+
+  console.log('query', query);
   req.query = query;
   next();
 };

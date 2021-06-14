@@ -4,9 +4,11 @@ import Box from '@material-ui/core/Box';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
 import TriggerMenu from '../Section/TriggerMenu';
-import UploadImageDialog from '../Section/Header/UploadImage/UploadImage';
 import { useResume } from '../../../contexts/useResume';
 import UploadImage from '../../UI/UploadImage/UploadImage';
+import { useSelector } from 'react-redux';
+import { resumeSelector } from '../../../features/Resume/ResumeSlice';
+import { userSelector } from '../../../features/User/UserSlice';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -18,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 const HeaderSetting = () => {
   const [open, setOpen] = useState(false);
+  const { resume } = useSelector(resumeSelector);
 
+  const { user } = useSelector(userSelector);
+  const isEnabled = resume?.user?._id === user._id;
   const { control, setValue } = useResume();
 
   const classes = useStyles();
@@ -26,7 +31,9 @@ const HeaderSetting = () => {
     <>
       <TriggerMenu
         component={
-          <SettingsOutlinedIcon className={classes.icon} title="Hiển thị" />
+          isEnabled && (
+            <SettingsOutlinedIcon className={classes.icon} title="Hiển thị" />
+          )
         }
         listItem={[
           {
@@ -55,16 +62,18 @@ const HeaderSetting = () => {
           },
         ]}
       />
-      <Box
-        padding={1}
-        marginX={1}
-        onClick={() => {
-          setOpen(true);
-        }}
-        title="Ảnh"
-      >
-        <CameraAltOutlinedIcon className={classes.icon} />
-      </Box>
+      {isEnabled && (
+        <Box
+          padding={1}
+          marginX={1}
+          onClick={() => {
+            setOpen(true);
+          }}
+          title="Ảnh"
+        >
+          <CameraAltOutlinedIcon className={classes.icon} />
+        </Box>
+      )}
       {/* <UploadImageDialog
         open={open}
         setOpen={setOpen}

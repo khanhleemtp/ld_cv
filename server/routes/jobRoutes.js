@@ -5,7 +5,7 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(jobController.setConditionSearch, jobController.getAllJobs)
+  .get(jobController.getAllJobs)
   .post(
     authController.protect,
     authController.restrictTo('company', 'admin'),

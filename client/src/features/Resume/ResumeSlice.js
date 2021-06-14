@@ -24,9 +24,13 @@ export const getResumesById = createAsyncThunk(
   'resumes/getResumesById',
   async ({ id }, thunkAPI) => {
     try {
-      console.log('gettt');
-      let data = await api.get(`/resumes/${id}`);
-      return data;
+      const { user } = thunkAPI.getState();
+      let { data: resume } = await api.get(`/resumes/${id}`);
+      let userID = user?.user?._id;
+      console.log(userID);
+      // console.log(isDisabled, user?.user?._id, resume?.user?._id);
+
+      return { resume };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -39,6 +43,7 @@ export const deleteResume = createAsyncThunk(
     const { id } = values;
     const { resume } = thunkAPI.getState();
     const data = resume?.resumes.filter((item) => item.id !== id);
+
     try {
       await api.delete(`/resumes/${id}`);
       return data;
@@ -87,6 +92,7 @@ export const resumeSlice = createSlice({
     isError: false,
     errorMessage: '',
     resume: {},
+    isDisabled: false,
   },
   reducers: {
     clearState: (state) => {
@@ -149,8 +155,10 @@ export const resumeSlice = createSlice({
       toast.success('Thêm thành công 😵');
     },
     [getResumesById.fulfilled]: (state, { payload }) => {
-      console.log('payload resume: ', payload.data);
-      state.resume = payload.data;
+      console.log('payload resume: ', payload.isDisabled);
+      // state.isDisabled = payload?.data?.user?._id ===
+      state.isDisabled = payload.isDisabled;
+      state.resume = payload.resume;
       state.isFetching = false;
       state.isSuccess = true;
       return state;

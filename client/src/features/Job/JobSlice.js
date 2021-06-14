@@ -28,7 +28,7 @@ export const getAllJob = createAsyncThunk(
   async (values, thunkAPI) => {
     try {
       const { data } = await api.post(`/job/data-search`, values);
-      console.log('job', data);
+      console.log('jobSeacrch', data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -62,6 +62,23 @@ export const getSuggestCandidate = createAsyncThunk(
       return {
         rows: math,
         job: data.job,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getSuggestJob = createAsyncThunk(
+  'job/getSuggestJob',
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await api.get(`/helper/${id}`);
+      let math80 = _.map(data?.job80, (item) => ({ ...item, status: '80%' }));
+      let math30 = _.map(data?.job30, (item) => ({ ...item, status: '30%' }));
+      const math = _.concat(math30, math80);
+      return {
+        rows: math,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -104,6 +121,7 @@ export const jobSlice = createSlice({
     filter: {},
     position: [],
     suggestCv: [],
+    suggestJob: [],
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -117,7 +135,10 @@ export const jobSlice = createSlice({
       state.errorMessage = '';
     },
     updateFilter(state, action) {
-      state.filter = action.payload;
+      state.filter = {
+        ...state.filter,
+        ...action.payload,
+      };
       return state;
     },
   },
@@ -177,6 +198,21 @@ export const jobSlice = createSlice({
     },
     [getSuggestCandidate.fulfilled]: (state, { payload }) => {
       state.suggestCv = payload;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+
+    [getSuggestJob.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getSuggestJob.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.error(`${state?.errorMessage}😥`);
+    },
+    [getSuggestJob.fulfilled]: (state, { payload }) => {
+      state.suggestJob = payload;
       state.isFetching = false;
       state.isSuccess = true;
     },

@@ -102,6 +102,7 @@ const SeachJob = () => {
     <Container>
       <form
         onSubmit={handleSubmit((data) => {
+          console.log('data', data);
           let tags = data?.tags?.map((tag) => tag?.value);
           let positions = data?.positions.map((p) => p?.value);
           let location = data?.location;

@@ -42,14 +42,7 @@ const ResumeTitleSetting = ({
       ),
       onClick: removeSection,
     },
-    {
-      component: (
-        <SettingIcon icon={<TableChartOutlinedIcon />} title="Điều khiển" />
-      ),
-      onClick: () => {
-        console.log('abc');
-      },
-    },
+
     {
       component: <SettingIcon icon={<ExpandLessOutlinedIcon />} title="Lên" />,
       onClick: handleUpSection,
