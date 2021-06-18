@@ -1,30 +1,30 @@
 const AppError = require('../utils/appError');
 
 const handleObjectId = (err) => {
-  return new AppError(`Invalid ${err.path}: ${err.value} `, 400);
+  return new AppError(
+    `Thông tin không hợp lệ:  ${err.path}: ${err.value} `,
+    400
+  );
 };
 
 const handleDuplicateFieldsDB = (err) => {
   let value = Object.values(err.keyValue).join(' ');
-  return new AppError(
-    `Duplicate field ${value} . Please use another value`,
-    400
-  );
+  return new AppError(`${value} đã có, hãy nhập lại `, 400);
 };
 
 const handleValidationErrorDB = (err) => {
   const errors = Object.values(err.errors).map((el) => el.message);
 
   console.log(errors);
-  const message = `Invalid data. ${errors.join('. ')}`;
+  const message = `Thông tin không hợp lệ: ${errors.join('. ')}`;
   return new AppError(message, 400);
 };
 
 const handleJWTError = (err) =>
-  new AppError('Invalid token. Please login again', 401);
+  new AppError('Token không hợp lệ. Hãy đăng nhập lại', 401);
 
 const handleTokenExpiredError = (err) =>
-  new AppError('Your Token has expired, please log in again', 401);
+  new AppError('Token đã hết hạn, hãy đăng nhập lại', 401);
 
 const sendErrorProd = (err, res) => {
   // Operational, trusted error: send message to client
@@ -42,7 +42,7 @@ const sendErrorProd = (err, res) => {
     // 2, Send generic message
     res.status(500).json({
       status: 'error',
-      message: 'Something went wrong',
+      message: 'Bạn đã làm sai gì đó 🤔',
     });
   }
 };

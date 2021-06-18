@@ -8,8 +8,14 @@ const jobSchema = new mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
+      require: [true, 'Hãy nhập tiêu đề công việc'],
     },
-    salary: String,
+    salary: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      require: [true, 'Hãy nhập mức lương'],
+    },
     location: String,
     type: String,
     tags: [
@@ -17,6 +23,7 @@ const jobSchema = new mongoose.Schema(
         type: String,
         trim: true,
         lowercase: true,
+        require: [true],
       },
     ],
     slugs: [String],
@@ -26,23 +33,30 @@ const jobSchema = new mongoose.Schema(
     },
     to: {
       type: Date,
+      min: [Date.now(), 'Hãy nhập thời gian hợp lệ'],
     },
     position: {
       type: String,
       lowercase: true,
+      require: [true, 'Hãy nhập kỹ năng'],
     },
     company: {
       type: mongoose.Types.ObjectId,
       ref: 'Company',
     },
-    descriptions: [String],
-    requirements: [String],
+    descriptions: [
+      { type: String, require: [true, 'Hãy nhập mô tả công việc'] },
+    ],
+    requirements: [
+      { type: String, require: [true, 'Hãy nhập yêu cầu công việc'] },
+    ],
   },
   {
     //virtuals properties not save in db but caculate
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
     timestamps: true,
+    validateBeforeSave: true,
   }
 );
 
