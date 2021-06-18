@@ -1,5 +1,4 @@
-## INIT
+## Hướng dẫm cài đặt mã nguồn
 
-- 1. Create server and dependencies
-- 2. Init server.js
-- 3. Init client
+- Bước 1: Khởi tạo client : cd client => yarn install => yarn start
+  Bước 2: Khởi tạo server : cd server => yarn install => yarn start:prod
