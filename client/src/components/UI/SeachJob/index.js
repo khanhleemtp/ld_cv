@@ -78,24 +78,27 @@ const useStyles = makeStyles((theme) => ({
 
 const SeachJob = () => {
   const dispatch = useDispatch();
-  const { search, isFetching } = useSelector(jobSelector);
+  const { search, isFetching, filter } = useSelector(jobSelector);
   useEffect(() => {
     dispatch(getJobSearch());
   }, [dispatch]);
 
   const classes = useStyles();
-  const { handleSubmit, control, setValue } = useForm({
-    defaultValues: {
-      location: 'Hà Nội',
-    },
+  const { handleSubmit, control, setValue, reset } = useForm({
+    defaultValues: filter,
   });
 
   useEffect(() => {
     setValue('tags', []);
-  });
+  }, [setValue]);
   useEffect(() => {
     setValue('positions', []);
-  });
+  }, [setValue]);
+
+  // useEffect(() => {
+  //   reset(filter);
+  // }, [filter, reset]);
+
   const history = useHistory();
   console.log(history.location.pathname);
   return (
@@ -131,7 +134,14 @@ const SeachJob = () => {
               options={search?.tag}
             />
           ) : (
-            <div>Loading..</div>
+            <MuiAutoComplete
+              nameField="tags"
+              control={control}
+              setValue={setValue}
+              label="Tìm kiếm theo kỹ năng"
+              placeholder="Kĩ năng"
+              options={[]}
+            />
           )}
           {!isFetching && search?.tag ? (
             <MuiAutoComplete
@@ -143,7 +153,14 @@ const SeachJob = () => {
               options={search?.position}
             />
           ) : (
-            <div>Loading..</div>
+            <MuiAutoComplete
+              nameField="positions"
+              control={control}
+              setValue={setValue}
+              label="Tìm kiếm theo vai trò"
+              placeholder="Vai trò"
+              options={[]}
+            />
           )}
           <SelectLocation control={control} />
           <Button variant="contained" type="submit" color="primary">

@@ -18,10 +18,16 @@ import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
 import { createApply } from '../../features/Apply/ApplySlice';
 import { TokenService } from '../../services/TokenService';
+import { userSelector } from '../../features/User/UserSlice';
+import Divider from '@material-ui/core/Divider';
+
 const useStyles = makeStyles((theme) => ({
   chip: {
     margin: 2,
     textTransform: 'capitalize',
+  },
+  img: {
+    objectFit: 'contain',
   },
 }));
 
@@ -35,11 +41,13 @@ const JobDetails = () => {
     return () => {};
   }, [dispatch, id]);
   const { job } = useSelector(jobSelector);
+  const { user } = useSelector(userSelector);
 
   const handleApply = () => {
     if (!TokenService.getToken()) return history.push('/signin');
     dispatch(createApply(() => history.push('/dashboard/apply')));
   };
+  console.log('moment', moment() === moment(job?.to));
 
   return (
     <Container maxWidth="md">
@@ -49,33 +57,37 @@ const JobDetails = () => {
             component="img"
             alt="Contemplative Reptile"
             height="160"
-            image={job?.companyFrom?.photo}
+            className={classes.img}
+            image={job?.company?.photo}
             title="Contemplative Reptile"
           />
+          <Divider />
           <CardActions>
-            <Button
-              size="large"
-              color="primary"
-              variant="contained"
-              onClick={handleApply}
-            >
-              Ứng tuyển ngay
-            </Button>
+            {moment() < moment(job?.to) && user?.role === 'user' && (
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                onClick={handleApply}
+              >
+                Ứng tuyển ngay
+              </Button>
+            )}
           </CardActions>
           <CardContent>
-            <Grid container>
+            <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Link
-                  to={'/company/' + job?.company}
+                  to={'/company/' + job?.company?._id}
                   style={{ textDecoration: 'none' }}
                 >
                   <Typography gutterBottom variant="h4">
-                    Tên công ty: {job?.companyFrom?.name.toUpperCase()}
+                    Tên công ty: {job?.company?.name.toUpperCase()}
                   </Typography>
                 </Link>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography gutterBottom variant="body1">
+                <Typography gutterBottom variant="h6">
                   Tiêu đề: {job?.title}
                 </Typography>{' '}
                 <Typography gutterBottom variant="body1">
@@ -111,16 +123,17 @@ const JobDetails = () => {
               <Grid item md={6}>
                 <Typography variant="h5">Mô tả công việc</Typography>
                 {job?.descriptions?.map((r) => (
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    key={r}
-                    gutterBottom
-                    style={{ marginLeft: 16 }}
-                  >
-                    {r}
-                  </Typography>
+                  <Box key={r}>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                      gutterBottom
+                      style={{ marginLeft: 16 }}
+                    >
+                      {r}
+                    </Typography>
+                  </Box>
                 ))}
                 <Typography variant="h5">Yêu cầu công việc</Typography>
                 {job?.requirements?.map((r) => (

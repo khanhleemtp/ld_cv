@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
   companyItem: {
     display: 'flex',
     cursor: 'pointer',
+    height: 360,
+    width: 360,
     flexDirection: 'column',
     justifyContent: 'center',
     [theme.breakpoints.up('md')]: {
@@ -29,33 +31,51 @@ const HomeCompanyList = () => {
   useEffect(() => {
     dispatch(getTopCompany());
   }, [dispatch]);
-  const { topCom } = useSelector(companySelector);
+  const { topCom, isFetching } = useSelector(companySelector);
   const handleGoCompany = (id) => () => {
     history.push('/company/' + id);
   };
   return (
     <Container maxWidth="lg">
       <Box marginY={4}>
-        <Typography variant="h4">Nhà tuyển dụng hàng đầu</Typography>
+        <Typography variant="h5">Nhà tuyển dụng hàng đầu</Typography>
       </Box>
       <Grid container spacing={2}>
-        {topCom?.map((item) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            className={classes.companyItem}
-            key={item.id}
-            onClick={handleGoCompany(item.id)}
-          >
-            <HomeCompanyCard
-              photo={item.photo}
-              location={item.location}
-              company={item.name}
-            />
-          </Grid>
-        ))}
+        {topCom && !isFetching
+          ? topCom?.map((item) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                className={classes.companyItem}
+                key={item.id}
+                onClick={handleGoCompany(item.id)}
+              >
+                <HomeCompanyCard
+                  photo={item.photo}
+                  location={item.location}
+                  company={item.name}
+                />
+              </Grid>
+            ))
+          : [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                className={classes.companyItem}
+                key={item}
+                // onClick={handleGoCompany(item.id)}
+              >
+                <HomeCompanyCard
+                  photo={'/user.png'}
+                  location={'loading..'}
+                  company={'loading...'}
+                />
+              </Grid>
+            ))}
       </Grid>
     </Container>
   );

@@ -27,6 +27,7 @@ import UpdateJob from './components/CompanyManager/CompanyUpdaeJob';
 import CompanyCandidateList from './components/CompanyManager/CompanyCandidateList';
 import Logout from './components/UI/Logout';
 import NotFound from './components/UI/NotFound';
+import FindCompanyPage from './pages/FindCompanyPage';
 
 // import SigninPage from './pages/SigninPage';
 // import SignupPage from './pages/SignupPage';
@@ -69,7 +70,7 @@ function App() {
               <Route children={<Logout />} path="/logout" />
               <Route path="/register-company" children={<RegisterCompany />} />
               <Route path="/company/:id" children={<CompanyPage />} />
-
+              <Route path="/companies" children={<FindCompanyPage />} />
               <Route
                 path="/dashboard/resumes/:id"
                 children={

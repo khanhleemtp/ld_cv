@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 24,
     textAlign: 'center',
+    textTransform: 'capitalize',
   },
 }));
 
@@ -53,7 +54,17 @@ const HomeCompanyCard = ({ photo, company, totalJob, location }) => {
         {company}
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Typography>{location}</Typography>
+        <Typography
+          variant="body2"
+          component="p"
+          style={{
+            width: 200,
+            textTransform: 'capitalize',
+          }}
+          noWrap
+        >
+          {location}
+        </Typography>
       </Box>
     </Paper>
   );

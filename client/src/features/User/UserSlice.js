@@ -113,7 +113,7 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
-      toast.success('Đăng  ký tành công 🚀');
+      toast.success('Đăng  ký thành công 🚀');
       state.isFetching = false;
       state.isSuccess = true;
       state.user = payload.user;

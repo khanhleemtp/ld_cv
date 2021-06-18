@@ -25,6 +25,22 @@ export const createJob = createAsyncThunk(
   }
 );
 
+export const getFullJob = createAsyncThunk(
+  'job/getFullJob',
+  async (values, thunkAPI) => {
+    // const { job } = thunkAPI.getState();
+    // console.log('jobssssss', job?.page);
+    let query = `?company=${values}` || '';
+    try {
+      const { data, total } = await api.get(`/job` + query);
+      console.log('total', total);
+      return { data, total };
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const getAllJob = createAsyncThunk(
   'job/getAllJob',
   async (values, thunkAPI) => {
@@ -37,11 +53,12 @@ export const getAllJob = createAsyncThunk(
         filter
       );
       // console.log('jobSeacrch', data);
-      console.log('toal', total);
+      console.log('total', total);
       let pageSize = 0;
       if (total > 0) {
         pageSize = Math.ceil(total / limit);
       }
+      console.log(pageSize);
       return { data, pageSize };
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -69,7 +86,6 @@ export const getSuggestCandidate = createAsyncThunk(
       let math80 = _.map(data?.job80, (item) => ({ ...item, status: '80%' }));
       let math30 = _.map(data?.job30, (item) => ({ ...item, status: '30%' }));
       const math = _.concat(math30, math80);
-      console.log('math ...............final math', math, data.job);
 
       return {
         rows: math,
@@ -130,9 +146,14 @@ export const jobSlice = createSlice({
   initialState: {
     jobs: [],
     search: {},
-    filter: {},
+    filter: {
+      tags: [],
+      positions: [],
+      location: 'all',
+    },
     pageSize: 0,
     page: 1,
+    totalJob: 0,
     position: [],
     suggestCv: [],
     suggestJob: [],
@@ -250,6 +271,21 @@ export const jobSlice = createSlice({
       state.isSuccess = true;
     },
     [getJobSearch.rejected]: (state, { payload, error }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload?.data?.message || error?.message;
+      toast.error(`${state?.errorMessage}😥`);
+    },
+    [getFullJob.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [getFullJob.fulfilled]: (state, { payload }) => {
+      state.totalJob = payload.total;
+      state.jobs = payload.data;
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [getFullJob.rejected]: (state, { payload, error }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload?.data?.message || error?.message;

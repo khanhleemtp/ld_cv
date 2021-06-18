@@ -1,4 +1,4 @@
-import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
+import { Box, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import JobCard from '../../components/FindJobPage/JobCard';
 import SeachJob from '../../components/UI/SeachJob';
@@ -33,54 +33,34 @@ const FindJobPage = () => {
       <Paper className={classes.search}>
         <SeachJob />
       </Paper>
-      <Container
-        maxWidth="lg"
-        style={{
-          marginTop: 24,
+      <Pagination
+        count={pageSize}
+        style={{ margin: 8 }}
+        onChange={(e, p) => {
+          console.log('current page', p);
+          dispatch(updatePage(p));
+          console.log('after page', page);
         }}
-      >
-        <Grid container>
-          <Grid item md={6}>
-            <Box
-              style={{
-                maxHeight: '360px',
-                overflow: 'auto',
-              }}
-            >
-              {isFetching ? (
-                <div>Loading...</div>
-              ) : (
-                jobs?.map((item) => (
-                  <JobCard
-                    key={item._id}
-                    item={item}
-                    photo={item?.company?.photo}
-                    companyName={item?.company?.name}
-                  />
-                ))
-              )}
-            </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              marginY={2}
-            >
-              <Pagination
-                count={pageSize}
-                // page={page}
-                onChange={(e, p) => {
-                  console.log('current page', p);
-                  dispatch(updatePage(p));
-                  console.log('after page', page);
-                }}
-                variant="outlined"
-                shape="rounded"
+        variant="outlined"
+        shape="rounded"
+      />
+      <Grid container spacing={1} style={{ paddingLeft: 16, paddingRight: 16 }}>
+        {isFetching ? (
+          <div>Loading...</div>
+        ) : jobs?.length === 0 ? (
+          <Typography>Không có kết quả nào phù hợp</Typography>
+        ) : (
+          jobs?.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item._id}>
+              <JobCard
+                item={item}
+                photo={item?.company?.photo}
+                companyName={item?.company?.name}
               />
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
+            </Grid>
+          ))
+        )}
+      </Grid>
     </Box>
   );
 };

@@ -13,6 +13,7 @@ import CheckBoxRoundedIcon from '@material-ui/icons/CheckBoxRounded';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import BusinessOutlinedIcon from '@material-ui/icons/BusinessOutlined';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core';
 
@@ -68,6 +69,11 @@ const TopNavAvatar = () => {
         text: 'Đăng ký tuyển dụng',
         path: '/register-company',
         icon: <BusinessOutlinedIcon />,
+      },
+      {
+        text: 'Tìm kiếm công ty',
+        path: '/companies',
+        icon: <PageviewOutlinedIcon />,
       },
     ],
   };

@@ -86,7 +86,6 @@ export const createApply = createAsyncThunk(
     };
     const message = `${user?.user?.name?.toUpperCase()} đã ứng tuyển vào công việc ${job?.job?.title?.toUpperCase()} 😪`;
     const companyId = job?.job?.companyFrom?.user?._id;
-    console.log('info apply', data);
     try {
       await api.post(`/applies`, data);
       await api.post('/notification', { user: companyId, message });
@@ -103,7 +102,7 @@ export const updateApply = createAsyncThunk(
   async ({ status, cb, id, user }, thunkAPI) => {
     const message =
       status === 'reject'
-        ? 'Hẹn gặp bạn lần sau 😪'
+        ? 'Chúng tôi từ chối yêu cầu ứng tuyển của bạn 😪'
         : 'Chúng tôi chấp nhận ứng tuyển của bạn 😊';
     try {
       await api.patch(`/applies/${id}`, { status });
@@ -151,7 +150,7 @@ export const applySlice = createSlice({
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload?.data?.message || error?.message;
-      toast.success('Xóa thất bại 😵 state.errorMessage');
+      toast.error('Xóa thất bại 😵');
     },
     [createApply.pending]: (state) => {
       state.isFetching = true;
@@ -168,7 +167,6 @@ export const applySlice = createSlice({
       state.isSuccess = true;
     },
     [getApplyByUserId.fulfilled]: (state, { payload }) => {
-      console.log('pl', payload);
       state.applies = payload;
       state.isFetching = false;
       state.isSuccess = true;
@@ -176,7 +174,7 @@ export const applySlice = createSlice({
     },
     [updateApply.fulfilled]: (state, { payload }) => {
       // console.log('payload Apply: ', payload.data);
-      toast.success('Cập nhật thành công');
+      toast.success('Cập nhật công ty thành công');
       // state.apply = payload.data;
       state.isFetching = false;
       state.isSuccess = true;

@@ -42,6 +42,7 @@ const jobSchema = new mongoose.Schema(
     //virtuals properties not save in db but caculate
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 
@@ -49,7 +50,6 @@ jobSchema.pre('save', function (next) {
   this.slugs = this.tags.map((item) =>
     slugify(item, { lower: true, locale: 'vi' })
   );
-
   next();
 });
 
@@ -57,6 +57,12 @@ jobSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'company',
     select: 'company name location photo',
+    match: {
+      status: 'accept',
+    },
+    sort: {
+      level: 1,
+    },
   });
   next();
 });
@@ -76,15 +82,15 @@ jobSchema.virtual('applies', {
 });
 
 // get all job active
-jobSchema.pre(/^find/, function (next) {
-  // this points to current query
-  this.find({
-    to: {
-      $gte: moment().toISOString(),
-    },
-  });
-  next();
-});
+// jobSchema.pre(/^find/, function (next) {
+//   // this points to current query
+//   this.find({
+//     to: {
+//       $gte: moment().toISOString(),
+//     },
+//   });
+//   next();
+// });
 
 jobSchema.post('findOneAndUpdate', function (doc, next) {
   // console.log(doc);

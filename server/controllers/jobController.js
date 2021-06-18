@@ -40,7 +40,12 @@ exports.getJobSearch = catchAsync(async (req, res, next) => {
 });
 
 exports.setConditionSearch = (req, res, next) => {
-  let query = { ...req.query };
+  let query = {
+    ...req.query,
+    to: {
+      gte: moment().toISOString(),
+    },
+  };
   const location = req.body.location;
   query = location === 'all' ? { ...query } : { ...query, location };
 
@@ -77,10 +82,6 @@ exports.getJob = factory.getOne(Job, {
 
 exports.updateJob = factory.updateOne(Job);
 
-exports.getAllJobs = factory.getAll(Job, {
-  to: {
-    $gte: moment().toISOString(),
-  },
-});
+exports.getAllJobs = factory.getAll(Job);
 
 exports.deleteJob = factory.deleteOne(Job);

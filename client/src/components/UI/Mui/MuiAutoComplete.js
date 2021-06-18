@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@material-ui/core/Box';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
@@ -72,6 +72,7 @@ const MuiAutoComplete = ({
   label,
   placeholder,
   options,
+  defaultValue,
 }) => {
   const classes = useStyles();
   const [inputValue, setInputValue] = useState('');

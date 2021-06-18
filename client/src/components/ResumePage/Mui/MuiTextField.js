@@ -119,6 +119,7 @@ const MuiTextField = ({
             multiline={section === 'skills' || gpa ? false : true}
             fullWidth
             placeholder={placeholder}
+            autoFocus={true}
             InputProps={{
               classes: {
                 underline: clsx(classes.underline),

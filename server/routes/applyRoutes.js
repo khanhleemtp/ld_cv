@@ -8,7 +8,7 @@ router
   .get(applyController.getAllApplys)
   .post(
     authController.protect,
-    authController.restrictTo('user', 'admin'),
+    authController.restrictTo('user', 'admin', 'company'),
     applyController.setUserIds,
     applyController.createApply
   );
@@ -19,7 +19,7 @@ router
   .post(authController.protect, authController.restrictTo('user', 'admin'))
   .delete(
     authController.protect,
-    authController.restrictTo('user', 'company'),
+    authController.restrictTo('user', 'company', 'admin'),
     applyController.deleteApply
   )
   .patch(

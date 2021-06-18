@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
       minlength: [4, 'Password must be at least 4 characters'],
       select: false,
     },
-    photo: String,
     role: {
       type: String,
       enum: ['user', 'guide', 'lead-guide', 'admin'],
@@ -51,6 +50,7 @@ const userSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 

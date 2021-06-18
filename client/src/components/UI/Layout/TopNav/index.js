@@ -107,14 +107,15 @@ function TopNav() {
     { title: 'Đăng nhập', path: '/signin' },
     { title: 'Đăng ký', path: '/signup' },
     { title: 'Việc làm IT', path: '/find' },
+    { title: 'Tìm kiếm công ty', path: '/companies' },
   ];
 
   const userOptions = [
     { title: 'Việc làm IT', path: '/find' },
+    { title: 'Tìm kiếm công ty', path: '/companies' },
     { title: 'Đăng ký công ty', path: '/register-company' },
     { title: 'Tạo CV', path: '/dashboard/cv' },
     { title: 'Thông tin', path: '/dashboard/info' },
-    { title: 'Đăng xuất', path: '/logout' },
   ];
 
   const companyOptions = [

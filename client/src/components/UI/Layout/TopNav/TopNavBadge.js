@@ -13,7 +13,7 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import { useEffect } from 'react';
-
+import { Divider } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -24,11 +24,16 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     padding: 4,
+    '&:hover': {
+      background: theme.palette.grey[100],
+    },
+    margin: 2,
   },
   icon: {
     textAlign: 'center',
     cursor: 'pointer',
     paddingTop: 4,
+    color: theme.palette.primary.main,
   },
 }));
 
@@ -69,25 +74,25 @@ const TopNavBadge = () => {
           >
             {notifications?.length > 0 ? (
               <Box
-                p={2}
                 style={{
                   maxHeight: 120,
                   maxWidth: 240,
+                  padding: 1,
                 }}
               >
-                {notifications?.map((noti) => (
-                  <Typography
-                    variant="caption"
-                    key={noti?.message}
-                    className={classes.text}
-                  >
-                    {noti?.message}{' '}
-                    <ClearOutlinedIcon
-                      className={classes.icon}
-                      fontSize="small"
-                      onClick={handleDeleteNotification(noti?._id)}
-                    />
-                  </Typography>
+                {notifications?.map((noti, index) => (
+                  <Box key={index} className={classes.text}>
+                    <Box display="flex" padding={1}>
+                      {noti?.message}{' '}
+                      <ClearOutlinedIcon
+                        titleAccess="Xóa thông báo"
+                        className={classes.icon}
+                        fontSize="small"
+                        onClick={handleDeleteNotification(noti?._id)}
+                      />
+                    </Box>
+                    <Divider />
+                  </Box>
                 ))}
               </Box>
             ) : (

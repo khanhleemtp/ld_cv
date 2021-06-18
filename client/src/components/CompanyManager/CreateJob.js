@@ -95,7 +95,7 @@ const CreateJob = () => {
           justifyContent="center"
           marginBottom={2}
         >
-          <Typography variant="h6">🦹‍♂️ Tạo việc làm 💌</Typography>
+          <Typography variant="h6">Tạo việc làm 💌</Typography>
         </Box>
         <form
           onSubmit={handleSubmit((data) => {

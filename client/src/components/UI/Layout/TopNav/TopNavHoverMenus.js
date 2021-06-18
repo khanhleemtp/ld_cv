@@ -33,7 +33,7 @@ const TopNavHoverMenus = ({ menu }) => {
         display="flex"
         alignItems="center"
         marginX={1}
-        style={{ fontSize: 16 }}
+        style={{ fontSize: 14 }}
       >
         {menu.text}
         {menu?.icon && menu.icon}
@@ -53,7 +53,7 @@ const TopNavHoverMenus = ({ menu }) => {
               popupState.close();
             }}
           >
-            {item?.icon}
+            {item?.icon} <span style={{ marign: 4, width: 8 }}></span>
             {item?.text}
           </MenuItem>
         ))}

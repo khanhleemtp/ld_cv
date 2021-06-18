@@ -18,7 +18,7 @@ import ResumeSuggestJob from '../../components/ResumePage/SuggestJob';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    width: '940px',
+    width: '960px',
     marginBottom: 36,
     backgroundColor: '#fff',
     background: `red url('bg.png') no-repeat right top`,
@@ -89,12 +89,14 @@ const PageResume = () => {
             <Button
               variant="outlined"
               type="submit"
+              size="small"
               endIcon={<SaveOutlinedIcon />}
             >
               Lưu CV
             </Button>
             <Button
               variant="outlined"
+              size="small"
               onClick={printDocument}
               style={{
                 marginLeft: 16,
@@ -107,6 +109,7 @@ const PageResume = () => {
             <ResumeDrag />
             <Button
               variant="outlined"
+              size="small"
               style={{
                 marginLeft: 16,
                 marginRight: 16,

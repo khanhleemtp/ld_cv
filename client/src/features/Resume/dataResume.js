@@ -15,10 +15,23 @@ export const resumeDefault = (name) => ({
     uppercaseName: true,
     showPhoto: true,
     photoStyle: 'round',
-    photo:
-      'https://res.cloudinary.com/khanhk62hust/image/upload/v1623120778/l03f82piciileebout9s.png',
+    photo: '/user.png',
   },
   sections: [
+    {
+      record: 'TechnologySection',
+      enabled: true,
+      name: 'Kỹ năng chính',
+      surroundingBorder: false,
+      items: [
+        {
+          tags: [''],
+          title: 'Ngôn ngữ lập trình',
+          description: '',
+          showTitle: true,
+        },
+      ],
+    },
     {
       record: 'AchievementSection',
       enabled: true,
@@ -41,20 +54,6 @@ export const resumeDefault = (name) => ({
           title: '',
           description: '',
           showDescription: true,
-        },
-      ],
-    },
-    {
-      record: 'TechnologySection',
-      enabled: true,
-      name: 'Kỹ năng chính',
-      surroundingBorder: false,
-      items: [
-        {
-          tags: [''],
-          title: 'Ngôn ngữ lập trình',
-          description: '',
-          showTitle: true,
         },
       ],
     },

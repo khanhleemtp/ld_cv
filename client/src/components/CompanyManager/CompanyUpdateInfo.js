@@ -97,14 +97,14 @@ const CompanyUpdateInfo = () => {
   const photo = useWatch({
     control,
     name: 'photo',
-    defaultValue: '/mario.jpg',
+    defaultValue: '/user.png',
   });
 
   return (
     <Container maxWidth="md">
       <Paper className={classes.root}>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <Typography variant="h6">🦹‍♂️ Cập nhật thông tin 💌</Typography>
+          <Typography variant="h6">Cập nhật thông tin 💌</Typography>
         </Box>
         <form
           onSubmit={handleSubmit((data) => {

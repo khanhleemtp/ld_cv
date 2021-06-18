@@ -18,7 +18,7 @@ class APIFeatures {
 
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(
-      /\b(gte|gt|lte|lt|all|elemMatch|or|regex|option|in|and|ne)\b/g,
+      /\b(gte|gt|lte|lt|all|elemMatch|or|regex|option|in|and|ne|options)\b/g,
       (match) => `$${match}`
     );
 

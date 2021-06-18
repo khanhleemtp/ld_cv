@@ -43,8 +43,7 @@ const resumeSchema = new mongoose.Schema(
         showEmail: true,
         showLocation: true,
         showPhoto: true,
-        photo:
-          'https://res.cloudinary.com/khanhk62hust/image/upload/v1623120778/l03f82piciileebout9s.png',
+        photo: '/user.jpg',
       },
     },
     sections: [baseSchema],
@@ -77,6 +76,7 @@ const resumeSchema = new mongoose.Schema(
     //virtuals properties not save in db but caculate
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 

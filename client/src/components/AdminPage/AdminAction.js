@@ -1,22 +1,40 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { responseCompany } from '../../features/Company/CompanySlice';
+import {
+  deleteCompany,
+  responseCompany,
+} from '../../features/Company/CompanySlice';
 import Button from '@material-ui/core/Button';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 
 export const AdminAction = ({ company }) => {
   const { page } = useParams();
+  const history = useHistory();
   const userId = company?.user?._id;
   const dispatch = useDispatch();
   const handleResponeCompany = ({ status, companyId }) => {
-    return () => dispatch(responseCompany({ status, userId, companyId }));
+    return () =>
+      dispatch(
+        responseCompany({
+          status,
+          userId,
+          companyId,
+          cb: () => history.push('/admin/list-company'),
+        })
+      );
+  };
+
+  const handleDeleteCompany = (id) => {
+    return () => dispatch(deleteCompany({ id, cb: () => history.go(1) }));
   };
 
   if (page === 'list-company')
     return (
       <>
         <Link to={`/company/${company._id}`}>Page </Link>
-        <Button>-----</Button>
+        <Button color="primary" onClick={handleDeleteCompany(company._id)}>
+          Xóa
+        </Button>
       </>
     );
 

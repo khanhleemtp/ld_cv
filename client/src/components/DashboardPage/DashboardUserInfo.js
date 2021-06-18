@@ -2,10 +2,17 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSelector, fetchUserBytoken } from '../../features/User/UserSlice';
+import {
+  userSelector,
+  fetchUserBytoken,
+  clearState,
+} from '../../features/User/UserSlice';
 
 const DashboardUserInfo = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(clearState());
+  }, [dispatch]);
   useEffect(() => {
     dispatch(fetchUserBytoken());
   }, [dispatch]);

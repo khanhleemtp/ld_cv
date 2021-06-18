@@ -2,6 +2,7 @@ const factory = require('./handleFactory');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/UserModel');
 const Company = require('../models/CompanyModel');
+const Job = require('../models/JobModel');
 
 exports.setUserIds = (req, res, next) => {
   // Allow nested routes
@@ -45,7 +46,7 @@ exports.acceptCompany = catchAsync(async (req, res, next) => {
 
 exports.deleteCompany = catchAsync(async (req, res, next) => {
   const company = await Company.findByIdAndUpdate(req.params.id, {
-    status: 'reject',
+    status: 'pending',
   });
 
   await User.findByIdAndUpdate(
@@ -55,6 +56,8 @@ exports.deleteCompany = catchAsync(async (req, res, next) => {
       new: true,
     }
   );
+  await Job.deleteMany({ company: req.params.id });
+
   res.status(200).json({
     status: 'success',
     data: company,

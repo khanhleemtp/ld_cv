@@ -162,7 +162,6 @@ app.use(
 app.use(
   '/api/v1/helper/:id',
   catchAsync(async (req, res) => {
-    console.log(req.params);
     const resume = await Resume.findById(req.params.id);
     const jobs = await Job.find().select({
       slugs: 1,
@@ -174,13 +173,16 @@ app.use(
     });
     const job80 = jobs.filter((job) => {
       const intersection = _.intersection(job.slugs, resume.tags);
-      return intersection.length >= resume.tags.length * 0.8;
+      return intersection.length >= job.slugs.length * 0.8;
     });
-    console.log(resume.user);
     const job30 = jobs.filter((job) => {
       const intersection = _.intersection(job.slugs, resume.tags);
-      return intersection.length >= resume.tags.length * 0.3;
+      return (
+        intersection.length >= job.slugs.length * 0.3 &&
+        intersection.length < job.slugs.length * 0.8
+      );
     });
+
     res.json({
       status: 'success',
       data: { job30, job80 },

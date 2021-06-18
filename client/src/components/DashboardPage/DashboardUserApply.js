@@ -64,7 +64,7 @@ const DashboardUserApply = () => {
         <Grid container spacing={3}>
           {applies?.map((apply) => (
             <Grid item key={apply._id} className={classes.root} md={6} xs={12}>
-              <Link to={`jobs/${apply?.job?._id}`} title="Chi tiết">
+              <Link to={`/jobs/${apply?.job?._id}`} title="Chi tiết">
                 <Box display="flex" alignItems="center">
                   <Typography variant="body1">
                     Trạng thái: {apply?.status}

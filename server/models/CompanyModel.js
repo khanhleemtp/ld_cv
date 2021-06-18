@@ -14,7 +14,7 @@ const companySchema = new mongoose.Schema(
     type: String,
     photo: {
       type: String,
-      default: '/mario.jpg',
+      default: '/user.png',
     },
     numEmployees: Number,
     status: {
@@ -33,6 +33,7 @@ const companySchema = new mongoose.Schema(
     workTime: String,
     ot: String,
     country: String,
+    // totalJob: Number,
     user: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
@@ -41,6 +42,7 @@ const companySchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 
@@ -54,7 +56,6 @@ companySchema.virtual('jobs', {
   ref: 'Job',
   foreignField: 'company',
   localField: '_id',
-  justOne: false,
 });
 
 companySchema.pre(/^find/, function (next) {
@@ -62,6 +63,7 @@ companySchema.pre(/^find/, function (next) {
     path: 'user',
     select: 'name email',
   });
+
   next();
 });
 

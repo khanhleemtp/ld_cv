@@ -49,7 +49,7 @@ const RegisterCompany = () => {
           marginBottom={2}
         >
           <Typography variant="h6">
-            🦹‍♂️ Hãy đăng ký trở thành nhà tuyển dụng 💌
+            Hãy đăng ký trở thành nhà tuyển dụng 💌
           </Typography>
         </Box>
         <form onSubmit={handleRegisterCompany} className="form">

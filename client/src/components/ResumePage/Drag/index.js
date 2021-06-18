@@ -33,6 +33,7 @@ const ResumeDrag = () => {
       <Button
         variant="contained"
         color="primary"
+        size="small"
         onClick={handleClickOpen}
         endIcon={<ControlPointOutlinedIcon />}
       >

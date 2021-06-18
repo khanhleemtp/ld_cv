@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-
+import { take } from 'lodash';
 const useStyles = makeStyles((theme) => ({
   root: {
     cursor: 'pointer',
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
     borderLeft: '4px solid',
     borderLeftColor: '#ec407a',
+    // maxWidth: theme.spacing(64),
     maxWidth: theme.spacing(64),
   },
   title: {
@@ -69,9 +70,14 @@ const JobCard = ({ item, photo, companyName }) => {
             maxWidth: '65px',
           }}
         />
-        <Typography variant="subtitle2" align="center">
+        <Box
+          component="div"
+          whiteSpace="nowrap"
+          textOverflow="ellipsis"
+          visibility="hidden"
+        >
           {companyName?.toUpperCase()}
-        </Typography>
+        </Box>
       </Box>
       <Box
         display="flex"
@@ -81,21 +87,53 @@ const JobCard = ({ item, photo, companyName }) => {
         flexGrow={1}
         marginLeft={2}
       >
-        <Typography variant="h6" component="p">
-          {item?.title}
-        </Typography>
+        <Box
+          style={{
+            maxWidth: 200,
+            overflow: 'hidden',
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="p"
+            style={{
+              textTransform: 'capitalize',
+            }}
+            noWrap
+          >
+            {item?.title}
+          </Typography>
+        </Box>
         {item?.status && (
           <Typography variant="body2" component="p">
             Độ phù hợp : {item?.status}
           </Typography>
         )}
-        <Typography variant="body2" color="primary" className={classes.salary}>
-          💸 {item?.position}-{item?.salary}
-        </Typography>
-        <Box flexBasis={1}>
-          {item?.tags.map((item) => (
+        <Box
+          style={{
+            maxWidth: 200,
+            overflow: 'hidden',
+          }}
+        >
+          <Box>
+            <Typography
+              variant="body2"
+              color="primary"
+              className={classes.salary}
+              style={{
+                textTransform: 'capitalize',
+              }}
+              noWrap
+            >
+              💸 {item?.position}-{item?.salary}
+            </Typography>
+          </Box>
+        </Box>
+        <Box>
+          {take(item?.tags, 3).map((item) => (
             <Chip label={item} key={item} clickable className={classes.tag} />
           ))}
+          {item?.tags?.length > 3 && <Box component="span">....</Box>}
         </Box>
       </Box>
       <Box
@@ -104,7 +142,9 @@ const JobCard = ({ item, photo, companyName }) => {
         flexDirection="column"
         alignItems="space-between"
       >
-        <Typography variant="subtitle2">{item?.location || '__'}</Typography>
+        <Typography variant="subtitle2" color="primary">
+          {item?.location || '__'}
+        </Typography>
         <Typography variant="subtitle2">
           {moment().diff(item?.createdAt, 'hour')} giờ trước
         </Typography>

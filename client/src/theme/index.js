@@ -15,6 +15,11 @@ export const theme = createMuiTheme({
         transform: 'translateZ(0)',
       },
     },
+    // MuiTypography: {
+    //   root: {
+    //     wordWrap: 'break-word',
+    //   },
+    // },
   },
 
   props: {

@@ -66,7 +66,7 @@ exports.getOne = (Model, popOptions) =>
     });
   });
 
-exports.getAll = (Model, conditionCount = {}) =>
+exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET resumes on users (hack)
     let filter = {};
@@ -80,12 +80,17 @@ exports.getAll = (Model, conditionCount = {}) =>
       .paginate();
     // const doc = await features.query.explain();
     const doc = await features.query;
-    const total = await Model.count(conditionCount);
+    const notPanigate = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields();
+    const total = await notPanigate.query;
+
     // TODO SEND RESPONSE
     res.status(200).json({
       status: 'success',
       result: doc.length,
       data: doc,
-      total,
+      total: total.length,
     });
   });
